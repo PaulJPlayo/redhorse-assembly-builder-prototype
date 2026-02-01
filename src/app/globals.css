@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  --rh-red: #e82133;
+  --rh-black: #333333;
+  --rh-gray: #363636;
+  --rh-white: #ffffff;
+  --rh-silver: #f1f1f1;
+
+  --bg: var(--rh-white);
+  --surface: var(--rh-silver);
+  --text: var(--rh-black);
+  --muted-text: var(--rh-gray);
+  --border: rgba(0, 0, 0, 0.12);
+  --primary: var(--rh-red);
+  --accent: #fde9eb;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-muted-text: var(--muted-text);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-white: var(--rh-white);
+
+  --color-ink: var(--text);
+  --color-ink-soft: var(--muted-text);
+  --color-muted-200: var(--rh-silver);
+  --color-muted-400: var(--border);
+  --color-muted-500: var(--muted-text);
+  --color-muted-600: var(--muted-text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--text);
+  background: var(--bg);
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--text);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.45s ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up {
+    animation: none;
+  }
+}
