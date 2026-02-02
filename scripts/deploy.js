@@ -7,6 +7,17 @@ const { stdin, stdout } = require("node:process");
 const CLOUD_FLARE_URL = "https://redhorse-assembly-builder-prototype.pages.dev/assembly";
 const DEFAULT_PROJECT = "redhorse-assembly-builder-prototype";
 
+const ensureNodeVersion = () => {
+  const major = Number(process.versions.node.split(".")[0]);
+  if (Number.isNaN(major) || major !== 20) {
+    console.error(
+      `Node 20 is required for Cloudflare builds. Current version: v${process.versions.node}`,
+    );
+    console.error("Run `nvm install` and `nvm use` (or use Node 20 via Volta).");
+    process.exit(1);
+  }
+};
+
 const run = (command, options = {}) => {
   return execSync(command, { stdio: "inherit", ...options });
 };
@@ -42,6 +53,7 @@ const ensureClean = () => {
 };
 
 const runBuild = () => {
+  ensureNodeVersion();
   console.log("\nRunning Cloudflare build guard...\n");
   run("npm run build:cf");
 };
@@ -126,12 +138,14 @@ const main = async () => {
   }
 
   if (command === "push") {
+    ensureNodeVersion();
     pushChanges();
     console.log(`\nCloudflare Pages URL: ${CLOUD_FLARE_URL}`);
     return;
   }
 
   if (command === "deploy") {
+    ensureNodeVersion();
     runBuild();
     await commitChanges();
     ensureClean();

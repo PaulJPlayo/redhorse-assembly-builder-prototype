@@ -22,6 +22,15 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## How to Deploy
 
+One-time setup (Node 20 is required for Cloudflare builds):
+
+```bash
+nvm install
+nvm use
+```
+
+Cloudflare Pages: set Node.js version to 20 in **Pages → Project → Settings → Build & deployments → Build configuration → Node.js version**.
+
 One-command deployment flow (commit + push + optional status check):
 
 ```bash
