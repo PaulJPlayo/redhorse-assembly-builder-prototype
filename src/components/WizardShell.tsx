@@ -52,14 +52,6 @@ export const WizardShell = ({
               Step {currentStep + 1} of {steps.length}
             </p>
           </div>
-          <div className="hidden lg:block max-w-sm xl:max-w-md">
-            <Image
-              src={assemblyDiagram}
-              alt="Assembly diagram"
-              className="h-auto w-full rounded-xl border border-border bg-white p-5 shadow-[0_10px_24px_rgba(0,0,0,0.12)]"
-              priority
-            />
-          </div>
         </header>
 
         <div className="flex w-full justify-center">
@@ -67,54 +59,65 @@ export const WizardShell = ({
         </div>
 
         <div className="grid items-stretch gap-8 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]">
-          <main className="rounded-xl border border-border bg-white p-7 shadow-[0_12px_26px_rgba(0,0,0,0.12)] lg:min-h-[calc(100vh-220px)]">
-            <div className="flex flex-col gap-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
-                {steps[currentStep]?.label}
-              </p>
-              <h2 className="text-3xl font-bold uppercase tracking-[0.05em] text-text md:text-4xl xl:text-5xl">
-                {title}
-              </h2>
-              {helper ? <p className="text-sm text-muted-text">{helper}</p> : null}
-            </div>
-
-            <div className="mt-6">{children}</div>
-
-            {(primaryAction || secondaryAction) && (
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                {secondaryAction ? (
-                  <button
-                    type="button"
-                    onClick={secondaryAction.onClick}
-                    disabled={secondaryAction.disabled}
-                    className={`w-full rounded-lg border px-6 py-3 text-sm font-semibold uppercase tracking-[0.15em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-auto ${
-                      secondaryAction.disabled
-                        ? "border-border text-muted-text"
-                        : "border-border bg-white text-text hover:bg-surface"
-                    }`}
-                  >
-                    {secondaryAction.label}
-                  </button>
-                ) : (
-                  <span />
-                )}
-                {primaryAction ? (
-                  <button
-                    type="button"
-                    onClick={primaryAction.onClick}
-                    disabled={primaryAction.disabled}
-                    className={`w-full rounded-lg px-6 py-3 text-sm font-semibold uppercase tracking-[0.15em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-auto ${
-                      primaryAction.disabled
-                        ? "bg-surface text-muted-text"
-                        : "bg-primary text-white hover:bg-[#c91b2b]"
-                    }`}
-                  >
-                    {primaryAction.label}
-                  </button>
-                ) : null}
+          <div className="flex flex-col gap-6">
+            <main className="rounded-xl border border-border bg-white p-7 shadow-[0_12px_26px_rgba(0,0,0,0.12)] lg:min-h-[calc(100vh-220px)]">
+              <div className="flex flex-col gap-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
+                  {steps[currentStep]?.label}
+                </p>
+                <h2 className="text-3xl font-bold uppercase tracking-[0.05em] text-text md:text-4xl xl:text-5xl">
+                  {title}
+                </h2>
+                {helper ? <p className="text-sm text-muted-text">{helper}</p> : null}
               </div>
-            )}
-          </main>
+
+              <div className="mt-6">{children}</div>
+
+              {(primaryAction || secondaryAction) && (
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  {secondaryAction ? (
+                    <button
+                      type="button"
+                      onClick={secondaryAction.onClick}
+                      disabled={secondaryAction.disabled}
+                      className={`w-full rounded-lg border px-6 py-3 text-sm font-semibold uppercase tracking-[0.15em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-auto ${
+                        secondaryAction.disabled
+                          ? "border-border text-muted-text"
+                          : "border-border bg-white text-text hover:bg-surface"
+                      }`}
+                    >
+                      {secondaryAction.label}
+                    </button>
+                  ) : (
+                    <span />
+                  )}
+                  {primaryAction ? (
+                    <button
+                      type="button"
+                      onClick={primaryAction.onClick}
+                      disabled={primaryAction.disabled}
+                      className={`w-full rounded-lg px-6 py-3 text-sm font-semibold uppercase tracking-[0.15em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-auto ${
+                        primaryAction.disabled
+                          ? "bg-surface text-muted-text"
+                          : "bg-primary text-white hover:bg-[#c91b2b]"
+                      }`}
+                    >
+                      {primaryAction.label}
+                    </button>
+                  ) : null}
+                </div>
+              )}
+            </main>
+
+            <div className="hidden lg:block">
+              <Image
+                src={assemblyDiagram}
+                alt="Assembly diagram"
+                className="h-auto w-full rounded-xl border border-border bg-white p-5 shadow-[0_10px_24px_rgba(0,0,0,0.12)]"
+                priority
+              />
+            </div>
+          </div>
 
           <aside className="lg:sticky lg:top-6">
             <SummaryPanel rows={summaryRows} remainingCount={remainingCount} />
