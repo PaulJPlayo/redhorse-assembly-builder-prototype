@@ -1,9 +1,8 @@
 name: Deploy OpenNext Worker
 
+# Auto-deploy handled by Cloudflare Workers Builds; this workflow is manual-only for emergency use.
+
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
