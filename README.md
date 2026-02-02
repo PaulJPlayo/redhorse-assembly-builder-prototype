@@ -20,6 +20,42 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## How to Deploy
+
+One-command deployment flow (commit + push + optional status check):
+
+```bash
+npm run deploy
+```
+
+Notes:
+- You will be prompted for a commit message if one is not provided.
+- The deploy flow runs `npm run build:cf` and aborts on failures.
+- If the working tree is dirty after commit, deploy will stop and show the diff.
+
+Optional helpers:
+
+```bash
+# Commit only (prompts for message)
+npm run deploy:commit
+
+# Push only (requires clean working tree)
+npm run deploy:push
+
+# Check Cloudflare auth
+npm run cf:whoami
+
+# Check Pages deployment status (requires CLOUDFLARE_API_TOKEN)
+npm run deploy:status
+```
+
+To enable deployment status checks, create a Cloudflare API token with Pages read access and add it to `.env.local`:
+
+```
+CLOUDFLARE_API_TOKEN=your_token_here
+CLOUDFLARE_PAGES_PROJECT=redhorse-assembly-builder-prototype
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

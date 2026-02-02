@@ -6,6 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "build:cf": "npx @cloudflare/next-on-pages@latest",
+    "deploy:commit": "node scripts/deploy.js commit",
+    "deploy:push": "node scripts/deploy.js push",
+    "deploy": "node scripts/deploy.js deploy",
+    "deploy:status": "node scripts/deploy.js status",
+    "cf:whoami": "wrangler whoami",
     "start": "next start",
     "lint": "eslint"
   },
@@ -22,6 +27,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.61.1"
   }
 }
