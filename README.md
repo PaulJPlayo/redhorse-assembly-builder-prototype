@@ -39,7 +39,7 @@ npm run deploy
 
 Notes:
 - You will be prompted for a commit message if one is not provided.
-- The deploy flow runs `npm run build:cf` and aborts on failures.
+- The deploy flow runs `npm run build:cf` (OpenNext) and aborts on failures.
 - If the working tree is dirty after commit, deploy will stop and show the diff.
 
 Optional helpers:
@@ -54,16 +54,29 @@ npm run deploy:push
 # Check Cloudflare auth
 npm run cf:whoami
 
-# Check Pages deployment status (requires CLOUDFLARE_API_TOKEN)
+# Check deployment status (Workers/Pages; requires CLOUDFLARE_API_TOKEN)
 npm run deploy:status
 ```
 
-To enable deployment status checks, create a Cloudflare API token with Pages read access and add it to `.env.local`:
+To enable deployment status checks, create a Cloudflare API token with Workers/Pages read access and add it to `.env.local`:
 
 ```
 CLOUDFLARE_API_TOKEN=your_token_here
 CLOUDFLARE_PAGES_PROJECT=redhorse-assembly-builder-prototype
+CLOUDFLARE_WORKER_NAME=redhorse-assembly-builder-prototype
+CLOUDFLARE_WORKER_URL=https://<your-worker>.workers.dev/assembly
 ```
+
+OpenNext (Cloudflare) build + deploy:
+
+```bash
+npm run build:cf
+npm run deploy:cf
+```
+
+Cloudflare settings:
+- Node.js version: **20** (Pages → Project → Settings → Build & deployments → Build configuration → Node.js version)
+- Workers: ensure the Wrangler project name matches `wrangler.jsonc` (`redhorse-assembly-builder-prototype` by default).
 
 ## Learn More
 

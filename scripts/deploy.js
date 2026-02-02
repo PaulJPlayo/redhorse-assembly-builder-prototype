@@ -4,7 +4,9 @@ const { execSync } = require("node:child_process");
 const readline = require("node:readline/promises");
 const { stdin, stdout } = require("node:process");
 
-const CLOUD_FLARE_URL = "https://redhorse-assembly-builder-prototype.pages.dev/assembly";
+const CLOUD_FLARE_URL =
+  process.env.CLOUDFLARE_WORKER_URL ||
+  "https://redhorse-assembly-builder-prototype.pages.dev/assembly";
 const DEFAULT_PROJECT = "redhorse-assembly-builder-prototype";
 
 const ensureNodeVersion = () => {
@@ -90,20 +92,23 @@ const pushChanges = () => {
 const printStatus = () => {
   const token = process.env.CLOUDFLARE_API_TOKEN;
   const projectName = process.env.CLOUDFLARE_PAGES_PROJECT || DEFAULT_PROJECT;
+  const workerName = process.env.CLOUDFLARE_WORKER_NAME || DEFAULT_PROJECT;
 
   if (!token) {
     console.log("\nCLOUDFLARE_API_TOKEN is not set.");
-    console.log("Create a Cloudflare API token with Pages read access and set it in .env.local:");
+    console.log(
+      "Create a Cloudflare API token with Workers/Pages read access and set it in .env.local:",
+    );
     console.log("  CLOUDFLARE_API_TOKEN=your_token_here\n");
-    console.log("Then run:\n  npx wrangler pages deployment list --project-name " + projectName);
+    console.log("Then run one of:");
+    console.log("  npx wrangler deployments list --name " + workerName);
+    console.log("  npx wrangler pages deployment list --project-name " + projectName);
     return;
   }
 
-  console.log("\nFetching latest Pages deployment status...\n");
+  console.log("\nFetching latest deployment status...\n");
   try {
-    const json = output(
-      `npx wrangler pages deployment list --project-name ${projectName} --format json`,
-    );
+    const json = output(`npx wrangler deployments list --name ${workerName} --format json`);
     const deployments = JSON.parse(json);
     if (!Array.isArray(deployments) || deployments.length === 0) {
       console.log("No deployments found.");
