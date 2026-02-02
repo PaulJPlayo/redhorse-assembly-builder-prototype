@@ -78,6 +78,14 @@ Cloudflare settings:
 - Node.js version: **20** (Pages → Project → Settings → Build & deployments → Build configuration → Node.js version)
 - Workers: ensure the Wrangler project name matches `wrangler.jsonc` (`redhorse-assembly-builder-prototype` by default).
 
+### GitHub Actions Auto-Deploy (main)
+
+This repo includes a workflow that deploys the OpenNext Cloudflare Worker on every push to `main`.
+
+Required GitHub Secrets (Repository → Settings → Secrets and variables → Actions):
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
