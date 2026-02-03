@@ -44,6 +44,71 @@ const endColor = (id?: string): string => {
   }
 };
 
+interface EndCapProps {
+  label: string;
+  angleText: string;
+  color: string;
+  position: "left" | "right";
+}
+
+const EndCap = ({ label, angleText, color, position }: EndCapProps) => (
+  <div className="flex flex-col items-center gap-2 sm:w-32">
+    <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
+      {label}
+    </span>
+    <div
+      className="relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-lg border border-border shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
+      style={{ backgroundColor: color }}
+    >
+      <div
+        className={`absolute ${position === "left" ? "left-1" : "right-1"} h-6 w-3 rounded-md bg-[#5d5d5d]`}
+      />
+      <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-text">
+        {angleText}
+      </span>
+    </div>
+  </div>
+);
+
+const HoseSegment = ({ color, sizeLabel }: { color: string; sizeLabel: string }) => (
+  <div className="flex flex-1 flex-col items-center gap-2">
+    <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
+      Hose
+    </span>
+    <div className="relative flex w-full items-center gap-2">
+      <div className="h-3 w-6 rounded-full bg-[#8a8a8a]" />
+      <div
+        className="h-4 flex-1 rounded-full border border-border shadow-[0_4px_10px_rgba(0,0,0,0.08)]"
+        style={{ backgroundColor: color }}
+      />
+      <div className="h-3 w-6 rounded-full bg-[#8a8a8a]" />
+    </div>
+    <span className="text-[11px] uppercase tracking-[0.2em] text-muted-text">
+      {sizeLabel !== "Select" ? sizeLabel : "Select size"}
+    </span>
+  </div>
+);
+
+const ExtrasOverlay = ({ labels }: { labels: string[] }) => {
+  if (!labels.length) {
+    return null;
+  }
+  return (
+    <div className="pointer-events-none absolute inset-3 rounded-lg border border-primary/30 bg-primary/5">
+      <div className="flex flex-wrap items-start gap-2 p-3">
+        {labels.map((label) => (
+          <span
+            key={label}
+            className="rounded-full border border-primary/40 bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-text"
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export const AssemblyDiagram = () => {
   const { state } = useAssemblyStore();
   const { selections } = state;
@@ -64,8 +129,24 @@ export const AssemblyDiagram = () => {
   const extrasLabels = selections.extras.length
     ? selections.extras
         .map((extraId) => mockCatalog.extras.find((extra) => extra.id === extraId)?.label)
-        .filter(Boolean)
+        .filter((label): label is string => Boolean(label))
     : [];
+
+  const hasSelections = Boolean(
+    selections.hoseTypeId ||
+      selections.hoseColorId ||
+      selections.hoseSizeId ||
+      selections.hoseEndStyleId ||
+      selections.hoseEndColorId ||
+      selections.hoseEndAngleAId ||
+      selections.hoseEndAngleBId ||
+      selections.lengthInches ||
+      selections.extras.length,
+  );
+
+  const angleAText = selections.hoseEndAngleAId ? `${angleA}°` : "Angle";
+  const angleBText = selections.hoseEndAngleBId ? `${angleB}°` : "Angle";
+
 
   return (
     <section className="rounded-xl border border-border bg-white p-5 shadow-[0_10px_24px_rgba(0,0,0,0.12)]">
@@ -81,37 +162,20 @@ export const AssemblyDiagram = () => {
         </div>
       </header>
 
-      <div className="mt-4 rounded-lg border border-surface bg-bg p-4">
-        <svg
-          viewBox="0 0 640 160"
-          className="h-40 w-full"
-          role="img"
-          aria-label="Assembly diagram preview"
-        >
-          <rect x="120" y="72" width="400" height="16" rx="8" fill={hoseFill} />
-          <rect x="160" y="66" width="40" height="28" rx="6" fill="#8a8a8a" />
-          <rect x="440" y="66" width="40" height="28" rx="6" fill="#8a8a8a" />
+      <div className="relative mt-4 rounded-lg border border-surface bg-bg p-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <EndCap label="End A" angleText={angleAText} color={endFill} position="left" />
+          <HoseSegment color={hoseFill} sizeLabel={hoseSizeLabel} />
+          <EndCap label="End B" angleText={angleBText} color={endFill} position="right" />
+        </div>
 
-          <g transform={`translate(120,80) rotate(${angleA * -1})`}>
-            <rect x="-80" y="-14" width="80" height="28" rx="10" fill={endFill} />
-            <rect x="-98" y="-8" width="18" height="16" rx="6" fill="#5d5d5d" />
-          </g>
+        <ExtrasOverlay labels={extrasLabels} />
 
-          <g transform={`translate(520,80) rotate(${angleB})`}>
-            <rect x="0" y="-14" width="80" height="28" rx="10" fill={endFill} />
-            <rect x="80" y="-8" width="18" height="16" rx="6" fill="#5d5d5d" />
-          </g>
-
-          <text x="120" y="130" textAnchor="middle" fontSize="12" fill="#363636">
-            Hose End A
-          </text>
-          <text x="320" y="130" textAnchor="middle" fontSize="12" fill="#363636">
-            Hose
-          </text>
-          <text x="520" y="130" textAnchor="middle" fontSize="12" fill="#363636">
-            Hose End B
-          </text>
-        </svg>
+        {!hasSelections ? (
+          <div className="mt-4 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
+            Select options to preview the assembly
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-4 grid gap-3 text-xs text-muted-text sm:grid-cols-2">
