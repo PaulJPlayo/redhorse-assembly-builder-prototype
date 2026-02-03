@@ -179,7 +179,7 @@ export const AssemblyDiagram = () => {
         <ExtrasOverlay labels={extrasLabels} />
 
         {!hasSelections ? (
-          <div className="mt-4 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
+          <div className="mt-4 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[#e82133]">
             Select options to preview the assembly
           </div>
         ) : null}
