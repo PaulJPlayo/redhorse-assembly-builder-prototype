@@ -78,21 +78,18 @@ Cloudflare settings:
 - Node.js version: **20** (Pages → Project → Settings → Build & deployments → Build configuration → Node.js version)
 - Workers: ensure the Wrangler project name matches `wrangler.jsonc` (`redhorse-assembly-builder-prototype` by default).
 
-### GitHub Actions Deploy (manual only)
-
-This repo includes a manual workflow to deploy the OpenNext Cloudflare Worker if needed.
-
-Required GitHub Secrets (Repository → Settings → Secrets and variables → Actions):
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
-
 ### Deployment Source of Truth
 
-Deployments are handled by Cloudflare Workers Builds on push to `main`.
+Cloudflare Workers Builds is the ONLY automatic deployment system for this repo.
 
 - Worker URL: https://redhorse-assembly-builder.oraclecoding8.workers.dev/assembly
 - Pages fallback URL: https://redhorse-assembly-builder-prototype.pages.dev/assembly
-- GitHub Actions deploy workflow is manual-only for emergency use.
+
+GitHub Actions:
+- The deploy workflow is **manual-only** for emergency use and does not run on push.
+- If you ever need it, configure these GitHub Secrets (Repository → Settings → Secrets and variables → Actions):
+  - `CLOUDFLARE_API_TOKEN`
+  - `CLOUDFLARE_ACCOUNT_ID`
 
 ## Learn More
 
