@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import type { StepDefinition, SummaryRow } from "@/types/assembly";
 import { Stepper } from "@/components/Stepper";
 import { SummaryPanel } from "@/components/SummaryPanel";
-import assemblyDiagram from "@/assets/reference/assembly-diagram.png";
+import { AssemblyDiagram } from "@/components/AssemblyDiagram";
 
 interface WizardAction {
   label: string;
@@ -110,12 +109,7 @@ export const WizardShell = ({
             </main>
 
             <div className="hidden lg:block">
-              <Image
-                src={assemblyDiagram}
-                alt="Assembly diagram"
-                className="h-auto w-full rounded-xl border border-border bg-white p-5 shadow-[0_10px_24px_rgba(0,0,0,0.12)]"
-                priority
-              />
+              <AssemblyDiagram />
             </div>
           </div>
 
