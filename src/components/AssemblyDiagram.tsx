@@ -151,6 +151,7 @@ const ExtrasOverlay = ({ labels }: { labels: string[] }) => {
 };
 
 export const AssemblyDiagram = () => {
+  const loading = false;
   const { state } = useAssemblyStore();
   const { selections } = state;
 
@@ -210,26 +211,41 @@ export const AssemblyDiagram = () => {
             "linear-gradient(135deg, rgba(255,255,255,0.65) 0%, rgba(211,211,211,0.9) 45%, rgba(255,255,255,0.6) 70%, rgba(192,192,192,0.9) 100%), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.5), rgba(255,255,255,0) 55%), repeating-linear-gradient(120deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 2px, rgba(0,0,0,0.02) 4px, rgba(0,0,0,0.02) 6px)",
           backgroundBlendMode: "overlay, screen, normal",
         }}
+        aria-busy={loading}
       >
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <EndCap label="End A" angleText={angleAText} color={endFill} position="left" />
-          <HoseSegment
-            color={hoseFill}
-            sizeLabel={hoseSizeLabel}
-            lengthInches={selections.lengthInches}
-            minLength={mockCatalog.length.min}
-            maxLength={mockCatalog.length.max}
-          />
-          <EndCap label="End B" angleText={angleBText} color={endFill} position="right" />
-        </div>
-
-        <ExtrasOverlay labels={extrasLabels} />
-
-        {!hasSelections ? (
-          <div className="mt-4 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[#e82133]">
-            Select options to preview the assembly
+        {loading ? (
+          <div
+            className="flex flex-col items-center justify-center gap-4 py-10 text-muted-text"
+            role="status"
+          >
+            <div className="flex w-full max-w-xl items-center justify-between gap-4">
+              <div className="h-10 w-24 rounded-lg bg-white/60 shadow-sm animate-pulse" />
+              <div className="h-3 flex-1 rounded-full bg-white/60 shadow-sm animate-pulse" />
+              <div className="h-10 w-24 rounded-lg bg-white/60 shadow-sm animate-pulse" />
+            </div>
+            <div className="h-2 w-48 rounded-full bg-white/60 shadow-sm animate-pulse" />
           </div>
-        ) : null}
+        ) : !hasSelections ? (
+          <div className="py-10 text-center text-sm font-semibold uppercase tracking-[0.2em] text-[#e82133]">
+            ⚠️ Select options to preview the assembly
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <EndCap label="End A" angleText={angleAText} color={endFill} position="left" />
+              <HoseSegment
+                color={hoseFill}
+                sizeLabel={hoseSizeLabel}
+                lengthInches={selections.lengthInches}
+                minLength={mockCatalog.length.min}
+                maxLength={mockCatalog.length.max}
+              />
+              <EndCap label="End B" angleText={angleBText} color={endFill} position="right" />
+            </div>
+
+            <ExtrasOverlay labels={extrasLabels} />
+          </>
+        )}
       </div>
 
       <div className="mt-4 grid gap-3 text-xs text-muted-text sm:grid-cols-2">
