@@ -227,7 +227,7 @@ export const AssemblyDiagram = () => {
           </div>
         ) : !hasSelections ? (
           <div className="py-10 text-center text-sm font-semibold uppercase tracking-[0.2em] text-[#e82133]">
-            ⚠️ Select options to preview the assembly
+            Select options to preview the assembly
           </div>
         ) : (
           <>
