@@ -162,7 +162,14 @@ export const AssemblyDiagram = () => {
         </div>
       </header>
 
-      <div className="relative mt-4 rounded-lg border border-surface bg-bg p-4">
+      <div
+        className="relative mt-4 rounded-lg border border-surface bg-[#f1f1f1] p-4"
+        style={{
+          backgroundImage:
+            "linear-gradient(135deg, rgba(255,255,255,0.65) 0%, rgba(211,211,211,0.9) 45%, rgba(255,255,255,0.6) 70%, rgba(192,192,192,0.9) 100%), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.5), rgba(255,255,255,0) 55%), repeating-linear-gradient(120deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 2px, rgba(0,0,0,0.02) 4px, rgba(0,0,0,0.02) 6px)",
+          backgroundBlendMode: "overlay, screen, normal",
+        }}
+      >
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <EndCap label="End A" angleText={angleAText} color={endFill} position="left" />
           <HoseSegment color={hoseFill} sizeLabel={hoseSizeLabel} />
