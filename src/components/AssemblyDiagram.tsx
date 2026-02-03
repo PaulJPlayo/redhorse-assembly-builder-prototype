@@ -70,24 +70,65 @@ const EndCap = ({ label, angleText, color, position }: EndCapProps) => (
   </div>
 );
 
-const HoseSegment = ({ color, sizeLabel }: { color: string; sizeLabel: string }) => (
-  <div className="flex flex-1 flex-col items-center gap-2">
-    <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
-      Hose
-    </span>
-    <div className="relative flex w-full items-center gap-2">
-      <div className="h-3 w-6 rounded-full bg-[#8a8a8a]" />
-      <div
-        className="h-4 flex-1 rounded-full border border-border shadow-[0_4px_10px_rgba(0,0,0,0.08)]"
-        style={{ backgroundColor: color }}
-      />
-      <div className="h-3 w-6 rounded-full bg-[#8a8a8a]" />
+const HoseSegment = ({
+  color,
+  sizeLabel,
+  lengthInches,
+  minLength,
+  maxLength,
+}: {
+  color: string;
+  sizeLabel: string;
+  lengthInches?: number;
+  minLength: number;
+  maxLength: number;
+}) => {
+  const ticks = Array.from({ length: 8 }, (_, index) => index);
+  const range = maxLength - minLength || 1;
+  const ratio =
+    typeof lengthInches === "number"
+      ? Math.min(Math.max((lengthInches - minLength) / range, 0), 1)
+      : 0.5;
+  const widthPercent = Math.round(20 + ratio * 80);
+  const lengthLabel =
+    typeof lengthInches === "number" ? `${lengthInches}` : "Length not selected";
+  const lengthSuffix = typeof lengthInches === "number" ? "in" : "";
+
+  return (
+    <div className="flex flex-1 flex-col items-center gap-2">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
+        Hose
+      </span>
+      <div className="w-full">
+        <div className="mx-auto w-full" style={{ width: `${widthPercent}%` }}>
+          <div className="relative flex w-full items-center gap-2">
+            <div className="h-3 w-6 rounded-full bg-[#8a8a8a]" />
+            <div
+              className="h-4 flex-1 rounded-full border border-border shadow-[0_4px_10px_rgba(0,0,0,0.08)]"
+              style={{ backgroundColor: color }}
+            />
+            <div className="h-3 w-6 rounded-full bg-[#8a8a8a]" />
+          </div>
+          <div className="mt-2 flex w-full items-end justify-between">
+            {ticks.map((tick) => (
+              <span
+                key={tick}
+                className="block h-3 w-px bg-[#a0a0a0]"
+                aria-hidden="true"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      <span className="text-[11px] uppercase tracking-[0.2em] text-muted-text">
+        {sizeLabel !== "Select" ? sizeLabel : "Select size"}
+      </span>
+      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#363636]">
+        Flare-to-Flare Length: {lengthLabel} {lengthSuffix}
+      </span>
     </div>
-    <span className="text-[11px] uppercase tracking-[0.2em] text-muted-text">
-      {sizeLabel !== "Select" ? sizeLabel : "Select size"}
-    </span>
-  </div>
-);
+  );
+};
 
 const ExtrasOverlay = ({ labels }: { labels: string[] }) => {
   if (!labels.length) {
@@ -172,7 +213,13 @@ export const AssemblyDiagram = () => {
       >
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <EndCap label="End A" angleText={angleAText} color={endFill} position="left" />
-          <HoseSegment color={hoseFill} sizeLabel={hoseSizeLabel} />
+          <HoseSegment
+            color={hoseFill}
+            sizeLabel={hoseSizeLabel}
+            lengthInches={selections.lengthInches}
+            minLength={mockCatalog.length.min}
+            maxLength={mockCatalog.length.max}
+          />
           <EndCap label="End B" angleText={angleBText} color={endFill} position="right" />
         </div>
 
