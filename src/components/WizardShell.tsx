@@ -39,12 +39,12 @@ export const WizardShell = ({
 }: WizardShellProps) => {
   const [diagramExpanded, setDiagramExpanded] = useState(true);
   const mobileDockHeight = diagramExpanded
-    ? "h-[clamp(220px,30svh,340px)]"
-    : "h-[clamp(140px,18svh,180px)]";
+    ? "h-[clamp(260px,40dvh,520px)]"
+    : "h-[clamp(140px,18dvh,180px)]";
 
   return (
     <div className="min-h-screen bg-bg">
-      <div className="flex min-h-[100svh] w-full flex-col gap-6 px-6 pb-28 pt-6 lg:px-10 lg:pb-16 xl:px-12">
+      <div className="flex min-h-[100dvh] w-full flex-col gap-6 px-6 pb-6 pt-6 lg:px-10 lg:pb-16 xl:px-12">
         <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e82133]">
@@ -115,7 +115,7 @@ export const WizardShell = ({
 
             <div className="lg:hidden">
               <section
-                className={`w-full min-w-0 max-w-full shrink-0 overflow-hidden border-t border-border bg-[#f1f1f1] pb-[env(safe-area-inset-bottom)] transition-[height] duration-200 ease-out ${mobileDockHeight}`}
+                className={`flex h-full w-full min-w-0 max-w-full shrink-0 flex-col overflow-hidden border-t border-border bg-[#f1f1f1] pb-[env(safe-area-inset-bottom)] transition-[height] duration-200 ease-out ${mobileDockHeight}`}
               >
                 <div className="flex items-center justify-between border-b border-border bg-white/85 px-4 py-2 backdrop-blur">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
@@ -129,7 +129,7 @@ export const WizardShell = ({
                     {diagramExpanded ? "Collapse" : "Expand"}
                   </button>
                 </div>
-                <div className="h-[calc(100%-42px)] overflow-y-auto p-2">
+                <div className="flex-1 min-h-0 overflow-y-auto p-2">
                   <AssemblyDiagram />
                 </div>
               </section>
