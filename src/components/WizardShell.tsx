@@ -56,17 +56,19 @@ export const WizardShell = ({
 
         <div className="grid items-stretch gap-8 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]">
           <div className="flex flex-col gap-6">
-            <main className="rounded-xl border border-border bg-white p-7 shadow-[0_12px_26px_rgba(0,0,0,0.12)] lg:min-h-[calc(100vh-220px)]">
+            <main className="rounded-xl border border-border bg-white p-4 shadow-[0_12px_26px_rgba(0,0,0,0.12)] sm:p-7 lg:min-h-[calc(100vh-220px)]">
               <div className="sr-only">
                 <p>{steps[currentStep]?.label}</p>
                 <h2>{title}</h2>
                 {helper ? <p>{helper}</p> : null}
               </div>
 
-              <div>{children}</div>
+              <div className={primaryAction || secondaryAction ? "pb-20 sm:pb-0" : undefined}>
+                {children}
+              </div>
 
               {(primaryAction || secondaryAction) && (
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="sticky bottom-0 z-[60] -mx-4 mt-8 flex flex-col gap-3 border-t border-border bg-white/95 px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 backdrop-blur sm:static sm:z-auto sm:mx-0 sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-none sm:flex-row sm:items-center sm:justify-between">
                   {secondaryAction ? (
                     <button
                       type="button"

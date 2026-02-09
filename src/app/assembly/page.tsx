@@ -123,7 +123,7 @@ const StepContent = () => {
           return (
             <div
               key={option.id}
-              className="min-h-[230px] shrink-0 basis-[82%] snap-start animate-fade-up sm:min-h-0 sm:basis-auto sm:shrink sm:snap-none"
+              className="h-[200px] max-w-[360px] shrink-0 basis-[86%] snap-start animate-fade-up sm:h-auto sm:max-w-none sm:basis-auto sm:shrink sm:snap-none"
               style={{ animationDelay: `${index * 60}ms` }}
             >
               <OptionCard
