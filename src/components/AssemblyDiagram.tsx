@@ -47,28 +47,66 @@ const endColor = (id?: string): string => {
 interface EndCapProps {
   label: string;
   angleText: string;
+  angleDegrees: number;
+  hasAngleSelection: boolean;
   color: string;
   position: "left" | "right";
 }
 
-const EndCap = ({ label, angleText, color, position }: EndCapProps) => (
-  <div className="flex flex-col items-center gap-2 sm:w-32">
-    <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
-      {label}
-    </span>
-    <div
-      className="relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-lg border border-border shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
-      style={{ backgroundColor: color }}
-    >
-      <div
-        className={`absolute ${position === "left" ? "left-1" : "right-1"} h-6 w-3 rounded-md bg-[#5d5d5d]`}
-      />
-      <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-text">
-        {angleText}
+const EndCap = ({
+  label,
+  angleText,
+  angleDegrees,
+  hasAngleSelection,
+  color,
+  position,
+}: EndCapProps) => {
+  const pointerRotation = hasAngleSelection
+    ? position === "left"
+      ? -angleDegrees
+      : angleDegrees
+    : 0;
+
+  return (
+    <div className="flex flex-col items-center gap-2 sm:w-32">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
+        {label}
       </span>
+      <div
+        className="relative flex h-14 w-full max-w-[140px] items-center justify-center rounded-lg border border-border shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
+        style={{ backgroundColor: color }}
+      >
+        <div
+          className={`absolute ${position === "left" ? "left-1" : "right-1"} h-6 w-3 rounded-md bg-[#5d5d5d]`}
+        />
+        <div className="pointer-events-none absolute inset-x-3 bottom-1 h-5 rounded-t-full border-x border-t border-dashed border-[#b7b7b7]/90 transition-opacity duration-200 ease-out" />
+        <div
+          className={`pointer-events-none absolute bottom-1 left-1/2 h-4 w-0.5 -translate-x-1/2 rounded-full transition-all duration-200 ease-out ${
+            hasAngleSelection ? "bg-primary/80 opacity-100" : "bg-[#8e8e8e] opacity-55"
+          }`}
+          style={{
+            transform: `translateX(-50%) rotate(${pointerRotation}deg)`,
+            transformOrigin: "bottom center",
+          }}
+        />
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div
+            className="relative h-0.5 w-8 rounded-full bg-[#454545] transition-transform duration-200 ease-out"
+            style={{ transform: `rotate(${pointerRotation}deg)` }}
+          >
+            <span className="absolute -right-0.5 top-1/2 h-2 w-2 -translate-y-1/2 rotate-45 border-r-2 border-t-2 border-[#454545]" />
+          </div>
+        </div>
+        <span className="relative z-10 inline-flex max-w-[84px] items-center gap-1 rounded-full bg-white/88 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-text">
+          <span className="rounded bg-text/10 px-1 py-0.5 text-[8px] tracking-[0.14em] text-text">
+            {position === "left" ? "A" : "B"}
+          </span>
+          <span className="truncate text-[11px] tracking-[0.08em]">{angleText}</span>
+        </span>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const HoseSegment = ({
   color,
@@ -188,7 +226,8 @@ export const AssemblyDiagram = () => {
 
   const angleAText = selections.hoseEndAngleAId ? `${angleA}°` : "Angle";
   const angleBText = selections.hoseEndAngleBId ? `${angleB}°` : "Angle";
-
+  const hasAngleASelection = Boolean(selections.hoseEndAngleAId);
+  const hasAngleBSelection = Boolean(selections.hoseEndAngleBId);
 
   return (
     <section className="rounded-xl border border-border bg-white p-5 shadow-[0_10px_24px_rgba(0,0,0,0.12)]">
@@ -232,7 +271,14 @@ export const AssemblyDiagram = () => {
         ) : (
           <>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <EndCap label="End A" angleText={angleAText} color={endFill} position="left" />
+              <EndCap
+                label="End A"
+                angleText={angleAText}
+                angleDegrees={angleA}
+                hasAngleSelection={hasAngleASelection}
+                color={endFill}
+                position="left"
+              />
               <HoseSegment
                 color={hoseFill}
                 sizeLabel={hoseSizeLabel}
@@ -240,7 +286,14 @@ export const AssemblyDiagram = () => {
                 minLength={mockCatalog.length.min}
                 maxLength={mockCatalog.length.max}
               />
-              <EndCap label="End B" angleText={angleBText} color={endFill} position="right" />
+              <EndCap
+                label="End B"
+                angleText={angleBText}
+                angleDegrees={angleB}
+                hasAngleSelection={hasAngleBSelection}
+                color={endFill}
+                position="right"
+              />
             </div>
 
             <ExtrasOverlay labels={extrasLabels} />
