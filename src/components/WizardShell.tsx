@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { StepDefinition, SummaryRow } from "@/types/assembly";
 import { Stepper } from "@/components/Stepper";
 import { SummaryPanel } from "@/components/SummaryPanel";
@@ -36,9 +37,14 @@ export const WizardShell = ({
   summaryRows,
   remainingCount,
 }: WizardShellProps) => {
+  const [diagramExpanded, setDiagramExpanded] = useState(true);
+  const mobileDockHeight = diagramExpanded
+    ? "h-[clamp(220px,30svh,340px)]"
+    : "h-[clamp(140px,18svh,180px)]";
+
   return (
     <div className="min-h-screen bg-bg">
-      <div className="flex w-full flex-col gap-6 px-6 pb-28 pt-6 lg:px-10 lg:pb-16 xl:px-12">
+      <div className="flex min-h-[100svh] w-full flex-col gap-6 px-6 pb-28 pt-6 lg:px-10 lg:pb-16 xl:px-12">
         <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e82133]">
@@ -54,16 +60,20 @@ export const WizardShell = ({
           <Stepper steps={steps} currentStep={currentStep} onStepClick={onStepClick} />
         </div>
 
-        <div className="grid items-stretch gap-8 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]">
-          <div className="flex min-w-0 flex-col gap-6">
-            <main className="w-full min-w-0 max-w-full rounded-xl border border-border bg-white p-4 shadow-[0_12px_26px_rgba(0,0,0,0.12)] sm:p-7 lg:min-h-[calc(100vh-220px)]">
+        <div className="grid min-h-0 flex-1 items-stretch gap-8 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]">
+          <div className="flex min-h-0 min-w-0 flex-col gap-4 lg:gap-6">
+            <main className="flex min-h-0 w-full min-w-0 max-w-full flex-1 flex-col overflow-y-auto rounded-xl border border-border bg-white p-4 shadow-[0_12px_26px_rgba(0,0,0,0.12)] sm:p-7 lg:min-h-[calc(100vh-220px)] lg:overflow-visible">
               <div className="sr-only">
                 <p>{steps[currentStep]?.label}</p>
                 <h2>{title}</h2>
                 {helper ? <p>{helper}</p> : null}
               </div>
 
-              <div className={primaryAction || secondaryAction ? "pb-20 sm:pb-0" : undefined}>
+              <div
+                className={`min-w-0 ${
+                  primaryAction || secondaryAction ? "pb-20 sm:pb-0" : ""
+                }`}
+              >
                 {children}
               </div>
 
@@ -102,6 +112,28 @@ export const WizardShell = ({
                 </div>
               )}
             </main>
+
+            <div className="lg:hidden">
+              <section
+                className={`w-full min-w-0 max-w-full shrink-0 overflow-hidden border-t border-border bg-[#f1f1f1] pb-[env(safe-area-inset-bottom)] transition-[height] duration-200 ease-out ${mobileDockHeight}`}
+              >
+                <div className="flex items-center justify-between border-b border-border bg-white/85 px-4 py-2 backdrop-blur">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
+                    Assembly Diagram
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setDiagramExpanded((prev) => !prev)}
+                    className="rounded-md border border-border bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-text transition hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  >
+                    {diagramExpanded ? "Collapse" : "Expand"}
+                  </button>
+                </div>
+                <div className="h-[calc(100%-42px)] overflow-y-auto p-2">
+                  <AssemblyDiagram />
+                </div>
+              </section>
+            </div>
 
             <div className="hidden lg:block">
               <AssemblyDiagram />
