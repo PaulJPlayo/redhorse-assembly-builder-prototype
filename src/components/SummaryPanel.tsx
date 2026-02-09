@@ -129,9 +129,9 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
         type="button"
         onClick={() => setMobileDrawerOpen(true)}
         aria-label="Open summary"
-        className="fixed right-3 top-1/2 z-[70] flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-[#e82133] text-[9px] font-bold uppercase tracking-[0.08em] text-white shadow-[0_10px_24px_rgba(0,0,0,0.25)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#e82133] sm:hidden"
+        className="fixed right-3 top-1/2 z-[70] flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-[#e82133] text-[9px] font-bold uppercase tracking-[0.06em] text-white shadow-[0_10px_24px_rgba(0,0,0,0.25)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#e82133] sm:hidden"
       >
-        <span className="w-10 text-center leading-[1.05] whitespace-normal [overflow-wrap:anywhere]">
+        <span className="whitespace-nowrap text-center leading-none">
           Summary
         </span>
       </button>
