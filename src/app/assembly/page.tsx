@@ -67,7 +67,7 @@ const StepContent = () => {
 
   const renderOptions = (stepId: StepId) => {
     return (
-      <div className="w-full min-w-0 max-w-full">
+      <div key={stepId} className="w-full min-w-0 max-w-full">
         <OptionGrid className={stepOptions.gridClassName}>
           {stepOptions.options.map((option, index) => {
             const disabled = "disabled" in option ? option.disabled : false;
