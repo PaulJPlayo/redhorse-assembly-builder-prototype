@@ -44,6 +44,20 @@ const endColor = (id?: string): string => {
   }
 };
 
+const extraChipAccent = (label: string): string => {
+  const normalized = label.toLowerCase();
+  if (/heat|shield|sleeve|fire/.test(normalized)) {
+    return "#e82133";
+  }
+  if (/coil|support/.test(normalized)) {
+    return "#5b5b5b";
+  }
+  if (/clamp|clip|fitting/.test(normalized)) {
+    return "#454545";
+  }
+  return "#8a8a8a";
+};
+
 interface EndCapProps {
   label: string;
   angleText: string;
@@ -108,18 +122,26 @@ const EndCap = ({
   );
 };
 
+interface HoseOverlays {
+  heatShield: boolean;
+  supportCoil: boolean;
+  clampCount: number;
+}
+
 const HoseSegment = ({
   color,
   sizeLabel,
   lengthInches,
   minLength,
   maxLength,
+  overlays,
 }: {
   color: string;
   sizeLabel: string;
   lengthInches?: number;
   minLength: number;
   maxLength: number;
+  overlays: HoseOverlays;
 }) => {
   const ticks = Array.from({ length: 8 }, (_, index) => index);
   const range = maxLength - minLength || 1;
@@ -131,6 +153,8 @@ const HoseSegment = ({
   const lengthLabel =
     typeof lengthInches === "number" ? `${lengthInches}` : "Length not selected";
   const lengthSuffix = typeof lengthInches === "number" ? "in" : "";
+  const clampPositions =
+    overlays.clampCount > 1 ? [18, 82] : overlays.clampCount === 1 ? [50] : [];
 
   return (
     <div className="flex flex-1 flex-col items-center gap-2">
@@ -141,10 +165,47 @@ const HoseSegment = ({
         <div className="mx-auto w-full" style={{ width: `${widthPercent}%` }}>
           <div className="relative flex w-full items-center gap-2">
             <div className="h-3 w-6 rounded-full bg-[#8a8a8a]" />
-            <div
-              className="h-4 flex-1 rounded-full border border-border shadow-[0_4px_10px_rgba(0,0,0,0.08)]"
-              style={{ backgroundColor: color }}
-            />
+            <div className="relative h-4 flex-1 overflow-hidden rounded-full border border-border shadow-[0_4px_10px_rgba(0,0,0,0.08)]">
+              <div className="absolute inset-0 transition-colors duration-200" style={{ backgroundColor: color }} />
+              {overlays.heatShield ? (
+                <>
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-[8%] right-[8%] rounded-full border border-[#343434]/35 transition-opacity duration-200 ease-out"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(90deg, rgba(65,65,65,0.08) 0%, rgba(28,28,28,0.45) 14%, rgba(132,132,132,0.35) 50%, rgba(28,28,28,0.45) 86%, rgba(65,65,65,0.08) 100%), repeating-linear-gradient(110deg, rgba(255,255,255,0.08) 0 3px, rgba(0,0,0,0.08) 3px 6px)",
+                    }}
+                  />
+                  <div className="pointer-events-none absolute left-[10%] right-[10%] top-[1px] h-px rounded-full bg-white/60" />
+                  <div
+                    className="pointer-events-none absolute left-[12%] right-[12%] bottom-[1px] h-px rounded-full"
+                    style={{ backgroundColor: "rgba(232, 33, 51, 0.55)" }}
+                  />
+                </>
+              ) : null}
+              {overlays.supportCoil ? (
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-[24%] right-[24%] rounded-full border border-[#2d2d2d]/35 transition-opacity duration-200 ease-out"
+                  style={{
+                    backgroundImage:
+                      "repeating-linear-gradient(105deg, rgba(25,25,25,0.45) 0 2px, rgba(255,255,255,0.14) 2px 4px, rgba(20,20,20,0.38) 4px 6px, rgba(255,255,255,0.1) 6px 8px)",
+                  }}
+                />
+              ) : null}
+              {clampPositions.map((position) => (
+                <div
+                  key={position}
+                  className="pointer-events-none absolute top-1/2 h-5 w-2 -translate-x-1/2 -translate-y-1/2 rounded-sm border border-[#3f3f3f] shadow-[0_1px_3px_rgba(0,0,0,0.35)]"
+                  style={{
+                    left: `${position}%`,
+                    backgroundImage:
+                      "linear-gradient(180deg, rgba(190,190,190,0.8) 0%, rgba(95,95,95,0.95) 55%, rgba(55,55,55,1) 100%)",
+                  }}
+                >
+                  <span className="absolute left-[1px] right-[1px] top-[1px] h-px rounded-full bg-white/70" />
+                </div>
+              ))}
+            </div>
             <div className="h-3 w-6 rounded-full bg-[#8a8a8a]" />
           </div>
           <div className="mt-2 flex w-full items-end justify-between">
@@ -178,8 +239,13 @@ const ExtrasOverlay = ({ labels }: { labels: string[] }) => {
         {labels.map((label) => (
           <span
             key={label}
-            className="rounded-full border border-primary/40 bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-text"
+            className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-text"
           >
+            <span
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: extraChipAccent(label) }}
+              aria-hidden="true"
+            />
             {label}
           </span>
         ))}
@@ -211,6 +277,12 @@ export const AssemblyDiagram = () => {
         .map((extraId) => mockCatalog.extras.find((extra) => extra.id === extraId)?.label)
         .filter((label): label is string => Boolean(label))
     : [];
+  const normalizedExtras = extrasLabels.map((label) => label.toLowerCase());
+  const overlays: HoseOverlays = {
+    heatShield: normalizedExtras.some((label) => /heat|shield|sleeve|fire/.test(label)),
+    supportCoil: normalizedExtras.some((label) => /coil|support/.test(label)),
+    clampCount: normalizedExtras.some((label) => /clamp|clip|fitting/.test(label)) ? 2 : 0,
+  };
 
   const hasSelections = Boolean(
     selections.hoseTypeId ||
@@ -285,6 +357,7 @@ export const AssemblyDiagram = () => {
                 lengthInches={selections.lengthInches}
                 minLength={mockCatalog.length.min}
                 maxLength={mockCatalog.length.max}
+                overlays={overlays}
               />
               <EndCap
                 label="End B"
