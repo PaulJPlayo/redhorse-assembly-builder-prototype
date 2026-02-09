@@ -41,12 +41,9 @@ export const WizardShell = ({
       <div className="flex w-full flex-col gap-6 px-6 pb-28 pt-6 lg:px-10 lg:pb-16 xl:px-12">
         <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e82133]">
               Redhorse Performance
             </p>
-            <h1 className="mt-2 text-4xl font-bold uppercase tracking-[0.06em] text-text sm:text-5xl xl:text-6xl">
-              Custom Hose Assembly Builder
-            </h1>
             <p className="mt-2 text-sm text-muted-text">
               Step {currentStep + 1} of {steps.length}
             </p>
@@ -60,17 +57,13 @@ export const WizardShell = ({
         <div className="grid items-stretch gap-8 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]">
           <div className="flex flex-col gap-6">
             <main className="rounded-xl border border-border bg-white p-7 shadow-[0_12px_26px_rgba(0,0,0,0.12)] lg:min-h-[calc(100vh-220px)]">
-              <div className="flex flex-col gap-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
-                  {steps[currentStep]?.label}
-                </p>
-                <h2 className="text-3xl font-bold uppercase tracking-[0.05em] text-text md:text-4xl xl:text-5xl">
-                  {title}
-                </h2>
-                {helper ? <p className="text-sm text-muted-text">{helper}</p> : null}
+              <div className="sr-only">
+                <p>{steps[currentStep]?.label}</p>
+                <h2>{title}</h2>
+                {helper ? <p>{helper}</p> : null}
               </div>
 
-              <div className="mt-6">{children}</div>
+              <div>{children}</div>
 
               {(primaryAction || secondaryAction) && (
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
