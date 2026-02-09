@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 import type { StepDefinition, SummaryRow } from "@/types/assembly";
 import { Stepper } from "@/components/Stepper";
 import { SummaryPanel } from "@/components/SummaryPanel";
@@ -38,11 +37,6 @@ export const WizardShell = ({
   summaryRows,
   remainingCount,
 }: WizardShellProps) => {
-  const [diagramExpanded, setDiagramExpanded] = useState(true);
-  const mobileDockHeight = diagramExpanded
-    ? "h-[clamp(260px,40dvh,520px)]"
-    : "h-[clamp(140px,18dvh,180px)]";
-
   return (
     <div className="min-h-screen bg-bg">
       <div className="flex min-h-[100dvh] w-full flex-col gap-6 px-6 pb-6 pt-6 lg:px-10 lg:pb-16 xl:px-12">
@@ -121,19 +115,12 @@ export const WizardShell = ({
 
             <div className="lg:hidden">
               <section
-                className={`flex h-full w-full min-w-0 max-w-full shrink-0 flex-col overflow-hidden border-t border-border bg-[#f1f1f1] pb-[env(safe-area-inset-bottom)] transition-[height] duration-200 ease-out ${mobileDockHeight}`}
+                className="flex h-[clamp(260px,40dvh,520px)] w-full min-w-0 max-w-full shrink-0 flex-col overflow-hidden border-t border-border bg-[#f1f1f1] pb-[env(safe-area-inset-bottom)]"
               >
-                <div className="flex items-center justify-between border-b border-border bg-white/85 px-4 py-2 backdrop-blur">
+                <div className="flex items-center border-b border-border bg-white/85 px-4 py-2 backdrop-blur">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
                     Assembly Diagram
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => setDiagramExpanded((prev) => !prev)}
-                    className="rounded-md border border-border bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-text transition hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                  >
-                    {diagramExpanded ? "Collapse" : "Expand"}
-                  </button>
                 </div>
                 <div className="flex-1 min-h-0 overflow-y-auto p-2">
                   <AssemblyDiagram />
