@@ -64,13 +64,13 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
           <div className="flex flex-1 flex-col px-4 py-5">
             <div className="space-y-5">
               {detailRows.map((row) => (
-                <div key={row.label} className="border-b border-surface pb-4 text-sm">
+                <div key={row.label} className="min-w-0 max-w-full border-b border-surface pb-4 text-sm">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
                     {row.label}
                   </p>
-                  <p className="mt-1 font-semibold text-text">{row.value}</p>
+                  <p className="mt-1 min-w-0 max-w-full break-words font-semibold text-text">{row.value}</p>
                   {row.sku ? (
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
+                    <p className="mt-1 min-w-0 max-w-full break-all text-[11px] font-mono text-muted-text">
                       SKU {row.sku}
                     </p>
                   ) : null}
@@ -178,13 +178,13 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
               Remaining configurations: {remainingCount}
             </p>
             {detailRows.map((row) => (
-              <div key={row.label} className="border-b border-surface pb-4">
+              <div key={row.label} className="min-w-0 max-w-full border-b border-surface pb-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
                   {row.label}
                 </p>
-                <p className="mt-1 font-semibold text-text">{row.value}</p>
+                <p className="mt-1 min-w-0 max-w-full break-words font-semibold text-text">{row.value}</p>
                 {row.sku ? (
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
+                  <p className="mt-1 min-w-0 max-w-full break-all text-[11px] font-mono text-muted-text">
                     SKU {row.sku}
                   </p>
                 ) : null}

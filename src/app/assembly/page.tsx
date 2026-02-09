@@ -219,26 +219,28 @@ const StepContent = () => {
     return (
       <div className="space-y-6">
         <div className="rounded-xl border border-border bg-white p-6 shadow-[0_12px_26px_rgba(0,0,0,0.12)]">
-          <div className="grid grid-cols-[160px_1fr_120px] border-b border-surface text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
-            <div className="p-3"> </div>
-            <div className="p-3"> </div>
-            <div className="p-3 text-right">SKU</div>
+          <div className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border-b border-surface text-xs font-semibold uppercase tracking-[0.2em] text-muted-text sm:grid-cols-[160px_1fr_120px]">
+            <div className="min-w-0 p-3"> </div>
+            <div className="min-w-0 p-3"> </div>
+            <div className="min-w-0 p-3 text-right">SKU</div>
           </div>
           {rows.map((row) => (
             <div
               key={row.label}
-              className="grid grid-cols-[160px_1fr_120px] border-b border-surface text-sm"
+              className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border-b border-surface text-sm sm:grid-cols-[160px_1fr_120px]"
             >
-              <div className="p-3 font-semibold uppercase text-muted-text">{row.label}</div>
-              <div className="p-3 text-text">{row.value}</div>
-              <div className="p-3 text-right text-text">{row.sku ?? ""}</div>
+              <div className="min-w-0 p-3 font-semibold uppercase text-muted-text">{row.label}</div>
+              <div className="min-w-0 p-3 break-words text-text">{row.value}</div>
+              <div className="min-w-0 max-w-full break-all p-3 text-right font-mono text-[11px] text-text">
+                {row.sku ?? ""}
+              </div>
             </div>
           ))}
           {totalRow ? (
-            <div className="grid grid-cols-[160px_1fr_120px] border border-primary/20 bg-accent text-sm font-semibold">
-              <div className="p-3 uppercase text-text">{totalRow.label}</div>
-              <div className="p-3 text-text"> </div>
-              <div className="p-3 text-right text-text">{totalRow.value}</div>
+            <div className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border border-primary/20 bg-accent text-sm font-semibold sm:grid-cols-[160px_1fr_120px]">
+              <div className="min-w-0 p-3 uppercase text-text">{totalRow.label}</div>
+              <div className="min-w-0 p-3 text-text"> </div>
+              <div className="min-w-0 p-3 text-right text-text">{totalRow.value}</div>
             </div>
           ) : null}
         </div>
