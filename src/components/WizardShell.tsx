@@ -44,7 +44,7 @@ export const WizardShell = ({
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e82133]">
               Redhorse Performance
             </p>
-            <p className="mt-2 text-sm text-muted-text">
+            <p className="sr-only">
               Step {currentStep + 1} of {steps.length}
             </p>
           </div>
