@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import type { StepDefinition, SummaryRow } from "@/types/assembly";
 import { Stepper } from "@/components/Stepper";
@@ -47,9 +48,14 @@ export const WizardShell = ({
       <div className="flex min-h-[100dvh] w-full flex-col gap-6 px-6 pb-6 pt-6 lg:px-10 lg:pb-16 xl:px-12">
         <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e82133]">
-              Redhorse Performance
-            </p>
+            <Image
+              src="/brand/redhorse-logo.png"
+              alt="Redhorse Performance"
+              width={300}
+              height={40}
+              priority
+              className="h-6 w-auto max-w-[min(74vw,300px)] sm:h-7"
+            />
             <p className="sr-only">
               Step {currentStep + 1} of {steps.length}
             </p>
