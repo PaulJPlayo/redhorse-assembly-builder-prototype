@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import type { StepDefinition } from "@/types/assembly";
 
 interface StepperProps {
@@ -32,8 +33,48 @@ const labelStyles: Record<ReturnType<typeof getStepState>, string> = {
 };
 
 export const Stepper = ({ steps, currentStep, onStepClick }: StepperProps) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const stepRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const activeStep = stepRefs.current[currentStep];
+    if (!container || !activeStep) {
+      return;
+    }
+
+    const isMobileViewport = window.matchMedia("(max-width: 639px)").matches;
+    const canScrollHorizontally = container.scrollWidth > container.clientWidth + 1;
+    if (!isMobileViewport || !canScrollHorizontally) {
+      return;
+    }
+
+    activeStep.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+
+    const frameId = window.requestAnimationFrame(() => {
+      const containerRect = container.getBoundingClientRect();
+      const activeRect = activeStep.getBoundingClientRect();
+      const isClipped = activeRect.left < containerRect.left || activeRect.right > containerRect.right;
+      if (!isClipped) {
+        return;
+      }
+
+      const centeredLeft =
+        activeStep.offsetLeft - container.clientWidth / 2 + activeStep.clientWidth / 2;
+      container.scrollTo({ left: Math.max(0, centeredLeft), behavior: "smooth" });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [currentStep, steps.length]);
+
   return (
-    <div className="w-full overflow-x-auto pb-3 pt-2">
+    <div ref={containerRef} className="w-full overflow-x-auto pb-3 pt-2">
       <div className="flex min-w-[900px] items-center gap-4 px-2">
         {steps.map((step, index) => {
           const state = getStepState(index, currentStep);
@@ -41,6 +82,9 @@ export const Stepper = ({ steps, currentStep, onStepClick }: StepperProps) => {
           return (
             <button
               key={step.id}
+              ref={(element) => {
+                stepRefs.current[index] = element;
+              }}
               type="button"
               onClick={() => (canClick ? onStepClick?.(index) : undefined)}
               className={`group flex items-center gap-3 rounded-lg px-3 py-2 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
