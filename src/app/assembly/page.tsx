@@ -67,77 +67,79 @@ const StepContent = () => {
 
   const renderOptions = (stepId: StepId) => {
     return (
-      <OptionGrid className={stepOptions.gridClassName}>
-        {stepOptions.options.map((option, index) => {
-          const disabled = "disabled" in option ? option.disabled : false;
-          const priceLabel = option.price ? `+${formatCurrency(option.price)}` : undefined;
+      <div className="w-full min-w-0 max-w-full">
+        <OptionGrid className={stepOptions.gridClassName}>
+          {stepOptions.options.map((option, index) => {
+            const disabled = "disabled" in option ? option.disabled : false;
+            const priceLabel = option.price ? `+${formatCurrency(option.price)}` : undefined;
 
-          const selectedId = {
-            hoseType: state.selections.hoseTypeId,
-            hoseColor: state.selections.hoseColorId,
-            hoseSize: state.selections.hoseSizeId,
-            hoseEndStyle: state.selections.hoseEndStyleId,
-            hoseEndColor: state.selections.hoseEndColorId,
-            hoseEndAngleA: state.selections.hoseEndAngleAId,
-            hoseEndAngleB: state.selections.hoseEndAngleBId,
-            extras: undefined,
-            assemblyLength: undefined,
-          }[stepId];
+            const selectedId = {
+              hoseType: state.selections.hoseTypeId,
+              hoseColor: state.selections.hoseColorId,
+              hoseSize: state.selections.hoseSizeId,
+              hoseEndStyle: state.selections.hoseEndStyleId,
+              hoseEndColor: state.selections.hoseEndColorId,
+              hoseEndAngleA: state.selections.hoseEndAngleAId,
+              hoseEndAngleB: state.selections.hoseEndAngleBId,
+              extras: undefined,
+              assemblyLength: undefined,
+            }[stepId];
 
-          const selected =
-            stepId === "extras"
-              ? state.selections.extras.includes(option.id)
-              : selectedId === option.id;
+            const selected =
+              stepId === "extras"
+                ? state.selections.extras.includes(option.id)
+                : selectedId === option.id;
 
-          const onSelect = () => {
-            switch (stepId) {
-              case "hoseType":
-                dispatch({ type: "SELECT_HOSE_TYPE", id: option.id });
-                break;
-              case "hoseColor":
-                dispatch({ type: "SELECT_HOSE_COLOR", id: option.id });
-                break;
-              case "hoseSize":
-                dispatch({ type: "SELECT_HOSE_SIZE", id: option.id });
-                break;
-              case "hoseEndStyle":
-                dispatch({ type: "SELECT_HOSE_END_STYLE", id: option.id });
-                break;
-              case "hoseEndColor":
-                dispatch({ type: "SELECT_HOSE_END_COLOR", id: option.id });
-                break;
-              case "hoseEndAngleA":
-                dispatch({ type: "SELECT_HOSE_END_ANGLE_A", id: option.id });
-                break;
-              case "hoseEndAngleB":
-                dispatch({ type: "SELECT_HOSE_END_ANGLE_B", id: option.id });
-                break;
-              case "extras":
-                dispatch({ type: "TOGGLE_EXTRA", id: option.id });
-                break;
-              default:
-                break;
-            }
-          };
+            const onSelect = () => {
+              switch (stepId) {
+                case "hoseType":
+                  dispatch({ type: "SELECT_HOSE_TYPE", id: option.id });
+                  break;
+                case "hoseColor":
+                  dispatch({ type: "SELECT_HOSE_COLOR", id: option.id });
+                  break;
+                case "hoseSize":
+                  dispatch({ type: "SELECT_HOSE_SIZE", id: option.id });
+                  break;
+                case "hoseEndStyle":
+                  dispatch({ type: "SELECT_HOSE_END_STYLE", id: option.id });
+                  break;
+                case "hoseEndColor":
+                  dispatch({ type: "SELECT_HOSE_END_COLOR", id: option.id });
+                  break;
+                case "hoseEndAngleA":
+                  dispatch({ type: "SELECT_HOSE_END_ANGLE_A", id: option.id });
+                  break;
+                case "hoseEndAngleB":
+                  dispatch({ type: "SELECT_HOSE_END_ANGLE_B", id: option.id });
+                  break;
+                case "extras":
+                  dispatch({ type: "TOGGLE_EXTRA", id: option.id });
+                  break;
+                default:
+                  break;
+              }
+            };
 
-          return (
-            <div
-              key={option.id}
-              className="h-[200px] max-w-[360px] shrink-0 basis-[86%] snap-start animate-fade-up sm:h-auto sm:max-w-none sm:basis-auto sm:shrink sm:snap-none"
-              style={{ animationDelay: `${index * 60}ms` }}
-            >
-              <OptionCard
-                title={option.label}
-                subtitle={option.description}
-                selected={selected}
-                disabled={Boolean(disabled)}
-                onSelect={onSelect}
-                priceLabel={priceLabel}
-              />
-            </div>
-          );
-        })}
-      </OptionGrid>
+            return (
+              <div
+                key={option.id}
+                className="h-[200px] max-w-[min(360px,calc(100vw-56px))] shrink-0 basis-[86%] snap-start animate-fade-up sm:h-auto sm:max-w-none sm:basis-auto sm:shrink sm:snap-none"
+                style={{ animationDelay: `${index * 60}ms` }}
+              >
+                <OptionCard
+                  title={option.label}
+                  subtitle={option.description}
+                  selected={selected}
+                  disabled={Boolean(disabled)}
+                  onSelect={onSelect}
+                  priceLabel={priceLabel}
+                />
+              </div>
+            );
+          })}
+        </OptionGrid>
+      </div>
     );
   };
 
