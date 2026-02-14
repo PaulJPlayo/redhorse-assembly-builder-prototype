@@ -42,14 +42,20 @@ export const WizardShell = ({
       <div className="flex min-h-[100dvh] w-full flex-col gap-6 px-6 pb-6 pt-6 lg:px-10 lg:pb-16 xl:px-12">
         <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <Image
-              src="/brand/redhorse-logo.png"
-              alt="Redhorse Performance"
-              width={300}
-              height={40}
-              priority
-              className="h-6 w-auto max-w-[min(74vw,300px)] sm:h-7"
-            />
+            <a
+              href="https://www.redhorseperformance.com/"
+              aria-label="Go to Redhorse Performance"
+              className="inline-flex rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              <Image
+                src="/brand/redhorse-logo.png"
+                alt="Redhorse Performance"
+                width={300}
+                height={40}
+                priority
+                className="h-6 w-auto max-w-[min(74vw,300px)] sm:h-7"
+              />
+            </a>
             <p className="sr-only">
               Step {currentStep + 1} of {steps.length}
             </p>
