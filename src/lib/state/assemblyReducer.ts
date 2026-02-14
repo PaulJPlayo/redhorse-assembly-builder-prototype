@@ -15,6 +15,19 @@ const STEP_FIELD: Record<StepId, keyof AssemblySelection> = {
   extras: "extras",
 };
 
+const HOSE_TYPE_DEFAULT_COLOR: Record<string, string> = {
+  "hose-200": "stainless",
+  "hose-205": "stainless",
+  "hose-230": "nylon",
+  "hose-235": "nylon",
+  "hose-401": "blue",
+  "hose-402": "black",
+  "hose-302": "black-poly-carbon-lined",
+  "hose-303": "stainless-carbon-lined",
+  "hose-304": "stainless-non-carbon-lined",
+  "hose-305": "black-poly-non-carbon-lined",
+};
+
 const emptySelections: AssemblySelection = {
   extras: [],
 };
@@ -58,8 +71,9 @@ export const assemblyReducer = (
 ): AssemblyState => {
   switch (action.type) {
     case "SELECT_HOSE_TYPE": {
+      const hoseColorId = HOSE_TYPE_DEFAULT_COLOR[action.id];
       const selections = clearAfterStep(
-        { ...state.selections, hoseTypeId: action.id },
+        { ...state.selections, hoseTypeId: action.id, hoseColorId },
         "hoseType",
       );
       return { ...state, selections, showSummary: false };

@@ -204,9 +204,6 @@ export const calculateRemainingConfigurations = (
   if (!selections.hoseTypeId) {
     counts.push(catalog.hoseTypes.length);
   }
-  if (!selections.hoseColorId) {
-    counts.push(filtered.hoseColors.filter((option) => !option.disabled).length);
-  }
   if (!selections.hoseSizeId) {
     counts.push(catalog.hoseSizes.length);
   }

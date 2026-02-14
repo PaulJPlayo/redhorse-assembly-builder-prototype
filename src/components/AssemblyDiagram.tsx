@@ -20,11 +20,18 @@ const angleDegrees = (id?: string): number => {
 
 const hoseColor = (id?: string): string => {
   switch (id) {
-    case "black-nylon":
+    case "nylon":
+    case "black":
       return "#333333";
+    case "black-poly-carbon-lined":
+      return "#202428";
+    case "black-poly-non-carbon-lined":
+      return "#1f1f1f";
     case "blue":
       return "#1e4bd8";
     case "stainless":
+    case "stainless-carbon-lined":
+    case "stainless-non-carbon-lined":
       return "#c9c9c9";
     default:
       return "#d7d7d7";

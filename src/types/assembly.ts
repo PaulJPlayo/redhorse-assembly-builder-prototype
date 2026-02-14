@@ -22,11 +22,6 @@ export const ASSEMBLY_STEPS: StepDefinition[] = [
     title: "Choose Your Hose",
   },
   {
-    id: "hoseColor",
-    label: "Hose Color",
-    title: "Choose Your Hose Color",
-  },
-  {
     id: "hoseSize",
     label: "Hose Size",
     title: "Choose Your Hose Size (Gauge)",
