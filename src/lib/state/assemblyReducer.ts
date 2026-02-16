@@ -26,6 +26,7 @@ const HOSE_TYPE_DEFAULT_COLOR: Record<string, string> = {
   "hose-303": "stainless-carbon-lined",
   "hose-304": "stainless-non-carbon-lined",
   "hose-305": "black-poly-non-carbon-lined",
+  "hose-306": "stainless",
 };
 
 const emptySelections: AssemblySelection = {

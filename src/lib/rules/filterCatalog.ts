@@ -7,6 +7,10 @@ import type {
   HoseEndAngleOption,
 } from "@/types/catalog";
 import type { AssemblySelection, SummaryRow } from "@/types/assembly";
+import {
+  isEndStyleAllowedForHoseType,
+  sortByHoseTypeOrder,
+} from "@/lib/rules/compatibilityMatrix";
 
 export type OptionWithAvailability<T> = T & { disabled?: boolean };
 
@@ -27,6 +31,7 @@ const findById = <T extends CatalogOption>(items: T[], id?: string): T | undefin
 export const filterCatalog = (catalog: Catalog, selections: AssemblySelection): FilteredCatalog => {
   const selectedHoseType = findById(catalog.hoseTypes, selections.hoseTypeId);
   const selectedEndStyle = findById(catalog.hoseEndStyles, selections.hoseEndStyleId);
+  const hoseTypes = sortByHoseTypeOrder(catalog.hoseTypes);
 
   const hoseColors = catalog.hoseColors.map((color) => {
     const isCompatible = selectedHoseType
@@ -35,12 +40,9 @@ export const filterCatalog = (catalog: Catalog, selections: AssemblySelection): 
     return { ...color, disabled: !isCompatible };
   });
 
-  const hoseEndStyles = catalog.hoseEndStyles.map((style) => {
-    const isCompatible = selectedHoseType
-      ? style.compatibleHoseTypes.includes(selectedHoseType.id)
-      : true;
-    return { ...style, disabled: !isCompatible };
-  });
+  const hoseEndStyles = catalog.hoseEndStyles
+    .filter((style) => isEndStyleAllowedForHoseType(selections.hoseTypeId, style.id))
+    .map((style) => ({ ...style }));
 
   const hoseEndColors = catalog.hoseEndColors.map((color) => {
     const styleCompatible = selectedEndStyle
@@ -54,6 +56,7 @@ export const filterCatalog = (catalog: Catalog, selections: AssemblySelection): 
 
   return {
     ...catalog,
+    hoseTypes,
     hoseColors,
     hoseEndStyles,
     hoseEndColors,
@@ -208,7 +211,7 @@ export const calculateRemainingConfigurations = (
     counts.push(catalog.hoseSizes.length);
   }
   if (!selections.hoseEndStyleId) {
-    counts.push(filtered.hoseEndStyles.filter((option) => !option.disabled).length);
+    counts.push(filtered.hoseEndStyles.length);
   }
   if (!selections.hoseEndColorId) {
     counts.push(filtered.hoseEndColors.filter((option) => !option.disabled).length);
