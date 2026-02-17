@@ -33,12 +33,33 @@ const HOSE_TYPE_IMAGE_FILENAMES: Record<string, string> = {
   "hose-402": "402 Series Catalog MASTER.jpg",
 };
 
+const HOSE_END_STYLE_IMAGE_PATHS: Record<string, string> = {
+  "1000": "hose-end-style/1000.jpg",
+  "1200": "hose-end-style/1200.jpg",
+  "1300": "hose-end-style/1300.jpg",
+  "1490": "hose-end-style/1490.jpg",
+  "2000": "hose-end-style/2000.jpg",
+  "7000": "hose-end-style/7000.jpg",
+  "7002": "hose-end-style/7002.jpg",
+  "6000": "hose-end-angles-colors/6000-series/6030-1.jpg",
+  // Temporary placeholder until a dedicated 8000 hose-end-style image is added.
+  "8000": "hose-end-style/1200.jpg",
+};
+
 const getHoseTypeImageSrc = (hoseTypeId: string): string | undefined => {
   const filename = HOSE_TYPE_IMAGE_FILENAMES[hoseTypeId];
   if (!filename) {
     return undefined;
   }
   return `/assembly-builder-photos/hose-type/${encodeURI(filename)}`;
+};
+
+const getHoseEndStyleImageSrc = (styleId: string): string | undefined => {
+  const relativePath = HOSE_END_STYLE_IMAGE_PATHS[styleId];
+  if (!relativePath) {
+    return undefined;
+  }
+  return `/assembly-builder-photos/${encodeURI(relativePath)}`;
 };
 
 const StepContent = () => {
@@ -108,12 +129,16 @@ const StepContent = () => {
                 ? getHoseTypeImageSrc(option.id)
                 : stepId === "hoseSize"
                   ? selectedHoseTypeImageSrc
+                  : stepId === "hoseEndStyle"
+                    ? getHoseEndStyleImageSrc(option.id)
                   : undefined;
             const imageAlt =
               stepId === "hoseType"
                 ? `${option.label} photo`
                 : stepId === "hoseSize" && imageSrc
                   ? `Hose preview for ${selectedHoseType?.label ?? selectedHoseTypeId ?? "unknown"} (${option.id})`
+                  : stepId === "hoseEndStyle" && imageSrc
+                    ? `${option.label} photo`
                   : undefined;
 
             const selectedId = {
