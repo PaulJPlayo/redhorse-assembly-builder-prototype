@@ -18,6 +18,29 @@ import assemblyLengthImage from "@/assets/reference/assembly-length.png";
 
 const catalog = bcClient.getCatalog();
 
+const HOSE_TYPE_IMAGE_FILENAMES: Record<string, string> = {
+  "hose-200": "200Series_hoses (1).jpg",
+  "hose-205": "205.jpg",
+  "hose-230": "230Series_Hoses.jpg",
+  "hose-235": "235 (1).jpg",
+  "hose-302": "302 Series catalog.jpg",
+  "hose-303": "303 Series Catalog (1).jpg",
+  "hose-304": "304.jpg",
+  "hose-305": "305.jpg",
+  // Temporary PTFE placeholder until a dedicated 306 image is provided.
+  "hose-306": "304.jpg",
+  "hose-401": "401 Series Catalog MASTER.jpg",
+  "hose-402": "402 Series Catalog MASTER.jpg",
+};
+
+const getHoseTypeImageSrc = (hoseTypeId: string): string | undefined => {
+  const filename = HOSE_TYPE_IMAGE_FILENAMES[hoseTypeId];
+  if (!filename) {
+    return undefined;
+  }
+  return `/assembly-builder-photos/hose-type/${encodeURI(filename)}`;
+};
+
 const StepContent = () => {
   const { state, dispatch } = useAssemblyStore();
   const step = ASSEMBLY_STEPS[state.stepIndex];
@@ -72,6 +95,8 @@ const StepContent = () => {
           {stepOptions.options.map((option, index) => {
             const disabled = "disabled" in option ? option.disabled : false;
             const priceLabel = option.price ? `+${formatCurrency(option.price)}` : undefined;
+            const imageSrc = stepId === "hoseType" ? getHoseTypeImageSrc(option.id) : undefined;
+            const imageAlt = stepId === "hoseType" ? `${option.label} photo` : undefined;
 
             const selectedId = {
               hoseType: state.selections.hoseTypeId,
@@ -134,6 +159,8 @@ const StepContent = () => {
                   disabled={Boolean(disabled)}
                   onSelect={onSelect}
                   priceLabel={priceLabel}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                 />
               </div>
             );
