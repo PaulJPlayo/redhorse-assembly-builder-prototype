@@ -8,7 +8,10 @@ import type {
 } from "@/types/catalog";
 import type { AssemblySelection, SummaryRow } from "@/types/assembly";
 import {
+  getAllowedEndColorIdsForStyle,
+  isAngleAllowedForStyle,
   isEndStyleAllowedForHoseType,
+  isEndStyleAllowedForHoseSize,
   isHoseSizeAllowedForHoseType,
   sortByHoseSizeOrder,
   sortByHoseTypeOrder,
@@ -32,7 +35,6 @@ const findById = <T extends CatalogOption>(items: T[], id?: string): T | undefin
 
 export const filterCatalog = (catalog: Catalog, selections: AssemblySelection): FilteredCatalog => {
   const selectedHoseType = findById(catalog.hoseTypes, selections.hoseTypeId);
-  const selectedEndStyle = findById(catalog.hoseEndStyles, selections.hoseEndStyleId);
   const hoseTypes = sortByHoseTypeOrder(catalog.hoseTypes);
   const hoseSizes = sortByHoseSizeOrder(
     catalog.hoseSizes.filter((size) => isHoseSizeAllowedForHoseType(selections.hoseTypeId, size.id)),
@@ -45,28 +47,32 @@ export const filterCatalog = (catalog: Catalog, selections: AssemblySelection): 
     return { ...color, disabled: !isCompatible };
   });
 
-  const hoseEndStyles = catalog.hoseEndStyles
-    .filter((style) => isEndStyleAllowedForHoseType(selections.hoseTypeId, style.id))
-    .map((style) => ({ ...style }));
+  const hoseEndStylesByHoseType = catalog.hoseEndStyles.filter((style) =>
+    isEndStyleAllowedForHoseType(selections.hoseTypeId, style.id),
+  );
+  const hoseEndStylesBySize = selections.hoseSizeId
+    ? hoseEndStylesByHoseType.filter((style) =>
+        isEndStyleAllowedForHoseSize(selections.hoseSizeId, style.id),
+      )
+    : hoseEndStylesByHoseType;
+  // Keep the previous hose-series-only list if size filtering returns no results.
+  const hoseEndStyles =
+    hoseEndStylesBySize.length > 0 ? hoseEndStylesBySize : hoseEndStylesByHoseType;
 
-  const hoseEndColors = catalog.hoseEndColors.map((color) => {
-    const styleCompatible = selectedEndStyle
-      ? selectedEndStyle.compatibleColors.includes(color.id)
-      : true;
-    const colorCompatible = selectedEndStyle
-      ? color.compatibleStyles.includes(selectedEndStyle.id)
-      : true;
-    return { ...color, disabled: !(styleCompatible && colorCompatible) };
-  });
+  const allowedColorIds = new Set(getAllowedEndColorIdsForStyle(selections.hoseEndStyleId));
+  const hoseEndColors = catalog.hoseEndColors.filter((color) => allowedColorIds.has(color.id));
+  const hoseEndAngles = catalog.hoseEndAngles.filter((angle) =>
+    isAngleAllowedForStyle(selections.hoseEndStyleId, angle),
+  );
 
   return {
     ...catalog,
     hoseTypes,
     hoseColors,
     hoseSizes,
-    hoseEndStyles,
+    hoseEndStyles: hoseEndStyles.map((style) => ({ ...style })),
     hoseEndColors,
-    hoseEndAngles: catalog.hoseEndAngles.map((angle) => ({ ...angle })),
+    hoseEndAngles: hoseEndAngles.map((angle) => ({ ...angle })),
   };
 };
 
@@ -220,7 +226,7 @@ export const calculateRemainingConfigurations = (
     counts.push(filtered.hoseEndStyles.length);
   }
   if (!selections.hoseEndColorId) {
-    counts.push(filtered.hoseEndColors.filter((option) => !option.disabled).length);
+    counts.push(filtered.hoseEndColors.length);
   }
   if (!selections.hoseEndAngleAId) {
     counts.push(filtered.hoseEndAngles.length);

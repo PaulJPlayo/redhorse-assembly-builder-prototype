@@ -62,6 +62,38 @@ export const ALLOWED_HOSE_SIZES_BY_HOSE_TYPE: Record<string, string[]> = {
   "hose-402": ["04", "06", "08", "10", "12"],
 };
 
+export const ALLOWED_HOSE_SIZES_BY_END_SERIES: Record<EndSeriesKey, string[]> = {
+  "1000": ["04", "06", "08", "10", "12", "16", "20"],
+  "6000": ["04", "06", "08", "10", "12", "16"],
+  "1490": ["06", "08", "10"],
+  // TODO: Confirm 8000 ranges from updated sheet; current assumption is -06 / -08 only.
+  "8000": ["06", "08"],
+  "7000_7200": ["06", "08", "10", "12", "16"],
+  "2000": ["04", "06", "08", "10", "12", "16"],
+  "1200": ["04", "06", "08", "10"],
+};
+
+export const ALLOWED_END_COLOR_IDS_BY_END_SERIES: Record<EndSeriesKey, string[]> = {
+  "1000": ["black", "blue-red", "clear"],
+  "6000": ["black", "blue-red", "clear"],
+  "1490": ["black", "blue-red", "clear"],
+  // TODO: Confirm 8000 color set from updated sheet; current assumption matches 1000/6000/1490.
+  "8000": ["black", "blue-red", "clear"],
+  "7000_7200": ["black", "blue", "red", "clear"],
+  "2000": ["black", "blue", "clear"],
+  "1200": ["black", "blue-red", "clear"],
+};
+
+export const ALLOWED_END_ANGLE_DEGREES_BY_END_SERIES: Record<EndSeriesKey, number[]> = {
+  "1000": [0, 30, 45, 90, 120, 150, 180],
+  "6000": [30, 45, 90, 120, 150, 180],
+  "1490": [90],
+  "8000": [0, 45, 90, 180],
+  "7000_7200": [0, 30, 45, 60, 90, 120, 150, 180],
+  "2000": [0, 45, 90, 120, 150, 180],
+  "1200": [0, 30, 45, 60, 90, 120, 150, 180],
+};
+
 export const END_SERIES_BY_STYLE_ID: Record<string, EndSeriesKey> = {
   "1000": "1000",
   "6000": "6000",
@@ -73,6 +105,8 @@ export const END_SERIES_BY_STYLE_ID: Record<string, EndSeriesKey> = {
   "2000": "2000",
   "1200": "1200",
 };
+
+const ALL_END_COLOR_IDS = ["black", "blue", "red", "clear", "blue-red"];
 
 export const isEndStyleAllowedForHoseType = (hoseTypeId: string | undefined, styleId: string): boolean => {
   if (!hoseTypeId) {
@@ -98,6 +132,85 @@ export const isHoseSizeAllowedForHoseType = (hoseTypeId: string | undefined, siz
     return true;
   }
   return allowedSizes.includes(sizeId);
+};
+
+export const isEndStyleAllowedForHoseSize = (hoseSizeId: string | undefined, styleId: string): boolean => {
+  if (!hoseSizeId) {
+    return true;
+  }
+  const endSeries = END_SERIES_BY_STYLE_ID[styleId];
+  if (!endSeries) {
+    return false;
+  }
+  return ALLOWED_HOSE_SIZES_BY_END_SERIES[endSeries].includes(hoseSizeId);
+};
+
+export const getAllowedEndColorIdsForStyle = (styleId: string | undefined): string[] => {
+  if (!styleId) {
+    return ALL_END_COLOR_IDS;
+  }
+  const endSeries = END_SERIES_BY_STYLE_ID[styleId];
+  if (!endSeries) {
+    return ALL_END_COLOR_IDS;
+  }
+  return ALLOWED_END_COLOR_IDS_BY_END_SERIES[endSeries];
+};
+
+const parseAngleFromId = (id: string): number | undefined => {
+  if (id === "str") {
+    return 0;
+  }
+  const parsed = Number(id);
+  if (Number.isFinite(parsed)) {
+    return parsed;
+  }
+  return undefined;
+};
+
+export const getAngleDegrees = (angleOption: {
+  id: string;
+  label?: string;
+  degrees?: number;
+}): number | undefined => {
+  const fromId = parseAngleFromId(angleOption.id);
+  if (typeof fromId === "number") {
+    return fromId;
+  }
+
+  const label = angleOption.label?.toLowerCase() ?? "";
+  if (label.includes("straight")) {
+    return 0;
+  }
+  const match = label.match(/(\d{1,3})/);
+  if (match) {
+    return Number(match[1]);
+  }
+  if (typeof angleOption.degrees === "number" && Number.isFinite(angleOption.degrees)) {
+    return angleOption.degrees;
+  }
+  return undefined;
+};
+
+export const isAngleAllowedForStyle = (
+  styleId: string | undefined,
+  angleOption: {
+    id: string;
+    label?: string;
+    degrees?: number;
+  },
+): boolean => {
+  if (!styleId) {
+    return true;
+  }
+  const endSeries = END_SERIES_BY_STYLE_ID[styleId];
+  if (!endSeries) {
+    return true;
+  }
+  const degrees = getAngleDegrees(angleOption);
+  if (degrees === undefined) {
+    return false;
+  }
+  return ALLOWED_END_ANGLE_DEGREES_BY_END_SERIES[endSeries].includes(degrees);
 };
 
 export const sortByHoseTypeOrder = <T extends { id: string }>(items: T[]): T[] => {
