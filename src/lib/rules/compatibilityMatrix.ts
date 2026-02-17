@@ -21,6 +21,8 @@ export const HOSE_TYPE_ORDER = [
   "hose-402",
 ];
 
+export const HOSE_SIZE_ORDER = ["04", "06", "08", "10", "12", "16", "20"];
+
 const BRAIDED_ALLOWED_END_SERIES: EndSeriesKey[] = [
   "1000",
   "6000",
@@ -44,6 +46,20 @@ export const ALLOWED_END_SERIES_BY_HOSE_TYPE: Record<string, EndSeriesKey[]> = {
   "hose-306": PTFE_ALLOWED_END_SERIES,
   "hose-401": PUSH_LOCK_ALLOWED_END_SERIES,
   "hose-402": PUSH_LOCK_ALLOWED_END_SERIES,
+};
+
+export const ALLOWED_HOSE_SIZES_BY_HOSE_TYPE: Record<string, string[]> = {
+  "hose-200": ["04", "06", "08", "10", "12", "16", "20"],
+  "hose-205": ["04", "06", "08", "10", "12"],
+  "hose-230": ["04", "06", "08", "10", "12", "16", "20"],
+  "hose-235": ["04", "06", "08", "10", "12", "16"],
+  "hose-302": ["04", "06", "08", "10"],
+  "hose-303": ["04", "06", "08", "10"],
+  "hose-304": ["04", "06", "08", "10", "12"],
+  "hose-305": ["04", "06", "08", "10"],
+  "hose-306": ["04", "06", "08", "10"],
+  "hose-401": ["04", "06", "08", "10", "12"],
+  "hose-402": ["04", "06", "08", "10", "12"],
 };
 
 export const END_SERIES_BY_STYLE_ID: Record<string, EndSeriesKey> = {
@@ -73,8 +89,40 @@ export const isEndStyleAllowedForHoseType = (hoseTypeId: string | undefined, sty
   return allowedEndSeries.includes(endSeries);
 };
 
+export const isHoseSizeAllowedForHoseType = (hoseTypeId: string | undefined, sizeId: string): boolean => {
+  if (!hoseTypeId) {
+    return true;
+  }
+  const allowedSizes = ALLOWED_HOSE_SIZES_BY_HOSE_TYPE[hoseTypeId];
+  if (!allowedSizes) {
+    return true;
+  }
+  return allowedSizes.includes(sizeId);
+};
+
 export const sortByHoseTypeOrder = <T extends { id: string }>(items: T[]): T[] => {
   const orderMap = new Map(HOSE_TYPE_ORDER.map((id, index) => [id, index]));
+  return items
+    .map((item, index) => ({ item, index }))
+    .sort((a, b) => {
+      const aOrder = orderMap.get(a.item.id);
+      const bOrder = orderMap.get(b.item.id);
+      if (aOrder === undefined && bOrder === undefined) {
+        return a.index - b.index;
+      }
+      if (aOrder === undefined) {
+        return 1;
+      }
+      if (bOrder === undefined) {
+        return -1;
+      }
+      return aOrder - bOrder;
+    })
+    .map(({ item }) => item);
+};
+
+export const sortByHoseSizeOrder = <T extends { id: string }>(items: T[]): T[] => {
+  const orderMap = new Map(HOSE_SIZE_ORDER.map((id, index) => [id, index]));
   return items
     .map((item, index) => ({ item, index }))
     .sort((a, b) => {

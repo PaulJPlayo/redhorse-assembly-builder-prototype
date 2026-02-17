@@ -9,6 +9,8 @@ import type {
 import type { AssemblySelection, SummaryRow } from "@/types/assembly";
 import {
   isEndStyleAllowedForHoseType,
+  isHoseSizeAllowedForHoseType,
+  sortByHoseSizeOrder,
   sortByHoseTypeOrder,
 } from "@/lib/rules/compatibilityMatrix";
 
@@ -32,6 +34,9 @@ export const filterCatalog = (catalog: Catalog, selections: AssemblySelection): 
   const selectedHoseType = findById(catalog.hoseTypes, selections.hoseTypeId);
   const selectedEndStyle = findById(catalog.hoseEndStyles, selections.hoseEndStyleId);
   const hoseTypes = sortByHoseTypeOrder(catalog.hoseTypes);
+  const hoseSizes = sortByHoseSizeOrder(
+    catalog.hoseSizes.filter((size) => isHoseSizeAllowedForHoseType(selections.hoseTypeId, size.id)),
+  );
 
   const hoseColors = catalog.hoseColors.map((color) => {
     const isCompatible = selectedHoseType
@@ -58,6 +63,7 @@ export const filterCatalog = (catalog: Catalog, selections: AssemblySelection): 
     ...catalog,
     hoseTypes,
     hoseColors,
+    hoseSizes,
     hoseEndStyles,
     hoseEndColors,
     hoseEndAngles: catalog.hoseEndAngles.map((angle) => ({ ...angle })),
@@ -208,7 +214,7 @@ export const calculateRemainingConfigurations = (
     counts.push(catalog.hoseTypes.length);
   }
   if (!selections.hoseSizeId) {
-    counts.push(catalog.hoseSizes.length);
+    counts.push(filtered.hoseSizes.length);
   }
   if (!selections.hoseEndStyleId) {
     counts.push(filtered.hoseEndStyles.length);
