@@ -89,14 +89,32 @@ const StepContent = () => {
   };
 
   const renderOptions = (stepId: StepId) => {
+    const selectedHoseTypeId = state.selections.hoseTypeId;
+    const selectedHoseType = selectedHoseTypeId
+      ? catalog.hoseTypes.find((hoseType) => hoseType.id === selectedHoseTypeId)
+      : undefined;
+    const selectedHoseTypeImageSrc = selectedHoseTypeId
+      ? getHoseTypeImageSrc(selectedHoseTypeId)
+      : undefined;
+
     return (
       <div key={stepId} className="w-full min-w-0 max-w-full">
         <OptionGrid className={stepOptions.gridClassName}>
           {stepOptions.options.map((option, index) => {
             const disabled = "disabled" in option ? option.disabled : false;
             const priceLabel = option.price ? `+${formatCurrency(option.price)}` : undefined;
-            const imageSrc = stepId === "hoseType" ? getHoseTypeImageSrc(option.id) : undefined;
-            const imageAlt = stepId === "hoseType" ? `${option.label} photo` : undefined;
+            const imageSrc =
+              stepId === "hoseType"
+                ? getHoseTypeImageSrc(option.id)
+                : stepId === "hoseSize"
+                  ? selectedHoseTypeImageSrc
+                  : undefined;
+            const imageAlt =
+              stepId === "hoseType"
+                ? `${option.label} photo`
+                : stepId === "hoseSize" && imageSrc
+                  ? `Hose preview for ${selectedHoseType?.label ?? selectedHoseTypeId ?? "unknown"} (${option.id})`
+                  : undefined;
 
             const selectedId = {
               hoseType: state.selections.hoseTypeId,
