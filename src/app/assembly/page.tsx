@@ -96,6 +96,41 @@ const HOSE_END_COLOR_IMAGE_PATHS: Record<string, Partial<Record<string, string>>
   },
 };
 
+const COLOR_SUFFIX_BY_COLOR_ID: Record<string, string> = {
+  black: "2",
+  "blue-red": "1",
+  blue: "1",
+  red: "3",
+  clear: "5",
+};
+
+const ANGLE_CODE_OVERRIDES_BY_STYLE: Record<string, Partial<Record<number, string>>> = {
+  "1200": {
+    0: "1200",
+    30: "1230",
+    45: "1245",
+    60: "1260",
+    90: "1290",
+    120: "1220",
+    150: "1250",
+    180: "1280",
+  },
+};
+
+const ANGLE_FILENAME_OVERRIDES: Record<string, string> = {
+  "1000:1000:2": "1000-2 (1).jpg",
+  "1000:1180:2": "1180-2 (1).jpg",
+  "1200:1220:2": "1220-2 (1).jpg",
+  "1200:1230:2": "1230-2 (1).jpg",
+  "2000:2000:2": "2000-2 (1).jpg",
+  "7000:7060:2": "7060-2 (1).jpg",
+  "7000:7120:5": "7120-5 (1).jpg",
+};
+
+const ANGLE_FALLBACK_TO_COLOR_KEYS = new Set([
+  "1200:1230:1",
+]);
+
 const getHoseTypeImageSrc = (hoseTypeId: string): string | undefined => {
   const filename = HOSE_TYPE_IMAGE_FILENAMES[hoseTypeId];
   if (!filename) {
@@ -120,6 +155,79 @@ const getHoseEndColorImageSrc = (styleId: string | undefined, colorId: string): 
   if (!relativePath) {
     return undefined;
   }
+  return `/assembly-builder-photos/${encodeURI(relativePath)}`;
+};
+
+const parseAngleDegrees = (angleOption: { id: string; label?: string }): number | undefined => {
+  const label = angleOption.label ?? "";
+  if (/straight/i.test(label)) {
+    return 0;
+  }
+  const fromLabel = label.match(/(\d{1,3})/);
+  if (fromLabel) {
+    return Number(fromLabel[1]);
+  }
+  const fromId = angleOption.id.match(/(\d{1,3})/);
+  if (fromId) {
+    return Number(fromId[1]);
+  }
+  return undefined;
+};
+
+const getHoseEndAngleImageSrc = (
+  styleId: string | undefined,
+  colorId: string | undefined,
+  angleOption: { id: string; label: string },
+): string | undefined => {
+  if (!styleId || !colorId) {
+    return undefined;
+  }
+
+  if (styleId === "1490" || styleId === "1300") {
+    return getHoseEndColorImageSrc(styleId, colorId);
+  }
+
+  const normalizedStyleId =
+    styleId === "7002" ? "7000" : styleId === "8000" ? "1200" : styleId;
+
+  const degrees = parseAngleDegrees(angleOption);
+  if (degrees === undefined) {
+    return getHoseEndColorImageSrc(styleId, colorId);
+  }
+
+  const angleCodeOverride = ANGLE_CODE_OVERRIDES_BY_STYLE[normalizedStyleId]?.[degrees];
+  const angleCode =
+    angleCodeOverride ??
+    (degrees === 0
+      ? normalizedStyleId
+      : String(Number(normalizedStyleId) + degrees));
+  if (!angleCode || Number.isNaN(Number(angleCode))) {
+    return getHoseEndColorImageSrc(styleId, colorId);
+  }
+
+  const colorSuffix = COLOR_SUFFIX_BY_COLOR_ID[colorId];
+  if (!colorSuffix) {
+    return getHoseEndColorImageSrc(styleId, colorId);
+  }
+
+  if (normalizedStyleId === "7000" && degrees === 0) {
+    return getHoseEndColorImageSrc(styleId, colorId);
+  }
+
+  const overrideKey = `${normalizedStyleId}:${angleCode}:${colorSuffix}`;
+  if (ANGLE_FALLBACK_TO_COLOR_KEYS.has(overrideKey)) {
+    return getHoseEndColorImageSrc(styleId, colorId);
+  }
+  const fallbackSpecialCase =
+    degrees === 0 &&
+    colorSuffix === "2" &&
+    (normalizedStyleId === "1000" || normalizedStyleId === "2000");
+  const fileName =
+    ANGLE_FILENAME_OVERRIDES[overrideKey] ??
+    (fallbackSpecialCase
+      ? `${angleCode}-2 (1).jpg`
+      : `${angleCode}-${colorSuffix}.jpg`);
+  const relativePath = `hose-end-angles-colors/${normalizedStyleId}-series/${fileName}`;
   return `/assembly-builder-photos/${encodeURI(relativePath)}`;
 };
 
@@ -179,6 +287,10 @@ const StepContent = () => {
     const selectedEndStyle = selectedEndStyleId
       ? catalog.hoseEndStyles.find((style) => style.id === selectedEndStyleId)
       : undefined;
+    const selectedEndColorId = state.selections.hoseEndColorId;
+    const selectedEndColor = selectedEndColorId
+      ? catalog.hoseEndColors.find((color) => color.id === selectedEndColorId)
+      : undefined;
     const selectedHoseTypeImageSrc = selectedHoseTypeId
       ? getHoseTypeImageSrc(selectedHoseTypeId)
       : undefined;
@@ -198,6 +310,8 @@ const StepContent = () => {
                     ? getHoseEndStyleImageSrc(option.id)
                     : stepId === "hoseEndColor"
                       ? getHoseEndColorImageSrc(selectedEndStyleId, option.id)
+                      : stepId === "hoseEndAngleA"
+                        ? getHoseEndAngleImageSrc(selectedEndStyleId, selectedEndColorId, option)
                   : undefined;
             const imageAlt =
               stepId === "hoseType"
@@ -208,6 +322,8 @@ const StepContent = () => {
                     ? `${option.label} photo`
                     : stepId === "hoseEndColor" && imageSrc
                       ? `${option.label} color for ${selectedEndStyle?.label ?? selectedEndStyleId ?? "unknown style"}`
+                      : stepId === "hoseEndAngleA" && imageSrc
+                        ? `${option.label} angle in ${selectedEndColor?.label ?? selectedEndColorId ?? "selected color"} for ${selectedEndStyle?.label ?? selectedEndStyleId ?? "unknown style"}`
                   : undefined;
 
             const selectedId = {
