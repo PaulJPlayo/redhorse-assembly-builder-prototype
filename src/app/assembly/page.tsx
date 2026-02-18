@@ -46,6 +46,56 @@ const HOSE_END_STYLE_IMAGE_PATHS: Record<string, string> = {
   "8000": "hose-end-style/1200.jpg",
 };
 
+const HOSE_END_COLOR_IMAGE_PATHS: Record<string, Partial<Record<string, string>>> = {
+  "1000": {
+    black: "hose-end-angles-colors/1000-series/1030-1.jpg",
+    "blue-red": "hose-end-angles-colors/1000-series/1030-2.jpg",
+    clear: "hose-end-angles-colors/1000-series/1030-5.jpg",
+  },
+  "6000": {
+    black: "hose-end-angles-colors/6000-series/6030-1.jpg",
+    "blue-red": "hose-end-angles-colors/6000-series/6030-2.jpg",
+    clear: "hose-end-angles-colors/6000-series/6030-5.jpg",
+  },
+  "1490": {
+    black: "hose-end-angles-colors/1490-series/1490-1 v1.jpg",
+    "blue-red": "hose-end-angles-colors/1490-series/1490-2 v1 (1).jpg",
+    clear: "hose-end-angles-colors/1490-series/1490-5 v1.jpg",
+  },
+  "1200": {
+    black: "hose-end-angles-colors/1200-series/1200-1.jpg",
+    "blue-red": "hose-end-angles-colors/1200-series/1200-2.jpg",
+    clear: "hose-end-angles-colors/1200-series/1200-5.jpg",
+  },
+  "2000": {
+    black: "hose-end-angles-colors/2000-series/2045-1.jpg",
+    blue: "hose-end-angles-colors/2000-series/2045-2.jpg",
+    clear: "hose-end-angles-colors/2000-series/2045-5.jpg",
+  },
+  "7000": {
+    black: "hose-end-angles-colors/7000-series/7030-1.jpg",
+    blue: "hose-end-angles-colors/7000-series/7030-2.jpg",
+    red: "hose-end-angles-colors/7000-series/7030-3.jpg",
+    clear: "hose-end-angles-colors/7000-series/7030-5.jpg",
+  },
+  "7002": {
+    black: "hose-end-angles-colors/7000-series/7030-1.jpg",
+    blue: "hose-end-angles-colors/7000-series/7030-2.jpg",
+    red: "hose-end-angles-colors/7000-series/7030-3.jpg",
+    clear: "hose-end-angles-colors/7000-series/7030-5.jpg",
+  },
+  "1300": {
+    black: "hose-end-angles-colors/1300-series/1390-1.jpg",
+    "blue-red": "hose-end-angles-colors/1300-series/1390-2.jpg",
+    clear: "hose-end-angles-colors/1300-series/1390-5.jpg",
+  },
+  "8000": {
+    black: "hose-end-angles-colors/1200-series/1200-1.jpg",
+    "blue-red": "hose-end-angles-colors/1200-series/1200-2.jpg",
+    clear: "hose-end-angles-colors/1200-series/1200-5.jpg",
+  },
+};
+
 const getHoseTypeImageSrc = (hoseTypeId: string): string | undefined => {
   const filename = HOSE_TYPE_IMAGE_FILENAMES[hoseTypeId];
   if (!filename) {
@@ -56,6 +106,17 @@ const getHoseTypeImageSrc = (hoseTypeId: string): string | undefined => {
 
 const getHoseEndStyleImageSrc = (styleId: string): string | undefined => {
   const relativePath = HOSE_END_STYLE_IMAGE_PATHS[styleId];
+  if (!relativePath) {
+    return undefined;
+  }
+  return `/assembly-builder-photos/${encodeURI(relativePath)}`;
+};
+
+const getHoseEndColorImageSrc = (styleId: string | undefined, colorId: string): string | undefined => {
+  if (!styleId) {
+    return undefined;
+  }
+  const relativePath = HOSE_END_COLOR_IMAGE_PATHS[styleId]?.[colorId];
   if (!relativePath) {
     return undefined;
   }
@@ -114,6 +175,10 @@ const StepContent = () => {
     const selectedHoseType = selectedHoseTypeId
       ? catalog.hoseTypes.find((hoseType) => hoseType.id === selectedHoseTypeId)
       : undefined;
+    const selectedEndStyleId = state.selections.hoseEndStyleId;
+    const selectedEndStyle = selectedEndStyleId
+      ? catalog.hoseEndStyles.find((style) => style.id === selectedEndStyleId)
+      : undefined;
     const selectedHoseTypeImageSrc = selectedHoseTypeId
       ? getHoseTypeImageSrc(selectedHoseTypeId)
       : undefined;
@@ -131,6 +196,8 @@ const StepContent = () => {
                   ? selectedHoseTypeImageSrc
                   : stepId === "hoseEndStyle"
                     ? getHoseEndStyleImageSrc(option.id)
+                    : stepId === "hoseEndColor"
+                      ? getHoseEndColorImageSrc(selectedEndStyleId, option.id)
                   : undefined;
             const imageAlt =
               stepId === "hoseType"
@@ -139,6 +206,8 @@ const StepContent = () => {
                   ? `Hose preview for ${selectedHoseType?.label ?? selectedHoseTypeId ?? "unknown"} (${option.id})`
                   : stepId === "hoseEndStyle" && imageSrc
                     ? `${option.label} photo`
+                    : stepId === "hoseEndColor" && imageSrc
+                      ? `${option.label} color for ${selectedEndStyle?.label ?? selectedEndStyleId ?? "unknown style"}`
                   : undefined;
 
             const selectedId = {
