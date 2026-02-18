@@ -36,11 +36,9 @@ const HOSE_TYPE_IMAGE_FILENAMES: Record<string, string> = {
 const HOSE_END_STYLE_IMAGE_PATHS: Record<string, string> = {
   "1000": "hose-end-style/1000.jpg",
   "1200": "hose-end-style/1200.jpg",
-  "1300": "hose-end-style/1300.jpg",
   "1490": "hose-end-style/1490.jpg",
   "2000": "hose-end-style/2000.jpg",
   "7000": "hose-end-style/7000.jpg",
-  "7002": "hose-end-style/7002.jpg",
   "6000": "hose-end-angles-colors/6000-series/6030-1.jpg",
   // Temporary placeholder until a dedicated 8000 hose-end-style image is added.
   "8000": "hose-end-style/1200.jpg",
@@ -77,17 +75,6 @@ const HOSE_END_COLOR_IMAGE_PATHS: Record<string, Partial<Record<string, string>>
     blue: "hose-end-angles-colors/7000-series/7030-1.jpg",
     red: "hose-end-angles-colors/7000-series/7030-3.jpg",
     clear: "hose-end-angles-colors/7000-series/7030-5.jpg",
-  },
-  "7002": {
-    black: "hose-end-angles-colors/7000-series/7030-2.jpg",
-    blue: "hose-end-angles-colors/7000-series/7030-1.jpg",
-    red: "hose-end-angles-colors/7000-series/7030-3.jpg",
-    clear: "hose-end-angles-colors/7000-series/7030-5.jpg",
-  },
-  "1300": {
-    black: "hose-end-angles-colors/1300-series/1390-2.jpg",
-    "blue-red": "hose-end-angles-colors/1300-series/1390-1.jpg",
-    clear: "hose-end-angles-colors/1300-series/1390-5.jpg",
   },
   "8000": {
     black: "hose-end-angles-colors/1200-series/1200-2.jpg",
@@ -183,12 +170,11 @@ const getHoseEndAngleImageSrc = (
     return undefined;
   }
 
-  if (styleId === "1490" || styleId === "1300") {
+  if (styleId === "1490") {
     return getHoseEndColorImageSrc(styleId, colorId);
   }
 
-  const normalizedStyleId =
-    styleId === "7002" ? "7000" : styleId === "8000" ? "1200" : styleId;
+  const normalizedStyleId = styleId === "8000" ? "1200" : styleId;
 
   const degrees = parseAngleDegrees(angleOption);
   if (degrees === undefined) {
