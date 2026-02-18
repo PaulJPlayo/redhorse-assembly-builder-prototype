@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import { useState } from "react";
 
 interface OptionCardProps {
   title: string;
@@ -24,6 +24,10 @@ export const OptionCard = ({
   imageSrc,
   imageAlt,
 }: OptionCardProps) => {
+  const [erroredSrc, setErroredSrc] = useState<string | null>(null);
+
+  const showImage = Boolean(imageSrc) && erroredSrc !== imageSrc;
+
   return (
     <button
       type="button"
@@ -39,13 +43,14 @@ export const OptionCard = ({
       aria-pressed={selected}
     >
       <div className="relative flex h-20 items-center justify-center bg-surface sm:h-28">
-        {imageSrc ? (
+        {showImage ? (
           <Image
-            src={imageSrc}
+            src={imageSrc as string}
             alt={imageAlt ?? title}
             fill
             sizes="(max-width: 639px) 86vw, (max-width: 1023px) 40vw, 22vw"
             className="object-cover object-center"
+            onError={() => setErroredSrc(imageSrc ?? null)}
           />
         ) : (
           <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
