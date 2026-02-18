@@ -3,7 +3,7 @@ export type EndSeriesKey =
   | "6000"
   | "1490"
   | "8000"
-  | "7000_7200"
+  | "7000_7002"
   | "2000"
   | "1200";
 
@@ -28,7 +28,7 @@ const BRAIDED_ALLOWED_END_SERIES: EndSeriesKey[] = [
   "6000",
   "1490",
   "8000",
-  "7000_7200",
+  "7000_7002",
 ];
 
 const PTFE_ALLOWED_END_SERIES: EndSeriesKey[] = ["1200"];
@@ -68,7 +68,7 @@ export const ALLOWED_HOSE_SIZES_BY_END_SERIES: Record<EndSeriesKey, string[]> = 
   "1490": ["06", "08", "10"],
   // TODO: Confirm 8000 ranges from updated sheet; current assumption is -06 / -08 only.
   "8000": ["06", "08"],
-  "7000_7200": ["06", "08", "10", "12", "16"],
+  "7000_7002": ["06", "08", "10", "12", "16"],
   "2000": ["04", "06", "08", "10", "12", "16"],
   "1200": ["04", "06", "08", "10"],
 };
@@ -79,7 +79,7 @@ export const ALLOWED_END_COLOR_IDS_BY_END_SERIES: Record<EndSeriesKey, string[]>
   "1490": ["black", "blue-red", "clear"],
   // TODO: Confirm 8000 color set from updated sheet; current assumption matches 1000/6000/1490.
   "8000": ["black", "blue-red", "clear"],
-  "7000_7200": ["black", "blue", "red", "clear"],
+  "7000_7002": ["black", "blue", "red", "clear"],
   "2000": ["black", "blue", "clear"],
   "1200": ["black", "blue-red", "clear"],
 };
@@ -89,7 +89,7 @@ export const ALLOWED_END_ANGLE_DEGREES_BY_END_SERIES: Record<EndSeriesKey, numbe
   "6000": [30, 45, 90, 120, 150, 180],
   "1490": [90],
   "8000": [0, 45, 90, 180],
-  "7000_7200": [0, 30, 45, 60, 90, 120, 150, 180],
+  "7000_7002": [0, 30, 45, 60, 90, 120, 150, 180],
   "2000": [0, 45, 90, 120, 150, 180],
   "1200": [0, 30, 45, 60, 90, 120, 150, 180],
 };
@@ -99,8 +99,8 @@ export const END_SERIES_BY_STYLE_ID: Record<string, EndSeriesKey> = {
   "6000": "6000",
   "1490": "1490",
   "8000": "8000",
-  "7000": "7000_7200",
-  "7200": "7000_7200",
+  "7000": "7000_7002",
+  "7002": "7000_7002",
   "2000": "2000",
   "1200": "1200",
 };
