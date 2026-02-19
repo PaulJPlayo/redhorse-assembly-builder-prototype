@@ -223,7 +223,7 @@ export const mockCatalog: Catalog = {
       id: "7002",
       label: "7002 All Black Crimp Fittings",
       code: "7002",
-      compatibleHoseTypes: ["hose-230", "hose-235", "hose-302", "hose-303"],
+      compatibleHoseTypes: ["hose-200", "hose-205", "hose-230", "hose-235"],
       compatibleColors: ["black", "blue", "red", "clear"],
       price: 18,
     },
