@@ -12,8 +12,6 @@ const HOSE_TYPE_IMAGE_FILENAMES: Record<string, string> = {
   "hose-303": "303 Series Catalog (1).jpg",
   "hose-304": "304.jpg",
   "hose-305": "305.jpg",
-  // Temporary PTFE placeholder until a dedicated 306 image is provided.
-  "hose-306": "304.jpg",
   "hose-401": "401 Series Catalog MASTER.jpg",
   "hose-402": "402 Series Catalog MASTER.jpg",
 };
@@ -26,8 +24,6 @@ const HOSE_END_STYLE_IMAGE_PATHS: Record<string, string> = {
   "7000": "hose-end-style/7000.jpg",
   "7002": "hose-end-style/7002.jpg",
   "6000": "hose-end-angles-colors/6000-series/6030-1.jpg",
-  // Temporary placeholder until a dedicated 8000 hose-end-style image is added.
-  "8000": "hose-end-style/1200.jpg",
 };
 
 const HOSE_END_COLOR_IMAGE_PATHS: Record<string, Partial<Record<string, string>>> = {
@@ -64,11 +60,6 @@ const HOSE_END_COLOR_IMAGE_PATHS: Record<string, Partial<Record<string, string>>
   },
   "7002": {
     black: "hose-end-angles-colors/7002-series/7032-10-2-1-white (1).png",
-  },
-  "8000": {
-    black: "hose-end-angles-colors/1200-series/1200-2.jpg",
-    "blue-red": "hose-end-angles-colors/1200-series/1200-1.jpg",
-    clear: "hose-end-angles-colors/1200-series/1200-5.jpg",
   },
 };
 
