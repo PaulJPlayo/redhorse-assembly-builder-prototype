@@ -33,7 +33,7 @@ export const OptionCard = ({
       type="button"
       disabled={disabled}
       onClick={disabled ? undefined : onSelect}
-      className={`group flex h-full w-full min-h-[200px] flex-col overflow-hidden rounded-xl border bg-white text-left shadow-[0_8px_18px_rgba(0,0,0,0.08)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:min-h-[230px]
+      className={`group flex h-full w-full min-h-[216px] flex-col overflow-hidden rounded-xl border bg-white text-left shadow-[0_8px_18px_rgba(0,0,0,0.08)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:min-h-[236px]
         ${
           selected
             ? "border-2 border-primary bg-accent"
@@ -63,12 +63,12 @@ export const OptionCard = ({
           </span>
         ) : null}
       </div>
-      <div className="flex flex-1 flex-col gap-1.5 px-3 py-3 sm:gap-2 sm:px-5 sm:py-5">
-        <span className="overflow-hidden text-sm font-semibold text-text [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] sm:text-base">
+      <div className="flex flex-1 flex-col gap-1.5 px-3 py-3.5 sm:gap-2 sm:px-4 sm:py-4">
+        <span className="min-h-[2.4rem] overflow-hidden break-words text-[13px] font-semibold leading-[1.2] text-text [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] [overflow-wrap:anywhere] sm:min-h-[2.6rem] sm:text-[15px]">
           {title}
         </span>
         {subtitle ? (
-          <span className="overflow-hidden text-[11px] text-muted-text [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] sm:text-xs">
+          <span className="min-h-[1.9rem] overflow-hidden break-words text-[11px] leading-[1.2] text-muted-text [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] [overflow-wrap:anywhere] sm:min-h-[2.1rem] sm:text-xs">
             {subtitle}
           </span>
         ) : null}
