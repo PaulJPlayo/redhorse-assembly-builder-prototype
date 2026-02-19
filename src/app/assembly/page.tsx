@@ -77,6 +77,9 @@ const HOSE_END_COLOR_IMAGE_PATHS: Record<string, Partial<Record<string, string>>
     red: "hose-end-angles-colors/7000-series/7030-3.jpg",
     clear: "hose-end-angles-colors/7000-series/7030-5.jpg",
   },
+  "7002": {
+    black: "hose-end-angles-colors/7002-series/7032-10-2-1-white (1).png",
+  },
   "8000": {
     black: "hose-end-angles-colors/1200-series/1200-2.jpg",
     "blue-red": "hose-end-angles-colors/1200-series/1200-1.jpg",
