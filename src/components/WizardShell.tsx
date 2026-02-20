@@ -66,9 +66,9 @@ export const WizardShell = ({
           <Stepper steps={steps} currentStep={currentStep} onStepClick={onStepClick} />
         </div>
 
-        <div className="grid min-h-0 flex-1 items-stretch gap-8 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]">
-          <div className="flex min-h-0 min-w-0 flex-col gap-4 lg:gap-6">
-            <main className="flex min-h-0 w-full min-w-0 max-w-full flex-1 flex-col overflow-y-auto rounded-xl border border-border bg-white p-4 shadow-[0_12px_26px_rgba(0,0,0,0.12)] sm:p-7 lg:min-h-[calc(100vh-220px)] lg:overflow-visible">
+        <div className="grid min-h-0 items-start gap-5 lg:gap-6 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]">
+          <div className="flex min-w-0 flex-col gap-3 lg:gap-4">
+            <main className="flex w-full min-w-0 max-w-full flex-col overflow-visible rounded-xl border border-border bg-white p-4 shadow-[0_12px_26px_rgba(0,0,0,0.12)] sm:p-7">
               <div className="sr-only">
                 <p>{steps[currentStep]?.label}</p>
                 <h2>{title}</h2>
@@ -84,7 +84,7 @@ export const WizardShell = ({
               </div>
 
               {(primaryAction || secondaryAction) && (
-                <div className="sticky bottom-0 z-[60] mt-8 flex w-full min-w-0 max-w-full flex-col gap-3 border-t border-border bg-white/95 px-2 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 backdrop-blur sm:static sm:z-auto sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-none sm:flex-row sm:items-center sm:justify-between">
+                <div className="sticky bottom-0 z-[60] mt-6 flex w-full min-w-0 max-w-full flex-col gap-3 border-t border-border bg-white/95 px-2 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 backdrop-blur sm:static sm:z-auto sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-none sm:flex-row sm:items-center sm:justify-between">
                   {secondaryAction ? (
                     <button
                       type="button"
