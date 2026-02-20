@@ -46,7 +46,7 @@ export const OptionCard = ({
         }`}
       aria-pressed={selected}
     >
-      <div className="relative flex h-36 items-center justify-center bg-surface p-1.5 sm:h-44 sm:p-2">
+      <div className="relative flex h-36 items-center justify-center bg-white p-1.5 sm:h-44 sm:p-2">
         {showImage ? (
           <div className="relative h-full w-full">
             <Image
