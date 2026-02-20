@@ -42,16 +42,18 @@ export const OptionCard = ({
         ${disabled ? "cursor-not-allowed opacity-50" : "hover:-translate-y-0.5"}`}
       aria-pressed={selected}
     >
-      <div className="relative flex h-20 items-center justify-center bg-surface sm:h-28">
+      <div className="relative flex h-24 items-center justify-center bg-surface p-2 sm:h-32 sm:p-3">
         {showImage ? (
-          <Image
-            src={imageSrc as string}
-            alt={imageAlt ?? title}
-            fill
-            sizes="(max-width: 639px) 86vw, (max-width: 1023px) 40vw, 22vw"
-            className="object-cover object-center"
-            onError={() => setErroredSrc(imageSrc ?? null)}
-          />
+          <div className="relative h-full w-full">
+            <Image
+              src={imageSrc as string}
+              alt={imageAlt ?? title}
+              fill
+              sizes="(max-width: 639px) 86vw, (max-width: 1023px) 40vw, 22vw"
+              className="object-contain object-center"
+              onError={() => setErroredSrc(imageSrc ?? null)}
+            />
+          </div>
         ) : (
           <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
             Preview
