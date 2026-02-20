@@ -39,7 +39,7 @@ export const WizardShell = ({
 }: WizardShellProps) => {
   return (
     <div className="min-h-screen bg-bg">
-      <div className="flex min-h-[100dvh] w-full flex-col gap-6 px-6 pb-6 pt-6 lg:px-10 lg:pb-16 xl:px-12">
+      <div className="flex min-h-[100dvh] w-full flex-col gap-6 px-6 pb-3 pt-6 sm:pb-6 lg:px-10 lg:pb-16 xl:px-12">
         <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <a
@@ -75,16 +75,10 @@ export const WizardShell = ({
                 {helper ? <p>{helper}</p> : null}
               </div>
 
-              <div
-                className={`min-w-0 ${
-                  primaryAction || secondaryAction ? "pb-20 sm:pb-0" : ""
-                }`}
-              >
-                {children}
-              </div>
+              <div className="min-w-0">{children}</div>
 
               {(primaryAction || secondaryAction) && (
-                <div className="sticky bottom-0 z-[60] mt-6 flex w-full min-w-0 max-w-full flex-col gap-3 border-t border-border bg-white/95 px-2 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 backdrop-blur sm:static sm:z-auto sm:border-t-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-none sm:flex-row sm:items-center sm:justify-between">
+                <div className="mt-4 flex w-full min-w-0 max-w-full flex-col gap-3 border-t border-border pt-3 pb-[calc(8px+env(safe-area-inset-bottom))] sm:mt-6 sm:border-t-0 sm:pb-0 sm:pt-0 sm:flex-row sm:items-center sm:justify-between">
                   {secondaryAction ? (
                     <button
                       type="button"
@@ -120,18 +114,7 @@ export const WizardShell = ({
             </main>
 
             <div className="lg:hidden">
-              <section
-                className="flex h-[clamp(260px,40dvh,520px)] w-full min-w-0 max-w-full shrink-0 flex-col overflow-hidden border-t border-border bg-[#f1f1f1] pb-[env(safe-area-inset-bottom)]"
-              >
-                <div className="flex items-center border-b border-border bg-white/85 px-4 py-2 backdrop-blur">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
-                    Assembly Diagram
-                  </p>
-                </div>
-                <div className="flex-1 min-h-0 overflow-y-auto p-2">
-                  <AssemblyDiagram />
-                </div>
-              </section>
+              <AssemblyDiagram />
             </div>
 
             <div className="hidden lg:block">
