@@ -72,6 +72,7 @@ const StepContent = () => {
   };
 
   const renderOptions = (stepId: StepId) => {
+    const useDesktopCarousel = stepOptions.options.length > 4;
     const selectedHoseTypeId = state.selections.hoseTypeId;
     const selectedHoseType = selectedHoseTypeId
       ? catalog.hoseTypes.find((hoseType) => hoseType.id === selectedHoseTypeId)
@@ -90,7 +91,10 @@ const StepContent = () => {
 
     return (
       <div key={stepId} className="w-full min-w-0 max-w-full">
-        <OptionGrid className={stepOptions.gridClassName}>
+        <OptionGrid
+          className={useDesktopCarousel ? undefined : stepOptions.gridClassName}
+          desktopCarousel={useDesktopCarousel}
+        >
           {stepOptions.options.map((option, index) => {
             const disabled = "disabled" in option ? option.disabled : false;
             const priceLabel = option.price ? `+${formatCurrency(option.price)}` : undefined;
@@ -170,7 +174,11 @@ const StepContent = () => {
             return (
               <div
                 key={option.id}
-                className="h-[216px] max-w-[min(360px,calc(100vw-56px))] shrink-0 basis-[86%] snap-start animate-fade-up sm:h-auto sm:max-w-none sm:basis-auto sm:shrink sm:snap-none"
+                className={`h-[216px] max-w-[min(360px,calc(100vw-56px))] shrink-0 basis-[86%] snap-start animate-fade-up sm:h-auto ${
+                  useDesktopCarousel
+                    ? "sm:shrink-0 sm:basis-[calc((100%_-_3rem)/4)] sm:max-w-[calc((100%_-_3rem)/4)] sm:snap-start"
+                    : "sm:max-w-none sm:basis-auto sm:shrink sm:snap-none"
+                }`}
                 style={{ animationDelay: `${index * 60}ms` }}
               >
                 <OptionCard
