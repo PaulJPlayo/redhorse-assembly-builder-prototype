@@ -40,32 +40,34 @@ export const WizardShell = ({
   return (
     <div className="min-h-screen bg-bg">
       <div className="flex min-h-[100dvh] w-full flex-col gap-6 px-6 pb-3 pt-6 sm:pb-6 lg:px-10 lg:pb-16 xl:px-12">
-        <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <a
-              href="https://www.redhorseperformance.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Go to Redhorse Performance"
-              className="inline-flex rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              <Image
-                src="/brand/redhorse-logo.png"
-                alt="Redhorse Performance"
-                width={300}
-                height={40}
-                priority
-                className="h-6 w-auto max-w-[min(74vw,300px)] sm:h-7"
-              />
-            </a>
-            <p className="sr-only">
-              Step {currentStep + 1} of {steps.length}
-            </p>
-          </div>
-        </header>
+        <div className="flex flex-col gap-3 lg:gap-4">
+          <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <a
+                href="https://www.redhorseperformance.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Go to Redhorse Performance"
+                className="inline-flex rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                <Image
+                  src="/brand/redhorse-logo.png"
+                  alt="Redhorse Performance"
+                  width={300}
+                  height={40}
+                  priority
+                  className="h-6 w-auto max-w-[min(74vw,300px)] sm:h-7"
+                />
+              </a>
+              <p className="sr-only">
+                Step {currentStep + 1} of {steps.length}
+              </p>
+            </div>
+          </header>
 
-        <div className="flex w-full justify-center">
-          <Stepper steps={steps} currentStep={currentStep} onStepClick={onStepClick} />
+          <div className="flex w-full justify-center">
+            <Stepper steps={steps} currentStep={currentStep} onStepClick={onStepClick} />
+          </div>
         </div>
 
         <div className="grid min-h-0 items-start gap-5 lg:gap-6 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]">
