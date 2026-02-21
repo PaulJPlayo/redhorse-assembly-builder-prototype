@@ -89,12 +89,12 @@ const EndCap = ({
     : 0;
 
   return (
-    <div className="flex flex-col items-center gap-2 sm:w-32">
-      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
+    <div className="flex w-[84px] shrink-0 flex-col items-center gap-1.5 sm:w-32 sm:gap-2">
+      <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-text sm:text-[11px] sm:tracking-[0.18em]">
         {label}
       </span>
       <div
-        className="relative flex h-14 w-full max-w-[140px] items-center justify-center rounded-lg border border-border shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
+        className="relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-lg border border-border shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14"
         style={{ backgroundColor: color }}
       >
         <div
@@ -112,17 +112,19 @@ const EndCap = ({
         />
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div
-            className="relative h-0.5 w-8 rounded-full bg-[#454545] transition-transform duration-200 ease-out"
+            className="relative h-0.5 w-7 rounded-full bg-[#454545] transition-transform duration-200 ease-out sm:w-8"
             style={{ transform: `rotate(${pointerRotation}deg)` }}
           >
             <span className="absolute -right-0.5 top-1/2 h-2 w-2 -translate-y-1/2 rotate-45 border-r-2 border-t-2 border-[#454545]" />
           </div>
         </div>
-        <span className="relative z-10 inline-flex max-w-[84px] items-center gap-1 rounded-full bg-white/88 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-text">
+        <span className="relative z-10 inline-flex max-w-[70px] items-center gap-1 rounded-full bg-white/88 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-text sm:max-w-[84px] sm:px-2 sm:text-[10px] sm:tracking-[0.16em]">
           <span className="rounded bg-text/10 px-1 py-0.5 text-[8px] tracking-[0.14em] text-text">
             {position === "left" ? "A" : "B"}
           </span>
-          <span className="truncate text-[11px] tracking-[0.08em]">{angleText}</span>
+          <span className="truncate text-[10px] tracking-[0.06em] sm:text-[11px] sm:tracking-[0.08em]">
+            {angleText}
+          </span>
         </span>
       </div>
     </div>
@@ -164,14 +166,14 @@ const HoseSegment = ({
     overlays.clampCount > 1 ? [18, 82] : overlays.clampCount === 1 ? [50] : [];
 
   return (
-    <div className="flex flex-1 flex-col items-center gap-2">
-      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
+    <div className="flex min-w-0 flex-1 flex-col items-center gap-2">
+      <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-text sm:text-[11px] sm:tracking-[0.18em]">
         Hose
       </span>
       <div className="w-full">
         <div className="mx-auto w-full" style={{ width: `${widthPercent}%` }}>
-          <div className="relative flex w-full items-center gap-2">
-            <div className="h-3 w-6 rounded-full bg-[#8a8a8a]" />
+          <div className="relative flex w-full items-center gap-1.5 sm:gap-2">
+            <div className="h-2.5 w-4.5 rounded-full bg-[#8a8a8a] sm:h-3 sm:w-6" />
             <div className="relative h-4 flex-1 overflow-hidden rounded-full border border-border shadow-[0_4px_10px_rgba(0,0,0,0.08)]">
               <div className="absolute inset-0 transition-colors duration-200" style={{ backgroundColor: color }} />
               {overlays.heatShield ? (
@@ -213,7 +215,7 @@ const HoseSegment = ({
                 </div>
               ))}
             </div>
-            <div className="h-3 w-6 rounded-full bg-[#8a8a8a]" />
+            <div className="h-2.5 w-4.5 rounded-full bg-[#8a8a8a] sm:h-3 sm:w-6" />
           </div>
           <div className="mt-2 flex w-full items-end justify-between">
             {ticks.map((tick) => (
@@ -226,10 +228,10 @@ const HoseSegment = ({
           </div>
         </div>
       </div>
-      <span className="text-[11px] uppercase tracking-[0.2em] text-muted-text">
+      <span className="text-[10px] uppercase tracking-[0.16em] text-muted-text sm:text-[11px] sm:tracking-[0.2em]">
         {sizeLabel !== "Select" ? sizeLabel : "Select size"}
       </span>
-      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#363636]">
+      <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#363636] sm:text-xs sm:tracking-[0.16em]">
         Flare-to-Flare Length: {lengthLabel} {lengthSuffix}
       </span>
     </div>
@@ -307,23 +309,18 @@ export const AssemblyDiagram = () => {
   const angleBText = selections.hoseEndAngleBId ? `${angleB}°` : "Angle";
   const hasAngleASelection = Boolean(selections.hoseEndAngleAId);
   const hasAngleBSelection = Boolean(selections.hoseEndAngleBId);
+  const lengthPreview = selections.lengthInches ? `${selections.lengthInches}"` : "Length";
 
   return (
     <section className="rounded-xl border border-border bg-white p-5 shadow-[0_10px_24px_rgba(0,0,0,0.12)]">
-      <header className="flex items-center justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
-            Assembly Diagram
-          </p>
-          <h3 className="mt-1 text-lg font-semibold text-text">Live Configuration Preview</h3>
-        </div>
-        <div className="text-right text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
-          {selections.lengthInches ? `${selections.lengthInches}\"` : "Length"}
-        </div>
+      <header>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
+          Assembly Diagram
+        </p>
       </header>
 
       <div
-        className="relative mt-4 rounded-lg border border-surface bg-[#f1f1f1] p-4"
+        className="relative mt-2 rounded-lg border border-surface bg-[#f1f1f1] p-4 pt-10"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(255,255,255,0.65) 0%, rgba(211,211,211,0.9) 45%, rgba(255,255,255,0.6) 70%, rgba(192,192,192,0.9) 100%), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.5), rgba(255,255,255,0) 55%), repeating-linear-gradient(120deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 2px, rgba(0,0,0,0.02) 4px, rgba(0,0,0,0.02) 6px)",
@@ -331,6 +328,9 @@ export const AssemblyDiagram = () => {
         }}
         aria-busy={loading}
       >
+        <div className="pointer-events-none absolute left-2 top-2 z-20 inline-flex max-w-[calc(100%-1rem)] items-center rounded-full border border-white/70 bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2f2f2f] shadow-[0_2px_8px_rgba(0,0,0,0.12)]">
+          {lengthPreview}
+        </div>
         {loading ? (
           <div
             className="flex flex-col items-center justify-center gap-4 py-10 text-muted-text"
@@ -349,7 +349,7 @@ export const AssemblyDiagram = () => {
           </div>
         ) : (
           <>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-2 sm:gap-4">
               <EndCap
                 label="End A"
                 angleText={angleAText}
@@ -381,22 +381,22 @@ export const AssemblyDiagram = () => {
         )}
       </div>
 
-      <div className="mt-4 grid gap-3 text-xs text-muted-text sm:grid-cols-2">
-        <div>
+      <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-muted-text">
+        <div className="min-w-0">
           <p className="font-semibold uppercase tracking-[0.18em]">Hose End A</p>
           <p className="mt-1 text-sm font-semibold text-text">
             {endStyleLabel} · {endColorLabel}
           </p>
           <p className="text-[11px] uppercase tracking-[0.2em]">{angleALabel}</p>
         </div>
-        <div>
+        <div className="min-w-0">
           <p className="font-semibold uppercase tracking-[0.18em]">Hose End B</p>
           <p className="mt-1 text-sm font-semibold text-text">
             {endStyleLabel} · {endColorLabel}
           </p>
           <p className="text-[11px] uppercase tracking-[0.2em]">{angleBLabel}</p>
         </div>
-        <div>
+        <div className="min-w-0">
           <p className="font-semibold uppercase tracking-[0.18em]">Hose</p>
           <p className="mt-1 text-sm font-semibold text-text">
             {hoseTypeLabel}
@@ -405,7 +405,7 @@ export const AssemblyDiagram = () => {
             {hoseSizeLabel} · {hoseColorLabel}
           </p>
         </div>
-        <div>
+        <div className="min-w-0">
           <p className="font-semibold uppercase tracking-[0.18em]">Extras</p>
           {extrasLabels.length ? (
             <div className="mt-1 flex flex-wrap gap-2">
