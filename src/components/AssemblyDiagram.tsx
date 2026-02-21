@@ -312,11 +312,11 @@ export const AssemblyDiagram = () => {
   const lengthPreview = selections.lengthInches ? `${selections.lengthInches}"` : "Length";
 
   return (
-    <section className="rounded-xl border border-border bg-white p-5 shadow-[0_10px_24px_rgba(0,0,0,0.12)]">
+    <section className="overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_24px_rgba(0,0,0,0.12)]">
       <p className="sr-only">Assembly Diagram</p>
 
       <div
-        className="relative mt-0 rounded-lg border border-surface bg-[#f1f1f1] p-4 pt-10"
+        className="relative w-full border-b border-border bg-[#f1f1f1] px-5 pb-5 pt-10 sm:px-6 sm:pb-6"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(255,255,255,0.65) 0%, rgba(211,211,211,0.9) 45%, rgba(255,255,255,0.6) 70%, rgba(192,192,192,0.9) 100%), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.5), rgba(255,255,255,0) 55%), repeating-linear-gradient(120deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 2px, rgba(0,0,0,0.02) 4px, rgba(0,0,0,0.02) 6px)",
@@ -377,46 +377,48 @@ export const AssemblyDiagram = () => {
         )}
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-muted-text">
-        <div className="min-w-0">
-          <p className="font-semibold uppercase tracking-[0.18em]">Hose End A</p>
-          <p className="mt-1 text-sm font-semibold text-text">
-            {endStyleLabel} · {endColorLabel}
-          </p>
-          <p className="text-[11px] uppercase tracking-[0.2em]">{angleALabel}</p>
-        </div>
-        <div className="min-w-0">
-          <p className="font-semibold uppercase tracking-[0.18em]">Hose End B</p>
-          <p className="mt-1 text-sm font-semibold text-text">
-            {endStyleLabel} · {endColorLabel}
-          </p>
-          <p className="text-[11px] uppercase tracking-[0.2em]">{angleBLabel}</p>
-        </div>
-        <div className="min-w-0">
-          <p className="font-semibold uppercase tracking-[0.18em]">Hose</p>
-          <p className="mt-1 text-sm font-semibold text-text">
-            {hoseTypeLabel}
-          </p>
-          <p className="text-[11px] uppercase tracking-[0.2em]">
-            {hoseSizeLabel} · {hoseColorLabel}
-          </p>
-        </div>
-        <div className="min-w-0">
-          <p className="font-semibold uppercase tracking-[0.18em]">Extras</p>
-          {extrasLabels.length ? (
-            <div className="mt-1 flex flex-wrap gap-2">
-              {extrasLabels.map((label) => (
-                <span
-                  key={label}
-                  className="rounded-full border border-border bg-white px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-text"
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <p className="mt-1 text-sm font-semibold text-text">Select extras</p>
-          )}
+      <div className="bg-white p-5 sm:p-6">
+        <div className="grid grid-cols-2 gap-3 text-xs text-muted-text">
+          <div className="min-w-0">
+            <p className="font-semibold uppercase tracking-[0.18em]">Hose End A</p>
+            <p className="mt-1 text-sm font-semibold text-text">
+              {endStyleLabel} · {endColorLabel}
+            </p>
+            <p className="text-[11px] uppercase tracking-[0.2em]">{angleALabel}</p>
+          </div>
+          <div className="min-w-0">
+            <p className="font-semibold uppercase tracking-[0.18em]">Hose End B</p>
+            <p className="mt-1 text-sm font-semibold text-text">
+              {endStyleLabel} · {endColorLabel}
+            </p>
+            <p className="text-[11px] uppercase tracking-[0.2em]">{angleBLabel}</p>
+          </div>
+          <div className="min-w-0">
+            <p className="font-semibold uppercase tracking-[0.18em]">Hose</p>
+            <p className="mt-1 text-sm font-semibold text-text">
+              {hoseTypeLabel}
+            </p>
+            <p className="text-[11px] uppercase tracking-[0.2em]">
+              {hoseSizeLabel} · {hoseColorLabel}
+            </p>
+          </div>
+          <div className="min-w-0">
+            <p className="font-semibold uppercase tracking-[0.18em]">Extras</p>
+            {extrasLabels.length ? (
+              <div className="mt-1 flex flex-wrap gap-2">
+                {extrasLabels.map((label) => (
+                  <span
+                    key={label}
+                    className="rounded-full border border-border bg-white px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-text"
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-1 text-sm font-semibold text-text">Select extras</p>
+            )}
+          </div>
         </div>
       </div>
 
