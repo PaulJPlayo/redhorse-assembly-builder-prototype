@@ -169,6 +169,10 @@ const StepContent = () => {
                 default:
                   break;
               }
+
+              if (step.id === stepId && step.mode === "single" && step.autoAdvance) {
+                dispatch({ type: "NEXT_STEP" });
+              }
             };
 
             return (
@@ -321,13 +325,14 @@ const StepContent = () => {
     );
   };
 
-  const primaryAction = state.showSummary
-    ? undefined
-    : {
-        label: isLastStep ? "Review Summary" : "Next Step",
-        onClick: handleNext,
-        disabled: !canProceed,
-      };
+  const primaryAction =
+    state.showSummary || step.autoAdvance
+      ? undefined
+      : {
+          label: isLastStep ? "Review Summary" : "Next Step",
+          onClick: handleNext,
+          disabled: !canProceed,
+        };
 
   const secondaryAction =
     state.showSummary || state.stepIndex === 0
