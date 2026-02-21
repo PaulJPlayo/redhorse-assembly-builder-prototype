@@ -33,7 +33,7 @@ export const OptionCard = ({
       type="button"
       disabled={disabled}
       onClick={disabled ? undefined : onSelect}
-      className={`group relative z-0 flex h-full w-full min-h-[272px] flex-col overflow-hidden rounded-xl border bg-white text-left shadow-[0_8px_18px_rgba(0,0,0,0.08)] transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:min-h-[308px]
+      className={`group relative z-0 flex h-full w-full min-h-[308px] flex-col overflow-hidden rounded-xl border bg-white text-left shadow-[0_8px_18px_rgba(0,0,0,0.08)] transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
         ${
           selected
             ? "border-2 border-primary bg-accent"
@@ -46,7 +46,7 @@ export const OptionCard = ({
         }`}
       aria-pressed={selected}
     >
-      <div className="relative flex h-36 items-center justify-center bg-white p-1.5 sm:h-44 sm:p-2">
+      <div className="relative flex h-44 items-center justify-center bg-white p-2">
         {showImage ? (
           <div className="relative h-full w-full">
             <Image
@@ -69,12 +69,12 @@ export const OptionCard = ({
           </span>
         ) : null}
       </div>
-      <div className="flex flex-1 flex-col gap-2 px-3 py-3.5 sm:px-4 sm:py-4">
-        <span className="min-h-[3.9rem] break-words text-[13px] font-semibold leading-[1.3] text-text [overflow-wrap:anywhere] sm:min-h-[4.3rem] sm:text-[15px]">
+      <div className="flex flex-1 flex-col gap-2 px-4 py-4">
+        <span className="min-h-[4.3rem] break-words text-[15px] font-semibold leading-[1.3] text-text [overflow-wrap:anywhere]">
           {title}
         </span>
         {subtitle ? (
-          <span className="min-h-[2.1rem] overflow-hidden break-words text-[11px] leading-[1.25] text-muted-text [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] [overflow-wrap:anywhere] sm:min-h-[2.3rem] sm:text-xs">
+          <span className="min-h-[2.3rem] overflow-hidden break-words text-xs leading-[1.25] text-muted-text [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] [overflow-wrap:anywhere]">
             {subtitle}
           </span>
         ) : null}

@@ -178,7 +178,7 @@ const StepContent = () => {
             return (
               <div
                 key={option.id}
-                className={`h-[272px] max-w-[min(360px,calc(100vw-56px))] shrink-0 basis-[86%] snap-start animate-fade-up sm:h-auto ${
+                className={`h-auto max-w-[min(280px,calc(100vw-56px))] shrink-0 basis-[86%] snap-start animate-fade-up sm:h-auto ${
                   useDesktopCarousel
                     ? "sm:shrink-0 sm:basis-[calc((100%_-_3rem)/4)] sm:max-w-[calc((100%_-_3rem)/4)] sm:snap-start"
                     : "sm:max-w-none sm:basis-auto sm:shrink sm:snap-none"
