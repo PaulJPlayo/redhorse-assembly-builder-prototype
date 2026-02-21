@@ -313,14 +313,10 @@ export const AssemblyDiagram = () => {
 
   return (
     <section className="rounded-xl border border-border bg-white p-5 shadow-[0_10px_24px_rgba(0,0,0,0.12)]">
-      <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
-          Assembly Diagram
-        </p>
-      </header>
+      <p className="sr-only">Assembly Diagram</p>
 
       <div
-        className="relative mt-2 rounded-lg border border-surface bg-[#f1f1f1] p-4 pt-10"
+        className="relative mt-0 rounded-lg border border-surface bg-[#f1f1f1] p-4 pt-10"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(255,255,255,0.65) 0%, rgba(211,211,211,0.9) 45%, rgba(255,255,255,0.6) 70%, rgba(192,192,192,0.9) 100%), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.5), rgba(255,255,255,0) 55%), repeating-linear-gradient(120deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 2px, rgba(0,0,0,0.02) 4px, rgba(0,0,0,0.02) 6px)",
@@ -328,7 +324,7 @@ export const AssemblyDiagram = () => {
         }}
         aria-busy={loading}
       >
-        <div className="pointer-events-none absolute left-2 top-2 z-20 inline-flex max-w-[calc(100%-1rem)] items-center rounded-full border border-white/70 bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2f2f2f] shadow-[0_2px_8px_rgba(0,0,0,0.12)]">
+        <div className="pointer-events-none absolute right-2 top-2 z-20 inline-flex max-w-[calc(100%-1rem)] items-center rounded-full border border-white/70 bg-white/90 px-2.5 py-1 text-right text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2f2f2f] shadow-[0_2px_8px_rgba(0,0,0,0.12)]">
           {lengthPreview}
         </div>
         {loading ? (
@@ -424,9 +420,6 @@ export const AssemblyDiagram = () => {
         </div>
       </div>
 
-      <p className="mt-4 text-[11px] uppercase tracking-[0.2em] text-muted-text">
-        Preview is illustrative
-      </p>
     </section>
   );
 };
