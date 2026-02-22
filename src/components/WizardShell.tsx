@@ -23,6 +23,7 @@ interface WizardShellProps {
   children: React.ReactNode;
   summaryRows: SummaryRow[];
   remainingCount: number;
+  diagramPlacement?: "above" | "below";
 }
 
 export const WizardShell = ({
@@ -36,7 +37,19 @@ export const WizardShell = ({
   children,
   summaryRows,
   remainingCount,
+  diagramPlacement = "below",
 }: WizardShellProps) => {
+  const diagramContent = (
+    <>
+      <div className="lg:hidden">
+        <AssemblyDiagram />
+      </div>
+      <div className="hidden lg:block">
+        <AssemblyDiagram />
+      </div>
+    </>
+  );
+
   return (
     <div className="min-h-screen bg-bg">
       <div className="flex min-h-[100dvh] w-full flex-col gap-6 px-6 pb-3 pt-6 sm:pb-6 lg:px-10 lg:pb-16 xl:px-12">
@@ -72,6 +85,7 @@ export const WizardShell = ({
 
         <div className="grid min-h-0 items-start gap-5 lg:gap-6 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]">
           <div className="flex min-w-0 flex-col gap-3 lg:gap-4">
+            {diagramPlacement === "above" ? diagramContent : null}
             <main className="flex w-full min-w-0 max-w-full flex-col overflow-visible rounded-xl border border-border bg-white p-4 shadow-[0_12px_26px_rgba(0,0,0,0.12)] sm:p-7">
               <div className="sr-only">
                 <p>{steps[currentStep]?.label}</p>
@@ -116,14 +130,7 @@ export const WizardShell = ({
                 </div>
               )}
             </main>
-
-            <div className="lg:hidden">
-              <AssemblyDiagram />
-            </div>
-
-            <div className="hidden lg:block">
-              <AssemblyDiagram />
-            </div>
+            {diagramPlacement === "below" ? diagramContent : null}
           </div>
 
           <aside className="lg:sticky lg:top-6">

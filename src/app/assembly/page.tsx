@@ -366,6 +366,7 @@ const StepContent = () => {
       secondaryAction={secondaryAction}
       summaryRows={summaryRows}
       remainingCount={remainingCount}
+      diagramPlacement={state.showSummary ? "below" : "above"}
     >
       {state.showSummary ? (
         renderSummary()
