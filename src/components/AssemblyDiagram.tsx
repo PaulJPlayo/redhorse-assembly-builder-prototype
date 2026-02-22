@@ -309,7 +309,10 @@ export const AssemblyDiagram = () => {
   const angleBText = selections.hoseEndAngleBId ? `${angleB}°` : "Angle";
   const hasAngleASelection = Boolean(selections.hoseEndAngleAId);
   const hasAngleBSelection = Boolean(selections.hoseEndAngleBId);
-  const lengthPreview = selections.lengthInches ? `${selections.lengthInches}"` : "Length";
+  const selectedLengthInches = selections.lengthInches;
+  const maxLengthInches = mockCatalog.length.max;
+  const displayLengthInches = selectedLengthInches ?? maxLengthInches;
+  const lengthPreview = `${displayLengthInches}"`;
 
   return (
     <section className="overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_24px_rgba(0,0,0,0.12)]">
@@ -357,7 +360,7 @@ export const AssemblyDiagram = () => {
               <HoseSegment
                 color={hoseFill}
                 sizeLabel={hoseSizeLabel}
-                lengthInches={selections.lengthInches}
+                lengthInches={displayLengthInches}
                 minLength={mockCatalog.length.min}
                 maxLength={mockCatalog.length.max}
                 overlays={overlays}
