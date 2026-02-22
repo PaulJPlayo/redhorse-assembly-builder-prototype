@@ -107,7 +107,7 @@ const StepContent = () => {
                     ? getHoseEndStyleImageSrc(option.id)
                     : stepId === "hoseEndColor"
                       ? getHoseEndColorImageSrc(selectedEndStyleId, option.id)
-                      : stepId === "hoseEndAngleA"
+                      : stepId === "hoseEndAngleA" || stepId === "hoseEndAngleB"
                         ? getHoseEndAngleImageSrc(selectedEndStyleId, selectedEndColorId, option)
                   : undefined;
             const imageAlt =
@@ -120,7 +120,9 @@ const StepContent = () => {
                     : stepId === "hoseEndColor" && imageSrc
                       ? `${option.label} color for ${selectedEndStyle?.label ?? selectedEndStyleId ?? "unknown style"}`
                       : stepId === "hoseEndAngleA" && imageSrc
-                        ? `${option.label} angle in ${selectedEndColor?.label ?? selectedEndColorId ?? "selected color"} for ${selectedEndStyle?.label ?? selectedEndStyleId ?? "unknown style"}`
+                        ? `${option.label} angle (End A) in ${selectedEndColor?.label ?? selectedEndColorId ?? "selected color"} for ${selectedEndStyle?.label ?? selectedEndStyleId ?? "unknown style"}`
+                        : stepId === "hoseEndAngleB" && imageSrc
+                          ? `${option.label} angle (End B) in ${selectedEndColor?.label ?? selectedEndColorId ?? "selected color"} for ${selectedEndStyle?.label ?? selectedEndStyleId ?? "unknown style"}`
                   : undefined;
 
             const selectedId = {
