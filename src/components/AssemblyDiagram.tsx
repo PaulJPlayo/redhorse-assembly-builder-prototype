@@ -3,6 +3,7 @@
 import React from "react";
 import { useAssemblyStore } from "@/lib/state/useAssemblyStore";
 import { mockCatalog } from "@/data/mockCatalog";
+import { getHoseTypeImageSrc } from "@/lib/assembly/imageResolver";
 
 const findLabel = (list: { id: string; label: string }[], id?: string): string => {
   if (!id) {
@@ -63,6 +64,59 @@ const extraChipAccent = (label: string): string => {
     return "#454545";
   }
   return "#8a8a8a";
+};
+
+const getHoseTextureStyle = (
+  hoseTypeId: string | undefined,
+  baseColor: string,
+  hoseHasImage: boolean,
+): React.CSSProperties | undefined => {
+  if (!hoseTypeId || !hoseHasImage) {
+    return undefined;
+  }
+
+  if (hoseTypeId === "hose-200" || hoseTypeId === "hose-205") {
+    return {
+      backgroundColor: baseColor,
+      backgroundImage:
+        "linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.08) 45%, rgba(0,0,0,0.2) 100%), repeating-linear-gradient(120deg, rgba(238,238,238,0.42) 0 2px, rgba(82,82,82,0.35) 2px 4px), repeating-linear-gradient(60deg, rgba(238,238,238,0.28) 0 2px, rgba(58,58,58,0.28) 2px 4px)",
+      backgroundBlendMode: "screen, overlay, overlay",
+    };
+  }
+
+  if (hoseTypeId === "hose-230" || hoseTypeId === "hose-235") {
+    return {
+      backgroundColor: baseColor,
+      backgroundImage:
+        "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.08) 50%, rgba(255,255,255,0.05) 100%), repeating-linear-gradient(115deg, rgba(255,255,255,0.09) 0 2px, rgba(0,0,0,0.32) 2px 4px), repeating-linear-gradient(65deg, rgba(255,255,255,0.05) 0 2px, rgba(0,0,0,0.28) 2px 4px)",
+      backgroundBlendMode: "multiply, overlay, overlay",
+    };
+  }
+
+  if (
+    hoseTypeId === "hose-302" ||
+    hoseTypeId === "hose-303" ||
+    hoseTypeId === "hose-304" ||
+    hoseTypeId === "hose-305"
+  ) {
+    return {
+      backgroundColor: baseColor,
+      backgroundImage:
+        "linear-gradient(180deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.1) 40%, rgba(0,0,0,0.22) 100%), repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0 5px, rgba(0,0,0,0.09) 5px 10px)",
+      backgroundBlendMode: "screen, overlay",
+    };
+  }
+
+  if (hoseTypeId === "hose-401" || hoseTypeId === "hose-402") {
+    return {
+      backgroundColor: baseColor,
+      backgroundImage:
+        "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 35%, rgba(0,0,0,0.26) 100%), linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.08) 100%)",
+      backgroundBlendMode: "screen, normal",
+    };
+  }
+
+  return undefined;
 };
 
 interface EndCapProps {
@@ -144,6 +198,7 @@ const HoseSegment = ({
   minLength,
   maxLength,
   overlays,
+  surfaceStyle,
 }: {
   color: string;
   sizeLabel: string;
@@ -151,6 +206,7 @@ const HoseSegment = ({
   minLength: number;
   maxLength: number;
   overlays: HoseOverlays;
+  surfaceStyle?: React.CSSProperties;
 }) => {
   const ticks = Array.from({ length: 8 }, (_, index) => index);
   const range = maxLength - minLength || 1;
@@ -164,6 +220,7 @@ const HoseSegment = ({
   const lengthSuffix = typeof lengthInches === "number" ? "in" : "";
   const clampPositions =
     overlays.clampCount > 1 ? [18, 82] : overlays.clampCount === 1 ? [50] : [];
+  const hoseSurfaceStyle = surfaceStyle ?? { backgroundColor: color };
 
   return (
     <div className="flex min-w-0 flex-1 flex-col items-center gap-2">
@@ -175,7 +232,7 @@ const HoseSegment = ({
           <div className="relative flex w-full items-center gap-1.5 sm:gap-2">
             <div className="h-2.5 w-4.5 rounded-full bg-[#8a8a8a] sm:h-3 sm:w-6" />
             <div className="relative h-4 flex-1 overflow-hidden rounded-full border border-border shadow-[0_4px_10px_rgba(0,0,0,0.08)]">
-              <div className="absolute inset-0 transition-colors duration-200" style={{ backgroundColor: color }} />
+              <div className="absolute inset-0 transition-colors duration-200" style={hoseSurfaceStyle} />
               {overlays.heatShield ? (
                 <>
                   <div
@@ -267,8 +324,9 @@ export const AssemblyDiagram = () => {
   const loading = false;
   const { state } = useAssemblyStore();
   const { selections } = state;
+  const selectedHoseTypeId = selections.hoseTypeId;
 
-  const hoseTypeLabel = findLabel(mockCatalog.hoseTypes, selections.hoseTypeId);
+  const hoseTypeLabel = findLabel(mockCatalog.hoseTypes, selectedHoseTypeId);
   const hoseSizeLabel = findLabel(mockCatalog.hoseSizes, selections.hoseSizeId);
   const hoseColorLabel = findLabel(mockCatalog.hoseColors, selections.hoseColorId);
   const endStyleLabel = findLabel(mockCatalog.hoseEndStyles, selections.hoseEndStyleId);
@@ -280,6 +338,8 @@ export const AssemblyDiagram = () => {
   const endFill = endColor(selections.hoseEndColorId);
   const angleA = angleDegrees(selections.hoseEndAngleAId);
   const angleB = angleDegrees(selections.hoseEndAngleBId);
+  const hoseHasImage = Boolean(selectedHoseTypeId && getHoseTypeImageSrc(selectedHoseTypeId));
+  const hoseSurfaceStyle = getHoseTextureStyle(selectedHoseTypeId, hoseFill, hoseHasImage);
 
   const extrasLabels = selections.extras.length
     ? selections.extras
@@ -364,6 +424,7 @@ export const AssemblyDiagram = () => {
                 minLength={mockCatalog.length.min}
                 maxLength={mockCatalog.length.max}
                 overlays={overlays}
+                surfaceStyle={hoseSurfaceStyle}
               />
               <EndCap
                 label="End B"
