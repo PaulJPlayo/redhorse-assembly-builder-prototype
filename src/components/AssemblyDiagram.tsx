@@ -557,6 +557,7 @@ export const AssemblyDiagram = () => {
   const selectedHoseTypeId = selections.hoseTypeId;
   const selectedEndStyleId = selections.hoseEndStyleId;
   const selectedEndColorId = selections.hoseEndColorId;
+  const hasHoseTypeSelection = Boolean(selectedHoseTypeId);
 
   const hoseTypeLabel = findLabel(mockCatalog.hoseTypes, selectedHoseTypeId);
   const hoseSizeLabel = findLabel(mockCatalog.hoseSizes, selections.hoseSizeId);
@@ -607,9 +608,11 @@ export const AssemblyDiagram = () => {
   const hasAngleASelection = Boolean(selections.hoseEndAngleAId);
   const hasAngleBSelection = Boolean(selections.hoseEndAngleBId);
   const selectedLengthInches = selections.lengthInches;
+  const hasSelectedLength =
+    typeof selectedLengthInches === "number" && !Number.isNaN(selectedLengthInches);
   const maxLengthInches = mockCatalog.length.max;
-  const displayLengthInches = selectedLengthInches ?? maxLengthInches;
-  const lengthPreview = `${displayLengthInches}"`;
+  const displayLengthInches = hasSelectedLength ? selectedLengthInches : maxLengthInches;
+  const lengthBadgeText = hasSelectedLength ? `${selectedLengthInches}"` : "Length";
 
   return (
     <section className="overflow-hidden rounded-xl border border-border bg-white shadow-[0_10px_24px_rgba(0,0,0,0.12)]">
@@ -624,9 +627,11 @@ export const AssemblyDiagram = () => {
         }}
         aria-busy={loading}
       >
-        <div className="pointer-events-none absolute right-2 top-2 z-20 inline-flex max-w-[calc(100%-1rem)] items-center rounded-full border border-white/70 bg-white/90 px-2.5 py-1 text-right text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2f2f2f] shadow-[0_2px_8px_rgba(0,0,0,0.12)]">
-          {lengthPreview}
-        </div>
+        {hasHoseTypeSelection ? (
+          <div className="pointer-events-none absolute right-2 top-2 z-20 inline-flex max-w-[calc(100%-1rem)] items-center rounded-full border border-white/70 bg-white/90 px-2.5 py-1 text-right text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2f2f2f] shadow-[0_2px_8px_rgba(0,0,0,0.12)]">
+            {lengthBadgeText}
+          </div>
+        ) : null}
         {loading ? (
           <div
             className="flex flex-col items-center justify-center gap-4 py-10 text-muted-text"
