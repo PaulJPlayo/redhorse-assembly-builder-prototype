@@ -310,8 +310,9 @@ const StepContent = () => {
                 <div className="min-w-0 p-3 text-text"> </div>
                 <div className="min-w-0 p-3 text-right text-text">{totalRow.value}</div>
               </div>
-              <p className="mt-2 break-words px-3 text-xs font-bold tracking-[0.12em] text-text">
-                NO RETURNS • NO REFUNDS • ALL SALES FINAL FOR CUSTOM ASSEMBLIES
+              <p className="mt-2 text-xs font-bold tracking-[0.12em] text-text">
+                <span className="block sm:inline">NO RETURNS • NO REFUNDS •</span>
+                <span className="block sm:inline sm:ml-1">ALL SALES FINAL FOR CUSTOM ASSEMBLIES</span>
               </p>
             </>
           ) : null}
