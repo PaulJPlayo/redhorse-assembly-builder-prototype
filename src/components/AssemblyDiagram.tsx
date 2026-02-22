@@ -3,7 +3,7 @@
 import React from "react";
 import { useAssemblyStore } from "@/lib/state/useAssemblyStore";
 import { mockCatalog } from "@/data/mockCatalog";
-import { getHoseTypeImageSrc } from "@/lib/assembly/imageResolver";
+import { getHoseEndStyleImageSrc, getHoseTypeImageSrc } from "@/lib/assembly/imageResolver";
 
 const findLabel = (list: { id: string; label: string }[], id?: string): string => {
   if (!id) {
@@ -119,6 +119,171 @@ const getHoseTextureStyle = (
   return undefined;
 };
 
+type EndCapVariant =
+  | "default"
+  | "series1000"
+  | "series6000NonSwivel"
+  | "series1490"
+  | "series7000"
+  | "series1200"
+  | "series2000";
+
+interface EndCapVariantConfig {
+  bodyClassName: string;
+  neckClassName: string;
+  bodyStyle: React.CSSProperties;
+  arcClassName: string;
+  pointerClassName: string;
+  showSwivelRing?: boolean;
+  showDualBands?: boolean;
+  showKnurl?: boolean;
+}
+
+const getEndCapVariant = (
+  endStyleId: string | undefined,
+  endStyleLabel: string | undefined,
+  endStyleHasImage: boolean,
+): EndCapVariant => {
+  if (!endStyleId || !endStyleHasImage) {
+    return "default";
+  }
+
+  if (endStyleId === "1000") {
+    return "series1000";
+  }
+  if (endStyleId === "6000") {
+    return endStyleLabel?.toLowerCase().includes("non-swivel")
+      ? "series6000NonSwivel"
+      : "series1000";
+  }
+  if (endStyleId === "1490") {
+    return "series1490";
+  }
+  if (endStyleId === "7000" || endStyleId === "7002") {
+    return "series7000";
+  }
+  if (endStyleId === "1200") {
+    return "series1200";
+  }
+  if (endStyleId === "2000") {
+    return "series2000";
+  }
+  return "default";
+};
+
+const getEndCapVariantConfig = (variant: EndCapVariant, color: string): EndCapVariantConfig => {
+  const defaultConfig: EndCapVariantConfig = {
+    bodyClassName:
+      "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-lg border border-border shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
+    neckClassName: "h-6 w-3 rounded-md bg-[#5d5d5d]",
+    bodyStyle: { backgroundColor: color },
+    arcClassName: "inset-x-3 bottom-1 h-5",
+    pointerClassName: "bottom-1 h-4",
+  };
+
+  if (variant === "series1000") {
+    return {
+      bodyClassName:
+        "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-xl border border-[#5a5a5a]/70 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
+      neckClassName: "h-6 w-3.5 rounded-full bg-[#565656]",
+      bodyStyle: {
+        backgroundColor: color,
+        backgroundImage:
+          "linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.1) 45%, rgba(0,0,0,0.16) 100%), repeating-linear-gradient(90deg, rgba(255,255,255,0.16) 0 4px, rgba(0,0,0,0.14) 4px 8px)",
+        backgroundBlendMode: "screen, overlay",
+      },
+      arcClassName: "inset-x-3 bottom-1 h-5",
+      pointerClassName: "bottom-1 h-4",
+      showSwivelRing: true,
+    };
+  }
+
+  if (variant === "series6000NonSwivel") {
+    return {
+      bodyClassName:
+        "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-md border border-[#505050]/70 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
+      neckClassName: "h-5 w-4 rounded-[4px] bg-[#4f4f4f]",
+      bodyStyle: {
+        backgroundColor: color,
+        backgroundImage:
+          "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.06) 45%, rgba(0,0,0,0.2) 100%), linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.12) 100%)",
+        backgroundBlendMode: "screen, normal",
+      },
+      arcClassName: "inset-x-3 bottom-1 h-5",
+      pointerClassName: "bottom-1 h-4",
+    };
+  }
+
+  if (variant === "series1490") {
+    return {
+      bodyClassName:
+        "relative flex h-10 w-full max-w-[140px] items-center justify-center rounded-md border border-[#555555]/70 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-11",
+      neckClassName: "h-4 w-4 rounded-[3px] bg-[#4a4a4a] sm:h-5",
+      bodyStyle: {
+        backgroundColor: color,
+        backgroundImage:
+          "linear-gradient(180deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.08) 45%, rgba(0,0,0,0.24) 100%)",
+      },
+      arcClassName: "inset-x-3 bottom-0.5 h-4",
+      pointerClassName: "bottom-0.5 h-3",
+      showDualBands: true,
+    };
+  }
+
+  if (variant === "series7000") {
+    return {
+      bodyClassName:
+        "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-lg border border-[#3f3f3f]/80 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
+      neckClassName: "h-6 w-3 rounded-md bg-[#3d3d3d]",
+      bodyStyle: {
+        backgroundColor: color,
+        backgroundImage:
+          "linear-gradient(180deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.08) 45%, rgba(0,0,0,0.24) 100%), linear-gradient(90deg, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.18) 100%)",
+        backgroundBlendMode: "screen, normal",
+      },
+      arcClassName: "inset-x-3 bottom-1 h-5",
+      pointerClassName: "bottom-1 h-4",
+      showDualBands: true,
+    };
+  }
+
+  if (variant === "series1200") {
+    return {
+      bodyClassName:
+        "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-lg border border-[#5d5d5d]/70 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
+      neckClassName: "h-6 w-3 rounded-md bg-[#626262]",
+      bodyStyle: {
+        backgroundColor: color,
+        backgroundImage:
+          "linear-gradient(180deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.08) 45%, rgba(0,0,0,0.2) 100%), repeating-linear-gradient(90deg, rgba(255,255,255,0.1) 0 6px, rgba(0,0,0,0.08) 6px 12px)",
+        backgroundBlendMode: "screen, overlay",
+      },
+      arcClassName: "inset-x-3 bottom-1 h-5",
+      pointerClassName: "bottom-1 h-4",
+      showDualBands: true,
+    };
+  }
+
+  if (variant === "series2000") {
+    return {
+      bodyClassName:
+        "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-full border border-[#4d4d4d]/75 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
+      neckClassName: "h-6 w-4 rounded-full bg-[#424242]",
+      bodyStyle: {
+        backgroundColor: color,
+        backgroundImage:
+          "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 40%, rgba(0,0,0,0.24) 100%), linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.1) 100%)",
+        backgroundBlendMode: "screen, normal",
+      },
+      arcClassName: "inset-x-3 bottom-1 h-5",
+      pointerClassName: "bottom-1 h-4",
+      showKnurl: true,
+    };
+  }
+
+  return defaultConfig;
+};
+
 interface EndCapProps {
   label: string;
   angleText: string;
@@ -126,6 +291,7 @@ interface EndCapProps {
   hasAngleSelection: boolean;
   color: string;
   position: "left" | "right";
+  variant: EndCapVariant;
 }
 
 const EndCap = ({
@@ -135,28 +301,59 @@ const EndCap = ({
   hasAngleSelection,
   color,
   position,
+  variant,
 }: EndCapProps) => {
   const pointerRotation = hasAngleSelection
     ? position === "left"
       ? -angleDegrees
       : angleDegrees
     : 0;
+  const variantConfig = getEndCapVariantConfig(variant, color);
 
   return (
     <div className="flex w-[84px] shrink-0 flex-col items-center gap-1.5 sm:w-32 sm:gap-2">
       <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-text sm:text-[11px] sm:tracking-[0.18em]">
         {label}
       </span>
-      <div
-        className="relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-lg border border-border shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14"
-        style={{ backgroundColor: color }}
-      >
+      <div className={variantConfig.bodyClassName} style={variantConfig.bodyStyle}>
         <div
-          className={`absolute ${position === "left" ? "left-1" : "right-1"} h-6 w-3 rounded-md bg-[#5d5d5d]`}
+          className={`absolute ${position === "left" ? "left-1" : "right-1"} ${variantConfig.neckClassName}`}
         />
-        <div className="pointer-events-none absolute inset-x-3 bottom-1 h-5 rounded-t-full border-x border-t border-dashed border-[#b7b7b7]/90 transition-opacity duration-200 ease-out" />
+        {variantConfig.showSwivelRing ? (
+          <div
+            className={`pointer-events-none absolute top-1/2 h-8 w-2 -translate-y-1/2 rounded-full border border-[#2e2e2e]/60 bg-white/25 ${
+              position === "left" ? "left-[18px]" : "right-[18px]"
+            }`}
+          />
+        ) : null}
+        {variantConfig.showDualBands ? (
+          <>
+            <div
+              className={`pointer-events-none absolute top-[4px] h-8 w-[2px] rounded-full bg-white/45 ${
+                position === "left" ? "left-[16px]" : "right-[16px]"
+              }`}
+            />
+            <div
+              className={`pointer-events-none absolute top-[4px] h-8 w-[2px] rounded-full bg-[#2f2f2f]/55 ${
+                position === "left" ? "left-[20px]" : "right-[20px]"
+              }`}
+            />
+          </>
+        ) : null}
+        {variantConfig.showKnurl ? (
+          <div
+            className="pointer-events-none absolute inset-y-[3px] left-[20%] right-[20%] rounded-full border border-[#303030]/40"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(95deg, rgba(255,255,255,0.16) 0 2px, rgba(0,0,0,0.28) 2px 4px)",
+            }}
+          />
+        ) : null}
         <div
-          className={`pointer-events-none absolute bottom-1 left-1/2 h-4 w-0.5 -translate-x-1/2 rounded-full transition-all duration-200 ease-out ${
+          className={`pointer-events-none absolute rounded-t-full border-x border-t border-dashed border-[#b7b7b7]/90 transition-opacity duration-200 ease-out ${variantConfig.arcClassName}`}
+        />
+        <div
+          className={`pointer-events-none absolute left-1/2 w-0.5 -translate-x-1/2 rounded-full transition-all duration-200 ease-out ${variantConfig.pointerClassName} ${
             hasAngleSelection ? "bg-primary/80 opacity-100" : "bg-[#8e8e8e] opacity-55"
           }`}
           style={{
@@ -325,11 +522,12 @@ export const AssemblyDiagram = () => {
   const { state } = useAssemblyStore();
   const { selections } = state;
   const selectedHoseTypeId = selections.hoseTypeId;
+  const selectedEndStyleId = selections.hoseEndStyleId;
 
   const hoseTypeLabel = findLabel(mockCatalog.hoseTypes, selectedHoseTypeId);
   const hoseSizeLabel = findLabel(mockCatalog.hoseSizes, selections.hoseSizeId);
   const hoseColorLabel = findLabel(mockCatalog.hoseColors, selections.hoseColorId);
-  const endStyleLabel = findLabel(mockCatalog.hoseEndStyles, selections.hoseEndStyleId);
+  const endStyleLabel = findLabel(mockCatalog.hoseEndStyles, selectedEndStyleId);
   const endColorLabel = findLabel(mockCatalog.hoseEndColors, selections.hoseEndColorId);
   const angleALabel = findLabel(mockCatalog.hoseEndAngles, selections.hoseEndAngleAId);
   const angleBLabel = findLabel(mockCatalog.hoseEndAngles, selections.hoseEndAngleBId);
@@ -340,6 +538,11 @@ export const AssemblyDiagram = () => {
   const angleB = angleDegrees(selections.hoseEndAngleBId);
   const hoseHasImage = Boolean(selectedHoseTypeId && getHoseTypeImageSrc(selectedHoseTypeId));
   const hoseSurfaceStyle = getHoseTextureStyle(selectedHoseTypeId, hoseFill, hoseHasImage);
+  const selectedEndStyle = selectedEndStyleId
+    ? mockCatalog.hoseEndStyles.find((style) => style.id === selectedEndStyleId)
+    : undefined;
+  const endStyleHasImage = Boolean(selectedEndStyleId && getHoseEndStyleImageSrc(selectedEndStyleId));
+  const endCapVariant = getEndCapVariant(selectedEndStyleId, selectedEndStyle?.label, endStyleHasImage);
 
   const extrasLabels = selections.extras.length
     ? selections.extras
@@ -416,6 +619,7 @@ export const AssemblyDiagram = () => {
                 hasAngleSelection={hasAngleASelection}
                 color={endFill}
                 position="left"
+                variant={endCapVariant}
               />
               <HoseSegment
                 color={hoseFill}
@@ -433,6 +637,7 @@ export const AssemblyDiagram = () => {
                 hasAngleSelection={hasAngleBSelection}
                 color={endFill}
                 position="right"
+                variant={endCapVariant}
               />
             </div>
 
