@@ -63,6 +63,11 @@ const HOSE_END_COLOR_IMAGE_PATHS: Record<string, Partial<Record<string, string>>
   },
 };
 
+const EXTRA_IMAGE_PATHS: Record<string, string> = {
+  "support-coil": "Extras/Support Coil.jpg",
+  "heat-shield": "Extras/Heat shield.jpg",
+};
+
 const COLOR_SUFFIX_BY_COLOR_ID: Record<string, string> = {
   black: "2",
   "blue-red": "1",
@@ -209,6 +214,14 @@ export const getHoseEndColorImageSrc = (
     return undefined;
   }
   const relativePath = HOSE_END_COLOR_IMAGE_PATHS[styleId]?.[colorId];
+  if (!relativePath) {
+    return undefined;
+  }
+  return `/assembly-builder-photos/${encodeURI(relativePath)}`;
+};
+
+export const getExtraImageSrc = (extraId: string): string | undefined => {
+  const relativePath = EXTRA_IMAGE_PATHS[extraId];
   if (!relativePath) {
     return undefined;
   }

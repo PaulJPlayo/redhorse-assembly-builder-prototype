@@ -15,6 +15,7 @@ import {
 } from "@/lib/rules/filterCatalog";
 import { deriveNextOptions, isStepComplete } from "@/lib/rules/deriveNextOptions";
 import {
+  getExtraImageSrc,
   getHoseEndAngleImageSrc,
   getHoseEndColorImageSrc,
   getHoseEndStyleImageSrc,
@@ -109,6 +110,8 @@ const StepContent = () => {
                       ? getHoseEndColorImageSrc(selectedEndStyleId, option.id)
                       : stepId === "hoseEndAngleA" || stepId === "hoseEndAngleB"
                         ? getHoseEndAngleImageSrc(selectedEndStyleId, selectedEndColorId, option)
+                        : stepId === "extras"
+                          ? getExtraImageSrc(option.id)
                   : undefined;
             const imageAlt =
               stepId === "hoseType"
@@ -123,6 +126,8 @@ const StepContent = () => {
                         ? `${option.label} angle (End A) in ${selectedEndColor?.label ?? selectedEndColorId ?? "selected color"} for ${selectedEndStyle?.label ?? selectedEndStyleId ?? "unknown style"}`
                         : stepId === "hoseEndAngleB" && imageSrc
                           ? `${option.label} angle (End B) in ${selectedEndColor?.label ?? selectedEndColorId ?? "selected color"} for ${selectedEndStyle?.label ?? selectedEndStyleId ?? "unknown style"}`
+                          : stepId === "extras" && imageSrc
+                            ? `${option.label} photo`
                   : undefined;
 
             const selectedId = {
