@@ -131,7 +131,7 @@ type EndCapVariant =
 interface EndCapVariantConfig {
   bodyClassName: string;
   neckClassName: string;
-  bodyStyle: React.CSSProperties;
+  bodyTextureStyle?: React.CSSProperties;
   arcClassName: string;
   pointerClassName: string;
   showSwivelRing?: boolean;
@@ -171,12 +171,11 @@ const getEndCapVariant = (
   return "default";
 };
 
-const getEndCapVariantConfig = (variant: EndCapVariant, color: string): EndCapVariantConfig => {
+const getEndCapVariantConfig = (variant: EndCapVariant): EndCapVariantConfig => {
   const defaultConfig: EndCapVariantConfig = {
     bodyClassName:
       "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-lg border border-border shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
     neckClassName: "h-6 w-3 rounded-md bg-[#5d5d5d]",
-    bodyStyle: { backgroundColor: color },
     arcClassName: "inset-x-3 bottom-1 h-5",
     pointerClassName: "bottom-1 h-4",
   };
@@ -186,8 +185,7 @@ const getEndCapVariantConfig = (variant: EndCapVariant, color: string): EndCapVa
       bodyClassName:
         "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-xl border border-[#5a5a5a]/70 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
       neckClassName: "h-6 w-3.5 rounded-full bg-[#565656]",
-      bodyStyle: {
-        backgroundColor: color,
+      bodyTextureStyle: {
         backgroundImage:
           "linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.1) 45%, rgba(0,0,0,0.16) 100%), repeating-linear-gradient(90deg, rgba(255,255,255,0.16) 0 4px, rgba(0,0,0,0.14) 4px 8px)",
         backgroundBlendMode: "screen, overlay",
@@ -203,8 +201,7 @@ const getEndCapVariantConfig = (variant: EndCapVariant, color: string): EndCapVa
       bodyClassName:
         "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-md border border-[#505050]/70 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
       neckClassName: "h-5 w-4 rounded-[4px] bg-[#4f4f4f]",
-      bodyStyle: {
-        backgroundColor: color,
+      bodyTextureStyle: {
         backgroundImage:
           "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.06) 45%, rgba(0,0,0,0.2) 100%), linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.12) 100%)",
         backgroundBlendMode: "screen, normal",
@@ -219,8 +216,7 @@ const getEndCapVariantConfig = (variant: EndCapVariant, color: string): EndCapVa
       bodyClassName:
         "relative flex h-10 w-full max-w-[140px] items-center justify-center rounded-md border border-[#555555]/70 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-11",
       neckClassName: "h-4 w-4 rounded-[3px] bg-[#4a4a4a] sm:h-5",
-      bodyStyle: {
-        backgroundColor: color,
+      bodyTextureStyle: {
         backgroundImage:
           "linear-gradient(180deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.08) 45%, rgba(0,0,0,0.24) 100%)",
       },
@@ -235,8 +231,7 @@ const getEndCapVariantConfig = (variant: EndCapVariant, color: string): EndCapVa
       bodyClassName:
         "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-lg border border-[#3f3f3f]/80 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
       neckClassName: "h-6 w-3 rounded-md bg-[#3d3d3d]",
-      bodyStyle: {
-        backgroundColor: color,
+      bodyTextureStyle: {
         backgroundImage:
           "linear-gradient(180deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.08) 45%, rgba(0,0,0,0.24) 100%), linear-gradient(90deg, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.18) 100%)",
         backgroundBlendMode: "screen, normal",
@@ -252,8 +247,7 @@ const getEndCapVariantConfig = (variant: EndCapVariant, color: string): EndCapVa
       bodyClassName:
         "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-lg border border-[#5d5d5d]/70 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
       neckClassName: "h-6 w-3 rounded-md bg-[#626262]",
-      bodyStyle: {
-        backgroundColor: color,
+      bodyTextureStyle: {
         backgroundImage:
           "linear-gradient(180deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.08) 45%, rgba(0,0,0,0.2) 100%), repeating-linear-gradient(90deg, rgba(255,255,255,0.1) 0 6px, rgba(0,0,0,0.08) 6px 12px)",
         backgroundBlendMode: "screen, overlay",
@@ -269,8 +263,7 @@ const getEndCapVariantConfig = (variant: EndCapVariant, color: string): EndCapVa
       bodyClassName:
         "relative flex h-12 w-full max-w-[140px] items-center justify-center rounded-full border border-[#4d4d4d]/75 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:h-14",
       neckClassName: "h-6 w-4 rounded-full bg-[#424242]",
-      bodyStyle: {
-        backgroundColor: color,
+      bodyTextureStyle: {
         backgroundImage:
           "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 40%, rgba(0,0,0,0.24) 100%), linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.1) 100%)",
         backgroundBlendMode: "screen, normal",
@@ -284,12 +277,44 @@ const getEndCapVariantConfig = (variant: EndCapVariant, color: string): EndCapVa
   return defaultConfig;
 };
 
+const getEndCapFillStyle = (endColorId: string | undefined): React.CSSProperties | undefined => {
+  if (!endColorId) {
+    return undefined;
+  }
+
+  if (endColorId === "black") {
+    return { backgroundColor: "#333333" };
+  }
+  if (endColorId === "blue") {
+    return { backgroundColor: "#1e4bd8" };
+  }
+  if (endColorId === "red") {
+    return { backgroundColor: "#cf2333" };
+  }
+  if (endColorId === "clear") {
+    return {
+      backgroundColor: "#d5d5d5",
+      backgroundImage:
+        "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.2) 45%, rgba(0,0,0,0.12) 100%)",
+      backgroundBlendMode: "screen",
+    };
+  }
+  if (endColorId === "blue-red") {
+    return {
+      backgroundColor: "#1e4bd8",
+      backgroundImage: "linear-gradient(90deg, #1e4bd8 0 50%, #cf2333 50% 100%)",
+    };
+  }
+  return undefined;
+};
+
 interface EndCapProps {
   label: string;
   angleText: string;
   angleDegrees: number;
   hasAngleSelection: boolean;
   color: string;
+  endColorId?: string;
   position: "left" | "right";
   variant: EndCapVariant;
 }
@@ -300,6 +325,7 @@ const EndCap = ({
   angleDegrees,
   hasAngleSelection,
   color,
+  endColorId,
   position,
   variant,
 }: EndCapProps) => {
@@ -308,17 +334,24 @@ const EndCap = ({
       ? -angleDegrees
       : angleDegrees
     : 0;
-  const variantConfig = getEndCapVariantConfig(variant, color);
+  const variantConfig = getEndCapVariantConfig(variant);
+  const endCapFillStyle = getEndCapFillStyle(endColorId) ?? { backgroundColor: color };
 
   return (
     <div className="flex w-[84px] shrink-0 flex-col items-center gap-1.5 sm:w-32 sm:gap-2">
       <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-text sm:text-[11px] sm:tracking-[0.18em]">
         {label}
       </span>
-      <div className={variantConfig.bodyClassName} style={variantConfig.bodyStyle}>
+      <div className={variantConfig.bodyClassName} style={endCapFillStyle}>
         <div
           className={`absolute ${position === "left" ? "left-1" : "right-1"} ${variantConfig.neckClassName}`}
         />
+        {variantConfig.bodyTextureStyle ? (
+          <div
+            className="pointer-events-none absolute inset-0 rounded-[inherit]"
+            style={variantConfig.bodyTextureStyle}
+          />
+        ) : null}
         {variantConfig.showSwivelRing ? (
           <div
             className={`pointer-events-none absolute top-1/2 h-8 w-2 -translate-y-1/2 rounded-full border border-[#2e2e2e]/60 bg-white/25 ${
@@ -523,6 +556,7 @@ export const AssemblyDiagram = () => {
   const { selections } = state;
   const selectedHoseTypeId = selections.hoseTypeId;
   const selectedEndStyleId = selections.hoseEndStyleId;
+  const selectedEndColorId = selections.hoseEndColorId;
 
   const hoseTypeLabel = findLabel(mockCatalog.hoseTypes, selectedHoseTypeId);
   const hoseSizeLabel = findLabel(mockCatalog.hoseSizes, selections.hoseSizeId);
@@ -533,7 +567,7 @@ export const AssemblyDiagram = () => {
   const angleBLabel = findLabel(mockCatalog.hoseEndAngles, selections.hoseEndAngleBId);
 
   const hoseFill = hoseColor(selections.hoseColorId);
-  const endFill = endColor(selections.hoseEndColorId);
+  const endFill = endColor(selectedEndColorId);
   const angleA = angleDegrees(selections.hoseEndAngleAId);
   const angleB = angleDegrees(selections.hoseEndAngleBId);
   const hoseHasImage = Boolean(selectedHoseTypeId && getHoseTypeImageSrc(selectedHoseTypeId));
@@ -618,6 +652,7 @@ export const AssemblyDiagram = () => {
                 angleDegrees={angleA}
                 hasAngleSelection={hasAngleASelection}
                 color={endFill}
+                endColorId={selectedEndColorId}
                 position="left"
                 variant={endCapVariant}
               />
@@ -636,6 +671,7 @@ export const AssemblyDiagram = () => {
                 angleDegrees={angleB}
                 hasAngleSelection={hasAngleBSelection}
                 color={endFill}
+                endColorId={selectedEndColorId}
                 position="right"
                 variant={endCapVariant}
               />
