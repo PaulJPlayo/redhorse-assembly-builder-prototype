@@ -304,11 +304,16 @@ const StepContent = () => {
             </div>
           ))}
           {totalRow ? (
-            <div className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border border-primary/20 bg-accent text-sm font-semibold sm:grid-cols-[160px_1fr_120px]">
-              <div className="min-w-0 p-3 uppercase text-text">{totalRow.label}</div>
-              <div className="min-w-0 p-3 text-text"> </div>
-              <div className="min-w-0 p-3 text-right text-text">{totalRow.value}</div>
-            </div>
+            <>
+              <div className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border border-primary/20 bg-accent text-sm font-semibold sm:grid-cols-[160px_1fr_120px]">
+                <div className="min-w-0 p-3 uppercase text-text">{totalRow.label}</div>
+                <div className="min-w-0 p-3 text-text"> </div>
+                <div className="min-w-0 p-3 text-right text-text">{totalRow.value}</div>
+              </div>
+              <p className="mt-2 break-words px-3 text-xs font-bold tracking-[0.12em] text-text">
+                NO RETURNS • NO REFUNDS • ALL SALES FINAL FOR CUSTOM ASSEMBLIES
+              </p>
+            </>
           ) : null}
         </div>
 
