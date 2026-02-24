@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
 interface OptionCardProps {
@@ -24,9 +23,18 @@ export const OptionCard = ({
   imageSrc,
   imageAlt,
 }: OptionCardProps) => {
-  const [erroredSrc, setErroredSrc] = useState<string | null>(null);
+  const [imageState, setImageState] = useState<{
+    src?: string;
+    status: "idle" | "loaded" | "error";
+  }>({
+    src: imageSrc,
+    status: "idle",
+  });
 
-  const showImage = Boolean(imageSrc) && erroredSrc !== imageSrc;
+  const imageStatus = imageState.src === imageSrc ? imageState.status : "idle";
+
+  const showPreview = !imageSrc || imageStatus !== "loaded";
+  const shouldRenderImage = Boolean(imageSrc) && imageStatus !== "error";
 
   return (
     <button
@@ -47,22 +55,43 @@ export const OptionCard = ({
       aria-pressed={selected}
     >
       <div className="relative flex h-44 items-center justify-center bg-white p-2">
-        {showImage ? (
-          <div className="relative h-full w-full">
-            <Image
+        <div className="relative h-full w-full">
+          {shouldRenderImage ? (
+            <img
               src={imageSrc as string}
               alt={imageAlt ?? title}
-              fill
-              sizes="(max-width: 639px) 86vw, (max-width: 1023px) 40vw, 22vw"
-              className="object-contain object-center"
-              onError={() => setErroredSrc(imageSrc ?? null)}
+              loading="eager"
+              decoding="async"
+              className={`h-full w-full object-contain object-center ${
+                imageStatus === "loaded" ? "opacity-100" : "opacity-0"
+              }`}
+              onLoad={(e) => {
+                if (e.currentTarget.naturalWidth > 0) {
+                  setImageState({
+                    src: imageSrc,
+                    status: "loaded",
+                  });
+                } else {
+                  setImageState({
+                    src: imageSrc,
+                    status: "error",
+                  });
+                }
+              }}
+              onError={() =>
+                setImageState({
+                  src: imageSrc,
+                  status: "error",
+                })
+              }
             />
-          </div>
-        ) : (
-          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
-            Preview
-          </span>
-        )}
+          ) : null}
+          {showPreview ? (
+            <span className="absolute inset-0 flex items-center justify-center text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
+              Preview
+            </span>
+          ) : null}
+        </div>
         {priceLabel ? (
           <span className="absolute right-1.5 top-1.5 max-w-[calc(100%-0.75rem)] rounded-md bg-primary px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-white sm:right-2 sm:top-2 sm:text-[10px]">
             {priceLabel}
