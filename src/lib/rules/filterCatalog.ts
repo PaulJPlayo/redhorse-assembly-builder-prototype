@@ -26,6 +26,8 @@ export interface FilteredCatalog extends Catalog {
   hoseEndAngles: OptionWithAvailability<HoseEndAngleOption>[];
 }
 
+const BRAIDED_HOSE_TYPE_IDS = new Set(["hose-200", "hose-205", "hose-230", "hose-235"]);
+
 const findById = <T extends CatalogOption>(items: T[], id?: string): T | undefined => {
   if (!id) {
     return undefined;
@@ -35,10 +37,18 @@ const findById = <T extends CatalogOption>(items: T[], id?: string): T | undefin
 
 export const filterCatalog = (catalog: Catalog, selections: AssemblySelection): FilteredCatalog => {
   const selectedHoseType = findById(catalog.hoseTypes, selections.hoseTypeId);
-  const hoseTypes = sortByHoseTypeOrder(catalog.hoseTypes);
+  const hoseTypes = sortByHoseTypeOrder(
+    catalog.hoseTypes.filter((hoseType) => hoseType.id !== "hose-306"),
+  );
   const hoseSizes = sortByHoseSizeOrder(
     catalog.hoseSizes.filter((size) => isHoseSizeAllowedForHoseType(selections.hoseTypeId, size.id)),
   );
+  const isBraidedHoseType = selections.hoseTypeId
+    ? BRAIDED_HOSE_TYPE_IDS.has(selections.hoseTypeId)
+    : false;
+  const filteredExtras = !selections.hoseTypeId
+    ? catalog.extras
+    : catalog.extras.filter((extra) => extra.id !== "support-coil" || isBraidedHoseType);
 
   const hoseColors = catalog.hoseColors.map((color) => {
     const isCompatible = selectedHoseType
@@ -68,6 +78,7 @@ export const filterCatalog = (catalog: Catalog, selections: AssemblySelection): 
   return {
     ...catalog,
     hoseTypes,
+    extras: filteredExtras,
     hoseColors,
     hoseSizes,
     hoseEndStyles: hoseEndStyles.map((style) => ({ ...style })),
@@ -217,7 +228,7 @@ export const calculateRemainingConfigurations = (
   const counts: number[] = [];
 
   if (!selections.hoseTypeId) {
-    counts.push(catalog.hoseTypes.length);
+    counts.push(filtered.hoseTypes.length);
   }
   if (!selections.hoseSizeId) {
     counts.push(filtered.hoseSizes.length);
@@ -240,7 +251,7 @@ export const calculateRemainingConfigurations = (
     counts.push(lengthCount);
   }
   if (selections.extras.length === 0) {
-    counts.push(catalog.extras.length + 1);
+    counts.push(filtered.extras.length + 1);
   }
 
   if (counts.length === 0) {
