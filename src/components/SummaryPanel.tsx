@@ -59,7 +59,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
                 width={300}
                 height={40}
                 unoptimized
-                className="h-7 w-auto"
+                className="h-8 w-auto max-w-[180px] object-contain sm:h-9 sm:max-w-[220px]"
               />
               <p className="text-xs font-semibold uppercase tracking-[0.2em]">Assembly Summary</p>
             </div>
@@ -102,7 +102,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
                 width={300}
                 height={40}
                 unoptimized
-                className="h-7 w-auto"
+                className="h-8 w-auto max-w-[180px] object-contain sm:h-9 sm:max-w-[220px]"
               />
               <p className="text-xs font-semibold uppercase tracking-[0.2em]">Assembly Summary</p>
             </div>
@@ -170,7 +170,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
                 width={300}
                 height={40}
                 unoptimized
-                className="h-7 w-auto"
+                className="h-8 w-auto max-w-[180px] object-contain sm:h-9 sm:max-w-[220px]"
               />
               <button
                 type="button"
