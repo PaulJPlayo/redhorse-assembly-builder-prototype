@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 interface OptionCardProps {
   title: string;
@@ -33,8 +33,28 @@ export const OptionCard = ({
 
   const imageStatus = imageState.src === imageSrc ? imageState.status : "idle";
 
-  const showPreview = !imageSrc || imageStatus !== "loaded";
-  const shouldRenderImage = Boolean(imageSrc) && imageStatus !== "error";
+  const handleImgRef = useCallback(
+    (node: HTMLImageElement | null) => {
+      if (!node || !imageSrc) return;
+
+      if (node.complete) {
+        const status = node.naturalWidth > 0 ? "loaded" : "error";
+        setImageState((prev) => {
+          if (prev.src === imageSrc && prev.status === status) return prev;
+          return { src: imageSrc, status };
+        });
+      }
+    },
+    [imageSrc],
+  );
+
+  const isMapped = Boolean(imageSrc);
+  const isLoaded = imageStatus === "loaded";
+  const isError = imageStatus === "error";
+
+  const showPreview = !isMapped || isError;
+  const showLoading = isMapped && !isLoaded && !isError;
+  const shouldRenderImage = isMapped && !isError;
 
   return (
     <button
@@ -58,33 +78,42 @@ export const OptionCard = ({
         <div className="relative h-full w-full">
           {shouldRenderImage ? (
             <img
+              ref={handleImgRef}
               src={imageSrc as string}
               alt={imageAlt ?? title}
               loading="eager"
               decoding="async"
               className={`h-full w-full object-contain object-center ${
-                imageStatus === "loaded" ? "opacity-100" : "opacity-0"
+                isLoaded ? "opacity-100" : "opacity-0"
               }`}
               onLoad={(e) => {
                 if (e.currentTarget.naturalWidth > 0) {
-                  setImageState({
+                  setImageState((prev) => ({
+                    ...prev,
                     src: imageSrc,
                     status: "loaded",
-                  });
+                  }));
                 } else {
-                  setImageState({
+                  setImageState((prev) => ({
+                    ...prev,
                     src: imageSrc,
                     status: "error",
-                  });
+                  }));
                 }
               }}
               onError={() =>
-                setImageState({
+                setImageState((prev) => ({
+                  ...prev,
                   src: imageSrc,
                   status: "error",
-                })
+                }))
               }
             />
+          ) : null}
+          {showLoading ? (
+            <span className="absolute inset-0 flex items-center justify-center text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
+              Loading
+            </span>
           ) : null}
           {showPreview ? (
             <span className="absolute inset-0 flex items-center justify-center text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
