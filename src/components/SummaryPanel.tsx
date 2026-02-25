@@ -14,7 +14,6 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
   const mobileTriggerRef = useRef<HTMLButtonElement | null>(null);
   const mobileDrawerRef = useRef<HTMLDivElement | null>(null);
   const drawerTitleId = useId();
-  const totalRow = rows.find((row) => row.emphasize);
   const detailRows = rows.filter((row) => !row.emphasize);
 
   const closeMobileDrawer = () => {
@@ -77,12 +76,9 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
                 </div>
               ))}
             </div>
-            {totalRow ? (
-              <div className="mt-6 rounded-lg border border-primary/30 bg-accent px-4 py-3 text-text">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em]">Total</p>
-                <p className="mt-1 text-2xl font-semibold">{totalRow.value}</p>
-              </div>
-            ) : null}
+            <div className="mt-6 rounded-lg border border-primary/30 bg-accent px-4 py-3 text-text">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em]">Pricing shown at Review</p>
+            </div>
           </div>
         </div>
       </div>
@@ -98,7 +94,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] opacity-80">
                 Summary
               </p>
-              <p className="text-lg font-semibold">{totalRow?.value ?? "--"}</p>
+              <p className="text-lg font-semibold">Pricing shown at Review</p>
             </div>
             <span className="text-[11px] font-semibold uppercase tracking-[0.2em]">
               {tabletOpen ? "Hide" : "Details"}
@@ -161,7 +157,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
                 Assembly Summary
               </p>
               <p id={drawerTitleId} className="text-lg font-semibold">
-                {totalRow?.value ?? "--"}
+                Pricing shown at Review
               </p>
             </div>
             <button
@@ -190,12 +186,9 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
                 ) : null}
               </div>
             ))}
-            {totalRow ? (
-              <div className="rounded-lg border border-primary/30 bg-accent px-4 py-3 text-text">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em]">Total</p>
-                <p className="mt-1 text-2xl font-semibold">{totalRow.value}</p>
-              </div>
-            ) : null}
+            <div className="rounded-lg border border-primary/30 bg-accent px-4 py-3 text-text">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em]">Pricing shown at Review</p>
+            </div>
           </div>
         </div>
       </div>

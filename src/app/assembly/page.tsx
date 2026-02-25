@@ -11,7 +11,6 @@ import { bcClient } from "@/lib/bc/bcClient";
 import {
   buildSummaryRows,
   calculateRemainingConfigurations,
-  formatCurrency,
 } from "@/lib/rules/filterCatalog";
 import { deriveNextOptions, isStepComplete } from "@/lib/rules/deriveNextOptions";
 import {
@@ -98,7 +97,6 @@ const StepContent = () => {
         >
           {stepOptions.options.map((option, index) => {
             const disabled = "disabled" in option ? option.disabled : false;
-            const priceLabel = option.price ? `+${formatCurrency(option.price)}` : undefined;
             const imageSrc =
               stepId === "hoseType"
                 ? getHoseTypeImageSrc(option.id)
@@ -198,7 +196,6 @@ const StepContent = () => {
                   selected={selected}
                   disabled={Boolean(disabled)}
                   onSelect={onSelect}
-                  priceLabel={priceLabel}
                   imageSrc={imageSrc}
                   imageAlt={imageAlt}
                 />
