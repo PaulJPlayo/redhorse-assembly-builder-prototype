@@ -128,6 +128,7 @@ const ANGLE_CODE_BY_STYLE_AND_DEGREES: Record<string, Partial<Record<number, str
     180: "2180",
   },
   "7000": {
+    0: "7000",
     30: "7030",
     45: "7045",
     60: "7060",
