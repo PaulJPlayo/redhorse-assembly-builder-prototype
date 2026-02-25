@@ -4,16 +4,16 @@ export type AngleImageOption = {
 };
 
 const HOSE_TYPE_IMAGE_FILENAMES: Record<string, string> = {
-  "hose-200": "200Series_hoses (1).jpg",
-  "hose-205": "205.jpg",
-  "hose-230": "230Series_Hoses.jpg",
-  "hose-235": "235 (1).jpg",
-  "hose-302": "302 Series catalog.jpg",
-  "hose-303": "303 Series Catalog (1).jpg",
-  "hose-304": "304.jpg",
-  "hose-305": "305.jpg",
-  "hose-401": "401 Series Catalog MASTER.jpg",
-  "hose-402": "402 Series Catalog MASTER.jpg",
+  "hose-200": "200-preview.jpg",
+  "hose-205": "205-preview.jpg",
+  "hose-230": "230-preview.jpg",
+  "hose-235": "235-preview.jpg",
+  "hose-302": "302-preview.jpg",
+  "hose-303": "303-preview.jpg",
+  "hose-304": "304-preview.jpg",
+  "hose-305": "305-preview.jpg",
+  "hose-401": "401-preview.jpg",
+  "hose-402": "402-preview.jpg",
 };
 
 const HOSE_END_STYLE_IMAGE_PATHS: Record<string, string> = {
