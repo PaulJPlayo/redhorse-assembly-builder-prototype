@@ -53,13 +53,13 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
           <div className="flex items-center justify-between rounded-t-xl bg-text px-4 py-3 text-white">
             <div className="flex flex-col items-start gap-1">
               <Image
-                src="/brand/redhorse-logo.png"
+                src="/branding/redhorse-horizontal-white.png"
                 alt=""
                 aria-hidden="true"
                 width={300}
                 height={40}
                 unoptimized
-                className="h-6 w-auto"
+                className="h-7 w-auto"
               />
               <p className="text-xs font-semibold uppercase tracking-[0.2em]">Assembly Summary</p>
             </div>
@@ -96,13 +96,13 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
           >
             <div className="flex flex-col items-start gap-1">
               <Image
-                src="/brand/redhorse-logo.png"
+                src="/branding/redhorse-horizontal-white.png"
                 alt=""
                 aria-hidden="true"
                 width={300}
                 height={40}
                 unoptimized
-                className="h-6 w-auto"
+                className="h-7 w-auto"
               />
               <p className="text-xs font-semibold uppercase tracking-[0.2em]">Assembly Summary</p>
             </div>
@@ -163,17 +163,15 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
         <div className="flex min-h-full flex-col">
           <div className="bg-text px-4 pb-5 pt-[max(16px,env(safe-area-inset-top))] text-white">
             <div className="flex items-center justify-between">
-              <div className="inline-flex items-center justify-center rounded-[2px] border border-white/30 bg-gradient-to-b from-zinc-200 via-zinc-50 to-zinc-300 px-2 py-1 ring-1 ring-black/20 shadow-sm">
-                <Image
-                  src="/brand/redhorse-logo.png"
-                  alt=""
-                  aria-hidden="true"
-                  width={300}
-                  height={40}
-                  unoptimized
-                  className="h-6 w-auto"
-                />
-              </div>
+              <Image
+                src="/branding/redhorse-horizontal-white.png"
+                alt=""
+                aria-hidden="true"
+                width={300}
+                height={40}
+                unoptimized
+                className="h-7 w-auto"
+              />
               <button
                 type="button"
                 onClick={closeMobileDrawer}
