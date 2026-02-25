@@ -56,7 +56,7 @@ export const ALLOWED_HOSE_SIZES_BY_HOSE_TYPE: Record<string, string[]> = {
   "hose-302": ["04", "06", "08", "10"],
   "hose-303": ["04", "06", "08", "10"],
   "hose-304": ["04", "06", "08", "10", "12"],
-  "hose-305": ["04", "06", "08", "10"],
+  "hose-305": ["04", "06", "08", "10", "12"],
   "hose-306": ["04", "06", "08", "10"],
   "hose-401": ["04", "06", "08", "10", "12"],
   "hose-402": ["04", "06", "08", "10", "12"],
@@ -70,7 +70,7 @@ export const ALLOWED_HOSE_SIZES_BY_END_SERIES: Record<EndSeriesKey, string[]> = 
   "8000": ["06", "08"],
   "7000_7002": ["06", "08", "10", "12", "16"],
   "2000": ["04", "06", "08", "10", "12", "16"],
-  "1200": ["04", "06", "08", "10"],
+  "1200": ["04", "06", "08", "10", "12"],
 };
 
 export const ALLOWED_END_COLOR_IDS_BY_END_SERIES: Record<EndSeriesKey, string[]> = {
