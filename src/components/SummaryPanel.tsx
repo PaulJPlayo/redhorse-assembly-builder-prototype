@@ -50,12 +50,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
       <div className="hidden lg:block">
         <div className="rounded-xl border border-border bg-white shadow-[0_10px_24px_rgba(0,0,0,0.12)] lg:flex lg:min-h-[calc(100vh-220px)] lg:flex-col">
           <div className="flex items-center justify-between rounded-t-xl bg-text px-4 py-3 text-white">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] opacity-80">
-                Assembly Summary
-              </p>
-              <p className="text-lg font-semibold">Live Preview</p>
-            </div>
+            <p className="text-lg font-bold">Assembly Summary</p>
             <div className="rounded-md bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]">
               Remaining: {remainingCount}
             </div>
@@ -76,9 +71,6 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
                 </div>
               ))}
             </div>
-            <div className="mt-6 rounded-lg border border-primary/30 bg-accent px-4 py-3 text-text">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em]">Pricing shown at Review</p>
-            </div>
           </div>
         </div>
       </div>
@@ -90,12 +82,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
             onClick={() => setTabletOpen((prev) => !prev)}
             className="flex w-full items-center justify-between rounded-t-xl bg-text px-4 py-3 text-white"
           >
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] opacity-80">
-                Summary
-              </p>
-              <p className="text-lg font-semibold">Pricing shown at Review</p>
-            </div>
+            <p className="text-lg font-bold">Assembly Summary</p>
             <span className="text-[11px] font-semibold uppercase tracking-[0.2em]">
               {tabletOpen ? "Hide" : "Details"}
             </span>
@@ -152,14 +139,9 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
       >
         <div className="flex min-h-full flex-col">
           <div className="flex items-center justify-between bg-text px-4 py-4 pt-[max(16px,env(safe-area-inset-top))] text-white">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] opacity-80">
-                Assembly Summary
-              </p>
-              <p id={drawerTitleId} className="text-lg font-semibold">
-                Pricing shown at Review
-              </p>
-            </div>
+            <p id={drawerTitleId} className="text-[20px] font-bold leading-none">
+              Assembly Summary
+            </p>
             <button
               type="button"
               onClick={closeMobileDrawer}
@@ -186,9 +168,6 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
                 ) : null}
               </div>
             ))}
-            <div className="rounded-lg border border-primary/30 bg-accent px-4 py-3 text-text">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em]">Pricing shown at Review</p>
-            </div>
           </div>
         </div>
       </div>
