@@ -148,6 +148,9 @@ export const getAllowedEndColorIdsForStyle = (styleId: string | undefined): stri
   if (!styleId) {
     return ALL_END_COLOR_IDS;
   }
+  if (styleId === "7002") {
+    return ["black"];
+  }
   const endSeries = END_SERIES_BY_STYLE_ID[styleId];
   if (!endSeries) {
     return ALL_END_COLOR_IDS;
