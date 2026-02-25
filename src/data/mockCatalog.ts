@@ -324,7 +324,7 @@ export const mockCatalog: Catalog = {
     },
     {
       id: "heat-shield",
-      label: "Heat Shield",
+      label: "Fire Sleeve",
       description: "High temp sleeve",
       code: "HS",
       price: 12,
