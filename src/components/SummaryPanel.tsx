@@ -50,7 +50,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
       <div className="hidden lg:block">
         <div className="rounded-xl border border-border bg-white shadow-[0_10px_24px_rgba(0,0,0,0.12)] lg:flex lg:min-h-[calc(100vh-220px)] lg:flex-col">
           <div className="flex items-center justify-between rounded-t-xl bg-text px-4 py-3 text-white">
-            <p className="text-lg font-bold">Assembly Summary</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em]">Assembly Summary</p>
             <div className="rounded-md bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]">
               Remaining: {remainingCount}
             </div>
@@ -82,7 +82,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
             onClick={() => setTabletOpen((prev) => !prev)}
             className="flex w-full items-center justify-between rounded-t-xl bg-text px-4 py-3 text-white"
           >
-            <p className="text-lg font-bold">Assembly Summary</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em]">Assembly Summary</p>
             <span className="text-[11px] font-semibold uppercase tracking-[0.2em]">
               {tabletOpen ? "Hide" : "Details"}
             </span>
@@ -139,7 +139,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
       >
         <div className="flex min-h-full flex-col">
           <div className="flex items-center justify-between bg-text px-4 py-4 pt-[max(16px,env(safe-area-inset-top))] text-white">
-            <p id={drawerTitleId} className="text-[20px] font-bold leading-none">
+            <p id={drawerTitleId} className="text-xs font-semibold uppercase tracking-[0.2em]">
               Assembly Summary
             </p>
             <button
