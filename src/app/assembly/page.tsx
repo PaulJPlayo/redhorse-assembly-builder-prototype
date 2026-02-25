@@ -282,37 +282,42 @@ const StepContent = () => {
 
     return (
       <div className="space-y-6">
-        <div className="rounded-xl border border-border bg-white p-6 shadow-[0_12px_26px_rgba(0,0,0,0.12)]">
-          <div className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border-b border-surface text-xs font-semibold uppercase tracking-[0.2em] text-muted-text sm:grid-cols-[160px_1fr_120px]">
-            <div className="min-w-0 p-3"> </div>
-            <div className="min-w-0 p-3"> </div>
-            <div className="min-w-0 p-3 text-right">SKU</div>
-          </div>
-          {rows.map((row) => (
-            <div
-              key={row.label}
-              className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border-b border-surface text-sm sm:grid-cols-[160px_1fr_120px]"
-            >
-              <div className="min-w-0 p-3 font-semibold uppercase text-muted-text">{row.label}</div>
-              <div className="min-w-0 p-3 break-words text-text">{row.value}</div>
-              <div className="min-w-0 max-w-full break-all p-3 text-right font-mono text-[11px] text-text">
-                {row.sku ?? ""}
+        <div className="space-y-3">
+          <p className="text-sm font-semibold uppercase text-muted-text">Assembly Summary</p>
+          <div className="rounded-xl border border-border bg-white p-6 shadow-[0_12px_26px_rgba(0,0,0,0.12)]">
+            <div className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border-b border-surface text-xs font-semibold uppercase tracking-[0.2em] text-muted-text sm:grid-cols-[160px_1fr_120px]">
+              <div className="min-w-0 p-3 text-sm font-semibold uppercase tracking-normal text-muted-text">
+                Assembly Diagram
               </div>
+              <div className="min-w-0 p-3"> </div>
+              <div className="min-w-0 p-3 text-right">SKU</div>
             </div>
-          ))}
-          {totalRow ? (
-            <>
-              <div className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border border-primary/20 bg-accent text-sm font-semibold sm:grid-cols-[160px_1fr_120px]">
-                <div className="min-w-0 p-3 uppercase text-text">{totalRow.label}</div>
-                <div className="min-w-0 p-3 text-text"> </div>
-                <div className="min-w-0 p-3 text-right text-text">{totalRow.value}</div>
+            {rows.map((row) => (
+              <div
+                key={row.label}
+                className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border-b border-surface text-sm sm:grid-cols-[160px_1fr_120px]"
+              >
+                <div className="min-w-0 p-3 font-semibold uppercase text-muted-text">{row.label}</div>
+                <div className="min-w-0 p-3 break-words text-text">{row.value}</div>
+                <div className="min-w-0 max-w-full break-all p-3 text-right font-mono text-[11px] text-text">
+                  {row.sku ?? ""}
+                </div>
               </div>
-              <p className="mt-2 w-full text-center text-xs font-bold tracking-[0.12em] text-text">
-                <span className="block sm:inline">NO RETURNS • NO REFUNDS •</span>
-                <span className="block sm:inline sm:ml-1">ALL SALES FINAL FOR CUSTOM ASSEMBLIES</span>
-              </p>
-            </>
-          ) : null}
+            ))}
+            {totalRow ? (
+              <>
+                <div className="grid grid-cols-[minmax(92px,1fr)_minmax(0,1.35fr)_minmax(86px,1fr)] border border-primary/20 bg-accent text-sm font-semibold sm:grid-cols-[160px_1fr_120px]">
+                  <div className="min-w-0 p-3 uppercase text-text">{totalRow.label}</div>
+                  <div className="min-w-0 p-3 text-text"> </div>
+                  <div className="min-w-0 p-3 text-right text-text">{totalRow.value}</div>
+                </div>
+                <p className="mt-2 w-full text-center text-xs font-bold tracking-[0.12em] text-text">
+                  <span className="block sm:inline">NO RETURNS • NO REFUNDS •</span>
+                  <span className="block sm:inline sm:ml-1">ALL SALES FINAL FOR CUSTOM ASSEMBLIES</span>
+                </p>
+              </>
+            ) : null}
+          </div>
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row">
