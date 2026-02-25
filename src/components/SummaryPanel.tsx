@@ -53,13 +53,13 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
           <div className="flex items-center justify-between rounded-t-xl bg-text px-4 py-3 text-white">
             <div className="flex flex-col items-start gap-1">
               <Image
-                src="/branding/redhorse-horizontal-white.png"
+                src="/branding/redhorse-horizontal-white-trim.png"
                 alt=""
                 aria-hidden="true"
                 width={300}
                 height={40}
                 unoptimized
-                className="h-8 w-auto max-w-[180px] object-contain sm:h-9 sm:max-w-[220px]"
+                className="h-9 w-auto object-contain sm:h-10"
               />
               <p className="text-xs font-semibold uppercase tracking-[0.2em]">Assembly Summary</p>
             </div>
@@ -96,13 +96,13 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
           >
             <div className="flex flex-col items-start gap-1">
               <Image
-                src="/branding/redhorse-horizontal-white.png"
+                src="/branding/redhorse-horizontal-white-trim.png"
                 alt=""
                 aria-hidden="true"
                 width={300}
                 height={40}
                 unoptimized
-                className="h-8 w-auto max-w-[180px] object-contain sm:h-9 sm:max-w-[220px]"
+                className="h-9 w-auto object-contain sm:h-10"
               />
               <p className="text-xs font-semibold uppercase tracking-[0.2em]">Assembly Summary</p>
             </div>
@@ -164,13 +164,13 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
           <div className="bg-text px-4 pb-5 pt-[max(16px,env(safe-area-inset-top))] text-white">
             <div className="flex items-center justify-between">
               <Image
-                src="/branding/redhorse-horizontal-white.png"
+                src="/branding/redhorse-horizontal-white-trim.png"
                 alt=""
                 aria-hidden="true"
                 width={300}
                 height={40}
                 unoptimized
-                className="h-8 w-auto max-w-[180px] object-contain sm:h-9 sm:max-w-[220px]"
+                className="h-9 w-auto object-contain sm:h-10"
               />
               <button
                 type="button"
