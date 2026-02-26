@@ -8,10 +8,7 @@ import { OptionCard } from "@/components/OptionCard";
 import { ASSEMBLY_STEPS, type StepId } from "@/types/assembly";
 import { AssemblyProvider, useAssemblyStore } from "@/lib/state/useAssemblyStore";
 import { bcClient } from "@/lib/bc/bcClient";
-import {
-  buildSummaryRows,
-  calculateRemainingConfigurations,
-} from "@/lib/rules/filterCatalog";
+import { buildSummaryRows } from "@/lib/rules/filterCatalog";
 import { deriveNextOptions, isStepComplete } from "@/lib/rules/deriveNextOptions";
 import {
   getExtraImageSrc,
@@ -34,10 +31,6 @@ const StepContent = () => {
 
   const summaryRows = useMemo(
     () => buildSummaryRows(catalog, state.selections),
-    [state.selections],
-  );
-  const remainingCount = useMemo(
-    () => calculateRemainingConfigurations(catalog, state.selections),
     [state.selections],
   );
 
@@ -367,7 +360,6 @@ const StepContent = () => {
       primaryAction={primaryAction}
       secondaryAction={secondaryAction}
       summaryRows={summaryRows}
-      remainingCount={remainingCount}
       diagramPlacement="below"
     >
       {state.showSummary ? (

@@ -22,7 +22,6 @@ interface WizardShellProps {
   secondaryAction?: WizardAction;
   children: React.ReactNode;
   summaryRows: SummaryRow[];
-  remainingCount: number;
   diagramPlacement?: "above" | "below";
 }
 
@@ -36,7 +35,6 @@ export const WizardShell = ({
   secondaryAction,
   children,
   summaryRows,
-  remainingCount,
   diagramPlacement = "below",
 }: WizardShellProps) => {
   const diagramContent = (
@@ -134,7 +132,7 @@ export const WizardShell = ({
           </div>
 
           <aside className="lg:sticky lg:top-6">
-            <SummaryPanel rows={summaryRows} remainingCount={remainingCount} />
+            <SummaryPanel rows={summaryRows} />
           </aside>
         </div>
       </div>

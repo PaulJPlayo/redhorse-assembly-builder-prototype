@@ -6,10 +6,9 @@ import type { SummaryRow } from "@/types/assembly";
 
 interface SummaryPanelProps {
   rows: SummaryRow[];
-  remainingCount: number;
 }
 
-export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
+export const SummaryPanel = ({ rows }: SummaryPanelProps) => {
   const [tabletOpen, setTabletOpen] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const mobileTriggerRef = useRef<HTMLButtonElement | null>(null);
@@ -63,9 +62,6 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
               />
               <p className="text-xs font-semibold uppercase tracking-[0.2em]">Assembly Summary</p>
             </div>
-            <div className="rounded-md bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]">
-              Remaining: {remainingCount}
-            </div>
           </div>
           <div className="flex flex-1 flex-col px-4 py-5">
             <div className="space-y-5">
@@ -112,10 +108,7 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
           </button>
           {tabletOpen ? (
             <div className="px-4 py-4 text-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
-                Remaining configurations: {remainingCount}
-              </p>
-              <div className="mt-3 space-y-3">
+              <div className="space-y-3">
                 {detailRows.map((row) => (
                   <div key={row.label}>
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
@@ -186,9 +179,6 @@ export const SummaryPanel = ({ rows, remainingCount }: SummaryPanelProps) => {
           </div>
 
           <div className="flex-1 space-y-5 px-4 py-5 pb-[calc(16px+env(safe-area-inset-bottom))] text-sm">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
-              Remaining configurations: {remainingCount}
-            </p>
             {detailRows.map((row) => (
               <div key={row.label} className="min-w-0 max-w-full border-b border-surface pb-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-text">
